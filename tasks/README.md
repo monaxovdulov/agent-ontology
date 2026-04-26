@@ -4,7 +4,7 @@ This folder tracks improvements for the agent ontology/taxonomy document.
 
 ## Wave 1: Fix False Claims
 
-- [ ] [01 - Reframe axis independence](01-reframe-axis-independence.md)
+- [x] [01 - Reframe axis independence](01-reframe-axis-independence.md)
 - [ ] [02 - Redesign composition diagram](02-redesign-composition-diagram.md)
 - [ ] [03 - Correct A2A positioning](03-correct-a2a-positioning.md)
 
@@ -30,5 +30,4 @@ This folder tracks improvements for the agent ontology/taxonomy document.
 
 ## Source Critique Summary
 
-The current artifact overstates orthogonality, uses some misleading visuals, and misses production-critical topics: evaluation, observability, failure modes, HITL, economics, history, real systems, and a fuller memory model.
-
+The original artifact overstated orthogonality and used some misleading visuals. Remaining gaps include production-critical topics: evaluation, observability, failure modes, HITL, economics, history, real systems, and a fuller memory model.
