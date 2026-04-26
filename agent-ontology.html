@@ -1286,9 +1286,102 @@
   <p style="font-size:14.5px;color:var(--ink-2)">Операционное правило: если новый слой нельзя связать с координатой карты и измеримой метрикой, это не архитектурное решение, а complexity debt. Taxonomy полезна только тогда, когда помогает убрать лишнюю степень свободы.</p>
 </section>
 
-<!-- ========== SECTION 13: WHAT TO ADD ========== -->
+<!-- ========== SECTION 13: DECISION TREE ========== -->
 <section>
-  <div class="sec-num">§ 13 — пробелы исходника</div>
+  <div class="sec-num">§ 13 — decision tree</div>
+  <h2>У меня задача X: что строить?</h2>
+  <p>Decision tree начинается не с фреймворка, а с constraints задачи: насколько фиксирован процесс, каков risk, какой допустим cost, есть ли eval readiness и где обязателен HITL. Правило выбора: <em>simplest architecture that fits</em>. Сначала prompt/workflow baseline, потом добавление tools, memory, agent loop или multi-agent topology только если eval и trace показывают измеримый выигрыш.</p>
+
+  <figure>
+  <svg viewBox="0 0 800 360" xmlns="http://www.w3.org/2000/svg">
+    <text x="40" y="34" class="ttl">decision tree: constraints → минимальная достаточная архитектура</text>
+    <text x="40" y="54" class="lbl-sm">A1/A2/A3/A4 задают форму; A7, eval/observability и failure modes ограничивают escalation.</text>
+
+    <g transform="translate(40,84)">
+      <rect x="0" y="0" width="112" height="54" fill="#f1ead9" stroke="#1a1f2e"/>
+      <text x="56" y="21" class="lbl-acc" text-anchor="middle">task constraints</text>
+      <text x="56" y="38" class="lbl-sm" text-anchor="middle">complexity/risk/cost</text>
+
+      <line x1="112" y1="27" x2="142" y2="27" stroke="#1a1f2e" marker-end="url(#dt-arrow)"/>
+
+      <rect x="142" y="0" width="98" height="54" fill="#dcd0b3" stroke="#1a1f2e"/>
+      <text x="191" y="20" class="lbl-acc" text-anchor="middle">prompt</text>
+      <text x="191" y="36" class="lbl-sm" text-anchor="middle">low risk</text>
+
+      <line x1="240" y1="27" x2="270" y2="27" stroke="#1a1f2e" marker-end="url(#dt-arrow)"/>
+
+      <rect x="270" y="0" width="104" height="54" fill="#dcd0b3" stroke="#1a1f2e"/>
+      <text x="322" y="20" class="lbl-acc" text-anchor="middle">workflow</text>
+      <text x="322" y="36" class="lbl-sm" text-anchor="middle">fixed steps</text>
+
+      <line x1="374" y1="27" x2="404" y2="27" stroke="#1a1f2e" marker-end="url(#dt-arrow)"/>
+
+      <rect x="404" y="0" width="112" height="54" fill="#dcd0b3" stroke="#1a1f2e"/>
+      <text x="460" y="20" class="lbl-acc" text-anchor="middle">augmented LLM</text>
+      <text x="460" y="36" class="lbl-sm" text-anchor="middle">tools/retrieval</text>
+
+      <line x1="516" y1="27" x2="546" y2="27" stroke="#1a1f2e" marker-end="url(#dt-arrow)"/>
+
+      <rect x="546" y="0" width="94" height="54" fill="#dcd0b3" stroke="#1a1f2e"/>
+      <text x="593" y="20" class="lbl-acc" text-anchor="middle">single-agent</text>
+      <text x="593" y="36" class="lbl-sm" text-anchor="middle">dynamic loop</text>
+
+      <line x1="640" y1="27" x2="670" y2="27" stroke="#1a1f2e" marker-end="url(#dt-arrow)"/>
+
+      <rect x="670" y="0" width="90" height="54" fill="#b8410c" stroke="#1a1f2e"/>
+      <text x="715" y="20" class="lbl-sm" text-anchor="middle" fill="#f1ead9">multi-agent</text>
+      <text x="715" y="36" class="lbl-sm" text-anchor="middle" fill="#f1ead9">parallel/spec.</text>
+    </g>
+
+    <g transform="translate(54,174)">
+      <rect x="0" y="0" width="208" height="54" fill="#f1ead9" stroke="#1a1f2e" stroke-dasharray="4 3"/>
+      <text x="104" y="19" class="lbl-acc" text-anchor="middle">eval readiness gate</text>
+      <text x="104" y="36" class="lbl-sm" text-anchor="middle">baseline, regression set, trace coverage</text>
+
+      <rect x="296" y="0" width="208" height="54" fill="#f1ead9" stroke="#1a1f2e" stroke-dasharray="4 3"/>
+      <text x="400" y="19" class="lbl-acc" text-anchor="middle">memory gate</text>
+      <text x="400" y="36" class="lbl-sm" text-anchor="middle">durable state needs policy/provenance</text>
+
+      <rect x="556" y="0" width="176" height="54" fill="#f1ead9" stroke="#1a1f2e" stroke-dasharray="4 3"/>
+      <text x="644" y="19" class="lbl-acc" text-anchor="middle">HITL gate</text>
+      <text x="644" y="36" class="lbl-sm" text-anchor="middle">high risk, high cost, low eval</text>
+    </g>
+
+    <g transform="translate(70,276)">
+      <line x1="0" y1="0" x2="660" y2="0" stroke="#b8410c" stroke-width="1.5"/>
+      <text x="0" y="24" class="lbl-sm">escalate only when: success improves, cost/latency stay acceptable, failure modes are contained, observability explains regressions.</text>
+    </g>
+
+    <defs>
+      <marker id="dt-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+        <path d="M 0 0 L 10 5 L 0 10 z" fill="#1a1f2e"/>
+      </marker>
+    </defs>
+  </svg>
+  <figcaption><b>fig.8</b> · decision tree не заменяет eval: он задаёт порядок усложнения от constraints к минимальной достаточной архитектуре</figcaption>
+  </figure>
+
+  <table class="stack">
+    <thead>
+      <tr><th>Вопрос от constraints</th><th>Если да</th><th>Строить</th><th>Контроль</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Можно решить одним вызовом?</td><td>Низкая complexity, низкий risk, нет внешних side effects, пользователь готов проверить ответ.</td><td><b>Prompt</b> baseline.</td><td>Небольшой eval-набор, prompt/model trace, ручная spot-check проверка.</td></tr>
+      <tr><td>Процесс заранее известен?</td><td>Шаги, ветки и проверки можно описать кодом; LLM нужна внутри фиксированных узлов.</td><td><b>Workflow</b>: chaining, routing, parallelization или evaluator-optimizer. Координата: <b>A2</b> workflow, <b>A3</b> pipeline/DAG/cycle.</td><td>Typed outputs, gates, regression suite, cost/latency per successful task.</td></tr>
+      <tr><td>Нужны данные или действия?</td><td>Нужны retrieval, tools, files, APIs или короткая working memory, но control flow ещё держит код.</td><td><b>Augmented LLM</b> внутри workflow: <b>A1</b> модель + tools + retrieval + memory.</td><td>Трассировать model/tool/retrieval/state events, санитайзить tool outputs, проверять failure modes.</td></tr>
+      <tr><td>Следующий шаг нельзя предсказать?</td><td>План, выбор tool и остановка зависят от промежуточных результатов.</td><td><b>Single-agent</b> loop: <b>A2</b> agent, обычно <b>A3</b> cyclic graph, <b>A4</b> command/blackboard.</td><td>Budget, stop condition, loop detector, intervention rate, rollback для рискованных действий.</td></tr>
+      <tr><td>Есть независимые ветки?</td><td>Подзадачи можно выполнять параллельно, нужны разные specialists, tools или context windows.</td><td><b>Multi-agent</b> только если он выигрывает у single-agent на eval: <b>A3</b> star/tree/DAG, <b>A4</b> hierarchy/blackboard/competition.</td><td>Handoff contracts, delayed disclosure, provenance, cost cap; защита от agreement bias и hallucination amplification.</td></tr>
+      <tr><td>Нужно помнить между вызовами?</td><td>Требуются user/project history, доменные факты, procedures или durable state.</td><td><b>Memory</b> как отдельный слой: working, episodic, semantic или procedural store с read/write policy.</td><td>TTL, provenance, freshness, delete rules; logs не считать memory без отбора.</td></tr>
+      <tr><td>Ошибка дорого стоит?</td><td>Есть irreversible action, деньги, безопасность, юридический риск, публичная публикация или низкая eval readiness.</td><td><b>HITL gates</b>: approval before action, review before publish, escalation to operator.</td><td>Decision checkpoints, audit trail, canary runs, explicit confidence и reason for handoff.</td></tr>
+    </tbody>
+  </table>
+
+  <p style="font-size:14.5px;color:var(--ink-2)">Связь с anti-patterns прямая: если выбранный слой не привязан к A1–A7 и не улучшает eval-метрику при приемлемых cost/risk, это over-engineering. Если HITL или memory добавлены без политики, они становятся новой failure surface, а не контролем.</p>
+</section>
+
+<!-- ========== SECTION 14: WHAT TO ADD ========== -->
+<section>
+  <div class="sec-num">§ 14 — пробелы исходника</div>
   <h2>Чего ещё не было</h2>
 
   <h3>Фундаментальная граница: tools ≠ classical software</h3>
@@ -1304,9 +1397,9 @@
   <p>В исходнике эмерджентность приведена скорее как философская категория. В практике агентных систем «сильная эмерджентность» обычно используется как <em>оправдание непредсказуемости</em>, что часто скрывает обычное отсутствие observability. Слабая эмерджентность реальна (поведение системы из нескольких агентов сложнее каждого по отдельности). Сильная — редко доказуема в инженерных системах.</p>
 </section>
 
-<!-- ========== SECTION 14: SUMMARY ========== -->
+<!-- ========== SECTION 15: SUMMARY ========== -->
 <section>
-  <div class="sec-num">§ 14 — итог</div>
+  <div class="sec-num">§ 15 — итог</div>
   <h2>Что осталось от исходника</h2>
   <p>Исходный документ остаётся хорошим первым проходом. Основное, что его ослабляло:</p>
   <ol style="padding-left:18px;line-height:1.7;font-size:15.5px">
@@ -1321,7 +1414,8 @@
     <li>абстрактная карта не показывала реальные продукты — добавлены Cursor, Devin, Claude Code, Manus, deep research и AutoGPT;</li>
     <li>memory была сведена к RAG — теперь разделена на working, episodic, semantic и procedural;</li>
     <li>историческая плоскость отсутствовала — добавлена timeline 2022–2026 с осторожным snapshot для 2026;</li>
-    <li>карта не предупреждала о типовых ошибках применения — добавлен раздел anti-patterns.</li>
+    <li>карта не предупреждала о типовых ошибках применения — добавлен раздел anti-patterns;</li>
+    <li>карта не отвечала на вопрос «что строить под задачу X» — добавлен decision tree выбора минимальной достаточной архитектуры.</li>
   </ol>
 
   <p>Итоговая рамка намеренно практическая: это taxonomy / карта измерений с проверкой согласованности, а не formal ontology с аксиомами, типами отношений и правилами вывода.</p>

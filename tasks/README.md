@@ -20,7 +20,7 @@ This folder tracks improvements for the agent ontology/taxonomy document.
 
 - [x] [09 - Rename or qualify ontology](09-rename-or-qualify-ontology.md)
 - [x] [10 - Add anti-patterns](10-add-anti-patterns.md)
-- [ ] [11 - Add decision tree](11-add-decision-tree.md)
+- [x] [11 - Add decision tree](11-add-decision-tree.md)
 
 ## Wave 4: Research Backfill
 
@@ -30,4 +30,4 @@ This folder tracks improvements for the agent ontology/taxonomy document.
 
 ## Source Critique Summary
 
-The original artifact overstated orthogonality and used some misleading visuals. Wave 2 content gaps are now covered: failure modes, evaluation, observability, history, real-system placement, and memory typology. Wave 3 has started with taxonomy framing and anti-patterns; remaining larger gaps include HITL, economics, decision support, and research backfill.
+The original artifact overstated orthogonality and used some misleading visuals. Waves 1-3 are covered: framing, content gaps, anti-patterns, and decision support. Remaining larger gaps are research backfill and any future HITL/economics expansion.
