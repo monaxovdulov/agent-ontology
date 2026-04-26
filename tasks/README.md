@@ -18,7 +18,7 @@ This folder tracks improvements for the agent ontology/taxonomy document.
 
 ## Wave 3: Make The Framing Honest
 
-- [ ] [09 - Rename or qualify ontology](09-rename-or-qualify-ontology.md)
+- [x] [09 - Rename or qualify ontology](09-rename-or-qualify-ontology.md)
 - [ ] [10 - Add anti-patterns](10-add-anti-patterns.md)
 - [ ] [11 - Add decision tree](11-add-decision-tree.md)
 
