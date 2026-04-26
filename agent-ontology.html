@@ -1239,9 +1239,56 @@
   <p style="font-size:14.5px;color:var(--ink-2)">Правило проектирования: memory должна иметь явные read/write policies. Без них «память» превращается либо в переполненный context window, либо в случайный retrieval, либо в лог, который агент начинает принимать за знание.</p>
 </section>
 
-<!-- ========== SECTION 12: WHAT TO ADD ========== -->
+<!-- ========== SECTION 12: ANTI-PATTERNS ========== -->
 <section>
-  <div class="sec-num">§ 12 — пробелы исходника</div>
+  <div class="sec-num">§ 12 — anti-patterns</div>
+  <h2>Где карта чаще всего ломает решение</h2>
+  <p>Anti-pattern — это не «плохая архитектура вообще», а неверное применение координат карты к задаче. Почти все ошибки ниже выглядят как взрослая агентная система, но на деле увеличивают неопределённость, cost или observability debt быстрее, чем растёт task success.</p>
+
+  <table class="stack">
+    <thead>
+      <tr><th>Anti-pattern</th><th>Симптом</th><th>Причина</th><th>Практическая коррекция</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Over-engineering</td>
+        <td>Система получает supervisor, memory, несколько agents и protocol layer до того, как есть стабильный baseline.</td>
+        <td>Смешаны <b>A1</b> и <b>A6</b>: наличие фреймворка или SDK принимается за архитектурную необходимость.</td>
+        <td>Начать с prompt/workflow/augmented LLM, зафиксировать eval, добавлять слой только если он улучшает конкретную метрику.</td>
+      </tr>
+      <tr>
+        <td>Multi-agent для single-agent task</td>
+        <td>Несколько agents спорят, дублируют поиск или пересылают друг другу тот же контекст; результат дороже и медленнее.</td>
+        <td>Топология <b>A3</b> выбрана ради формы, а не ради независимых подзадач; coordination <b>A4</b> не снижает сложность.</td>
+        <td>Оставить single-agent loop, если задача последовательная. Multi-agent оправдан для независимых веток, разных tools или context windows.</td>
+      </tr>
+      <tr>
+        <td>Shipping without evals</td>
+        <td>Каждое изменение prompt/model/tool schema ощущается как риск; баги находятся пользователями, а не regression suite.</td>
+        <td>Автономия <b>A2</b> поднята без измеримого control loop: нет task success, cost, latency, intervention rate и trace coverage.</td>
+        <td>Перед усложнением добавить baseline eval, traces model/tool/retrieval/handoff events и canary/regression набор.</td>
+      </tr>
+      <tr>
+        <td>Workflow vs agent как бинарная вера</td>
+        <td>Команда спорит «это агент или нет» вместо выбора нужного уровня свободы для каждого шага.</td>
+        <td><b>A2</b> прочитана как ярлык, а не градиент: workflow, hybrid и agent смешаны с маркетинговой категорией продукта.</td>
+        <td>Разложить задачу по steps: фиксированные участки оставить workflow, неопределённые участки дать agent loop с budget и stop condition.</td>
+      </tr>
+      <tr>
+        <td>Memory без стратегии записи</td>
+        <td>Агент помнит мусор, забывает важное, достаёт устаревшие facts или начинает считать логи знанием.</td>
+        <td>Working, episodic, semantic и procedural memory слиты в одну корзину; retrieval принят за memory policy.</td>
+        <td>Развести stores, задать read/write policy, TTL, provenance, freshness и правила удаления; logs не использовать как memory без отбора.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p style="font-size:14.5px;color:var(--ink-2)">Операционное правило: если новый слой нельзя связать с координатой карты и измеримой метрикой, это не архитектурное решение, а complexity debt. Taxonomy полезна только тогда, когда помогает убрать лишнюю степень свободы.</p>
+</section>
+
+<!-- ========== SECTION 13: WHAT TO ADD ========== -->
+<section>
+  <div class="sec-num">§ 13 — пробелы исходника</div>
   <h2>Чего ещё не было</h2>
 
   <h3>Фундаментальная граница: tools ≠ classical software</h3>
@@ -1257,9 +1304,9 @@
   <p>В исходнике эмерджентность приведена скорее как философская категория. В практике агентных систем «сильная эмерджентность» обычно используется как <em>оправдание непредсказуемости</em>, что часто скрывает обычное отсутствие observability. Слабая эмерджентность реальна (поведение системы из нескольких агентов сложнее каждого по отдельности). Сильная — редко доказуема в инженерных системах.</p>
 </section>
 
-<!-- ========== SECTION 13: SUMMARY ========== -->
+<!-- ========== SECTION 14: SUMMARY ========== -->
 <section>
-  <div class="sec-num">§ 13 — итог</div>
+  <div class="sec-num">§ 14 — итог</div>
   <h2>Что осталось от исходника</h2>
   <p>Исходный документ остаётся хорошим первым проходом. Основное, что его ослабляло:</p>
   <ol style="padding-left:18px;line-height:1.7;font-size:15.5px">
@@ -1273,7 +1320,8 @@
     <li>карта была стерильной по рискам — добавлена taxonomy failure modes;</li>
     <li>абстрактная карта не показывала реальные продукты — добавлены Cursor, Devin, Claude Code, Manus, deep research и AutoGPT;</li>
     <li>memory была сведена к RAG — теперь разделена на working, episodic, semantic и procedural;</li>
-    <li>историческая плоскость отсутствовала — добавлена timeline 2022–2026 с осторожным snapshot для 2026.</li>
+    <li>историческая плоскость отсутствовала — добавлена timeline 2022–2026 с осторожным snapshot для 2026;</li>
+    <li>карта не предупреждала о типовых ошибках применения — добавлен раздел anti-patterns.</li>
   </ol>
 
   <p>Итоговая рамка намеренно практическая: это taxonomy / карта измерений с проверкой согласованности, а не formal ontology с аксиомами, типами отношений и правилами вывода.</p>
