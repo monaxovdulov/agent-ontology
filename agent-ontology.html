@@ -1144,9 +1144,104 @@
   <p style="font-size:14.5px;color:var(--ink-2)">2026 пока не закрытый год. Проверенный сигнал на апрель — не «новый тип агента», а усиление harness: sandbox, файловая среда, state и durable execution. Поэтому точка 2026 помечена как snapshot, а не как итог.</p>
 </section>
 
-<!-- ========== SECTION 11: WHAT TO ADD ========== -->
+<!-- ========== SECTION 11: MEMORY TYPOLOGY ========== -->
 <section>
-  <div class="sec-num">§ 11 — пробелы исходника</div>
+  <div class="sec-num">§ 11 — память</div>
+  <h2>Memory typology</h2>
+  <p>Memory в агентной системе — не синоним «большого prompt» и не просто RAG поверх векторной БД. Это набор разных подсистем с разной длительностью жизни, правилами записи и уровнем доверия. Практическая привязка к архитектуре такая: <b>working memory</b> — это state/current context текущего запуска, <b>semantic memory</b> — RAG/knowledge layer, <b>episodic memory</b> — cross-session history, <b>procedural memory</b> — skills/procedures.</p>
+
+  <table class="stack">
+    <thead>
+      <tr><th>Тип</th><th>Что хранит</th><th>Где живёт в architecture</th><th>Как использует агент</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Working memory</td><td>Цель пользователя, текущий план, ограничения, последние tool outputs, промежуточные артефакты.</td><td>State/current context: graph state, scratchpad, selected messages inside the context window.</td><td>Держит фокус текущей задачи, передаёт handoff payload, помогает выбрать next action без повторного поиска.</td></tr>
+      <tr><td>Episodic memory</td><td>События прошлых сессий: решения, предпочтения, выполненные задачи, ошибки, важные outcomes.</td><td>Cross-session history: долговременное хранилище с write policy, TTL, provenance и правом забывания.</td><td>Восстанавливает проектный контекст, не заставляет пользователя повторять уже известное, поддерживает персонализацию.</td></tr>
+      <tr><td>Semantic memory</td><td>Факты, документы, политики, доменные знания, справочники, кодовая база или внешняя knowledge base.</td><td>RAG/knowledge layer: индекс, search API, vector store, citations, ranking and freshness rules.</td><td>Достаёт проверяемые знания в момент задачи; модель видит не всю базу, а retrieved evidence в context window.</td></tr>
+      <tr><td>Procedural memory</td><td>Как выполнять повторяемые действия: skills, playbooks, tool recipes, prompt fragments, coding conventions.</td><td>Skills/procedures: skill registry, tool wrappers, workflow templates, system/developer instructions.</td><td>Снижает вариативность исполнения: агент выбирает известную процедуру вместо повторного изобретения плана.</td></tr>
+    </tbody>
+  </table>
+
+  <figure>
+  <svg viewBox="0 0 800 340" xmlns="http://www.w3.org/2000/svg">
+    <text x="40" y="34" class="ttl">memory как типизированная подсистема агента</text>
+    <text x="40" y="54" class="lbl-sm">memory writes/read policy отделены от context window, retrieval и logs</text>
+
+    <rect x="306" y="80" width="188" height="102" fill="#f1ead9" stroke="#1a1f2e" stroke-width="1.5"/>
+    <text x="400" y="110" class="lbl-acc" text-anchor="middle">AGENT HARNESS</text>
+    <text x="400" y="130" class="lbl-sm" text-anchor="middle">LLM + control loop</text>
+    <text x="400" y="146" class="lbl-sm" text-anchor="middle">tools + policy</text>
+    <text x="400" y="162" class="lbl-sm" text-anchor="middle">selected context</text>
+
+    <rect x="286" y="204" width="228" height="46" fill="#dcd0b3" stroke="#1a1f2e"/>
+    <text x="400" y="225" class="lbl" text-anchor="middle">CONTEXT WINDOW</text>
+    <text x="400" y="240" class="lbl-sm" text-anchor="middle">runtime buffer, not durable memory</text>
+
+    <rect x="42" y="88" width="184" height="68" fill="#dcd0b3" stroke="#1a1f2e"/>
+    <text x="134" y="113" class="lbl-acc" text-anchor="middle">working</text>
+    <text x="134" y="131" class="lbl-sm" text-anchor="middle">state/current context</text>
+    <text x="134" y="146" class="lbl-sm" text-anchor="middle">task scratchpad</text>
+
+    <rect x="572" y="88" width="186" height="68" fill="#dcd0b3" stroke="#1a1f2e"/>
+    <text x="665" y="113" class="lbl-acc" text-anchor="middle">semantic</text>
+    <text x="665" y="131" class="lbl-sm" text-anchor="middle">RAG / knowledge</text>
+    <text x="665" y="146" class="lbl-sm" text-anchor="middle">facts + documents</text>
+
+    <rect x="42" y="238" width="184" height="68" fill="#e8dfca" stroke="#1a1f2e"/>
+    <text x="134" y="263" class="lbl-acc" text-anchor="middle">episodic</text>
+    <text x="134" y="281" class="lbl-sm" text-anchor="middle">cross-session history</text>
+    <text x="134" y="296" class="lbl-sm" text-anchor="middle">events + outcomes</text>
+
+    <rect x="572" y="238" width="186" height="68" fill="#e8dfca" stroke="#1a1f2e"/>
+    <text x="665" y="263" class="lbl-acc" text-anchor="middle">procedural</text>
+    <text x="665" y="281" class="lbl-sm" text-anchor="middle">skills / procedures</text>
+    <text x="665" y="296" class="lbl-sm" text-anchor="middle">recipes + playbooks</text>
+
+    <rect x="304" y="278" width="192" height="46" fill="#f1ead9" stroke="#3a4256" stroke-dasharray="5 4"/>
+    <text x="400" y="298" class="lbl-sm" text-anchor="middle">logs = audit trace</text>
+    <text x="400" y="313" class="lbl-sm" text-anchor="middle">memory only after curation</text>
+
+    <line x1="226" y1="122" x2="306" y2="122" stroke="#b8410c" stroke-width="2" marker-end="url(#mem-arrow)"/>
+    <line x1="572" y1="122" x2="494" y2="122" stroke="#b8410c" stroke-width="2" marker-end="url(#mem-arrow)"/>
+    <line x1="226" y1="272" x2="334" y2="250" stroke="#1a1f2e" stroke-width="1.5" marker-end="url(#mem-arrow-dark)"/>
+    <line x1="572" y1="272" x2="466" y2="250" stroke="#1a1f2e" stroke-width="1.5" marker-end="url(#mem-arrow-dark)"/>
+    <line x1="400" y1="182" x2="400" y2="204" stroke="#b8410c" stroke-width="2" marker-end="url(#mem-arrow)"/>
+
+    <text x="246" y="113" class="lbl-sm">read/write</text>
+    <text x="513" y="113" class="lbl-sm">retrieval</text>
+    <text x="246" y="260" class="lbl-sm">summaries</text>
+    <text x="504" y="260" class="lbl-sm">load skill</text>
+
+    <defs>
+      <marker id="mem-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+        <path d="M 0 0 L 10 5 L 0 10 z" fill="#b8410c"/>
+      </marker>
+      <marker id="mem-arrow-dark" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+        <path d="M 0 0 L 10 5 L 0 10 z" fill="#1a1f2e"/>
+      </marker>
+    </defs>
+  </svg>
+  <figcaption><b>fig.7</b> · четыре типа memory подключаются к harness по-разному; context window, retrieval и logs — соседние механизмы, а не сама память</figcaption>
+  </figure>
+
+  <h3>Границы терминов</h3>
+  <table class="stack">
+    <thead>
+      <tr><th>Механизм</th><th>Чем является</th><th>Чем не является</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Context window</td><td>Оперативный буфер модели на один вызов: инструкции, сообщения, retrieved chunks, tool outputs и часть working memory.</td><td>Не долговременная память: после вызова всё исчезает, если harness явно не записал state.</td></tr>
+      <tr><td>Retrieval</td><td>Механизм выбора релевантных фрагментов из semantic/episodic/procedural stores.</td><td>Не память сама по себе: поиск не решает, что хранить, когда обновлять и чему доверять.</td></tr>
+      <tr><td>Logs</td><td>Сырой trace для observability: model calls, tool calls, errors, timings, state diffs.</td><td>Не agent memory по умолчанию: лог становится episodic memory только после отбора, суммаризации и записи с provenance.</td></tr>
+    </tbody>
+  </table>
+
+  <p style="font-size:14.5px;color:var(--ink-2)">Правило проектирования: memory должна иметь явные read/write policies. Без них «память» превращается либо в переполненный context window, либо в случайный retrieval, либо в лог, который агент начинает принимать за знание.</p>
+</section>
+
+<!-- ========== SECTION 12: WHAT TO ADD ========== -->
+<section>
+  <div class="sec-num">§ 12 — пробелы исходника</div>
   <h2>Чего ещё не было</h2>
 
   <h3>Фундаментальная граница: tools ≠ classical software</h3>
@@ -1155,9 +1250,6 @@
   <h3>Оси автономии и предсказуемости — антикоррелированы</h3>
   <p>Чем больше автономии у агента, тем менее предсказуема система. Это не баг, а фундаментальный trade-off. Production-системы обычно начинают с workflow и поднимают автономию <em>только</em> там, где это measurably улучшает результат.</p>
 
-  <h3>Memory — отдельная подсистема</h3>
-  <p>В исходнике память упомянута как «RAG → векторные БД». Реально память расщепляется на: <em>working memory</em> (контекст текущего диалога), <em>episodic</em> (что было в прошлых сессиях), <em>semantic</em> (общие знания / RAG), <em>procedural</em> (как делать вещи / скиллы). Это четыре разных хранилища с разной семантикой.</p>
-
   <h3>Альтернативные парадигмы координации — больше реальных, меньше мистических</h3>
   <p>Из перечисленных в исходнике, в production-системах AI-агентов реально используются: <b>иерархическая команда</b> (повсеместно), <b>blackboard</b> (через shared scratchpad / shared state в LangGraph), <b>аукцион</b> (изредка, для аллокации). Stigmergy и swarm — академически интересно, но в LLM-стеке почти не встречаются. Society of Mind — теоретическая рамка, не паттерн.</p>
 
@@ -1165,9 +1257,9 @@
   <p>В исходнике эмерджентность приведена скорее как философская категория. В практике агентных систем «сильная эмерджентность» обычно используется как <em>оправдание непредсказуемости</em>, что часто скрывает обычное отсутствие observability. Слабая эмерджентность реальна (поведение системы из нескольких агентов сложнее каждого по отдельности). Сильная — редко доказуема в инженерных системах.</p>
 </section>
 
-<!-- ========== SECTION 12: SUMMARY ========== -->
+<!-- ========== SECTION 13: SUMMARY ========== -->
 <section>
-  <div class="sec-num">§ 12 — итог</div>
+  <div class="sec-num">§ 13 — итог</div>
   <h2>Что осталось от исходника</h2>
   <p>Исходный документ остаётся хорошим первым проходом. Основное, что его ослабляло:</p>
   <ol style="padding-left:18px;line-height:1.7;font-size:15.5px">
@@ -1180,6 +1272,7 @@
     <li>evaluation и observability были послесловием — теперь это рабочий цикл выбора архитектуры;</li>
     <li>карта была стерильной по рискам — добавлена taxonomy failure modes;</li>
     <li>абстрактная карта не показывала реальные продукты — добавлены Cursor, Devin, Claude Code, Manus, deep research и AutoGPT;</li>
+    <li>memory была сведена к RAG — теперь разделена на working, episodic, semantic и procedural;</li>
     <li>историческая плоскость отсутствовала — добавлена timeline 2022–2026 с осторожным snapshot для 2026.</li>
   </ol>
 
