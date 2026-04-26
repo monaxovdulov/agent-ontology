@@ -1,5 +1,9 @@
 # 04 - Add Failure Modes
 
+## Status
+
+Done.
+
 ## Priority
 
 Wave 2: close content gaps.
@@ -22,7 +26,12 @@ Add a Failure Modes section with a compact taxonomy.
 
 ## Acceptance Criteria
 
-- The section explains each failure mode in practical terms.
-- The taxonomy connects failures to architectural choices where possible.
-- At least one visual or table summarizes the failure modes.
+- [x] The section explains each failure mode in practical terms.
+- [x] The taxonomy connects failures to architectural choices where possible.
+- [x] At least one visual or table summarizes the failure modes.
 
+## Notes
+
+- Added a compact Failure Modes section to `agent-ontology.html` after the technology/protocol layer and before the remaining gaps/conclusion.
+- Covered cascading errors, context poisoning, hallucination amplification between agents, infinite loops, and agreement bias.
+- Used the existing `stack` table style to map each mode to symptoms, architectural amplifiers, and containment tactics.

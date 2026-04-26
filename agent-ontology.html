@@ -813,9 +813,89 @@
   </figure>
 </section>
 
-<!-- ========== SECTION 7: WHAT TO ADD ========== -->
+<!-- ========== SECTION 7: FAILURE MODES ========== -->
 <section>
-  <div class="sec-num">§ 07 — пробелы исходника</div>
+  <div class="sec-num">§ 07 — failure modes</div>
+  <h2>Как ломаются агентные системы</h2>
+  <p>Failure modes — это не отдельная «ось» онтологии, а производные от <b>A2 × A3 × A4</b>: автономии, топологии и механизма координации. Один и тот же дефект ведёт себя по-разному в workflow, star-схеме, mesh-сети или цикле с критиком.</p>
+
+  <table class="stack">
+    <thead>
+      <tr><th>Mode</th><th>Как выглядит</th><th>Архитектурный усилитель</th><th>Сдерживание</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Cascading errors</td><td>Ранняя ошибка становится входом для следующих агентов и превращается в «доказанный» факт.</td><td>Длинные цепочки, tree/DAG без независимой проверки, shared state без provenance.</td><td>Контрольные ворота, typed outputs, локальные evals, сохранение источника и confidence для каждого шага.</td></tr>
+      <tr><td>Context poisoning</td><td>В рабочий контекст попадает ложная инструкция, вредный пример или устаревший артефакт; агент начинает следовать шуму как системному факту.</td><td>Общий blackboard, долговременная memory без TTL, RAG без ранжирования доверия, tool outputs без очистки.</td><td>Разделять evidence / instruction / draft, санитайзить tool output, вводить TTL, namespace memory и правила записи.</td></tr>
+      <tr><td>Hallucination amplification</td><td>Один агент создаёт галлюцинацию, второй переформулирует увереннее, третий цитирует это как консенсус.</td><td>Mesh и voting, где агенты видят ответы друг друга; critic, оценивающий стиль вместо проверяемых фактов.</td><td>Независимые прогоны до агрегации, fact-check через retrieval/tools, запрет ссылаться на peer output как на источник.</td></tr>
+      <tr><td>Infinite loops</td><td>Система бесконечно планирует, критикует, переписывает или вызывает tools без нового прогресса.</td><td>Cyclic graph, autonomous agent без stop condition, evaluator-optimizer без budget и критерия сходимости.</td><td>Жёсткие budgets, progress delta, loop detector, idempotency keys, явные terminal states.</td></tr>
+      <tr><td>Agreement bias</td><td>Агенты быстро соглашаются с первым сильным ответом, и multi-agent схема имитирует проверку вместо реальной дивергенции.</td><td>Иерархия с авторитетным orchestrator, group chat, consensus prompt, общая память до независимого решения.</td><td>Blind review, adversarial critic, delayed disclosure, разные prompts/models, агрегация по доказательствам, а не по числу голосов.</td></tr>
+    </tbody>
+  </table>
+
+  <p style="font-size:14.5px;color:var(--ink-2)">Практическое правило: добавляя автономию, shared memory или agent↔agent коммуникацию, надо одновременно добавлять <b>границы доверия</b>. Иначе архитектурная сила multi-agent системы — распространение контекста между узлами — становится каналом распространения ошибок.</p>
+</section>
+
+<!-- ========== SECTION 8: EVALUATION ========== -->
+<section>
+  <div class="sec-num">§ 08 — проверка</div>
+  <h2>Evaluation &amp; Observability</h2>
+  <p>Evaluation в агентной системе — не постскрипт после дизайна, а рабочий цикл разработки. Сначала фиксируется простой baseline: prompt, workflow или augmented LLM с минимальным числом moving parts. Затем запускаются evals на реальных сценариях, читаются traces, меняется архитектура, и тот же набор прогоняется снова как regression suite.</p>
+
+  <p>Практический принцип: <em>start simple, optimize through evals</em>. Больше автономии, больше агентов, сложнее retrieval или handoffs добавляются не потому, что карта позволяет, а потому что eval показывает измеримый выигрыш относительно стоимости, latency и риска регрессий.</p>
+
+  <h3>Eval-driven loop</h3>
+  <div class="patterns">
+    <div class="pat">
+      <div class="ptag">01 · baseline</div>
+      <h4>Простая система как контроль</h4>
+      <p>Workflow или single-agent harness задаёт нижнюю планку task success, cost и latency. Без baseline нельзя доказать, что multi-agent или richer memory реально нужны.</p>
+    </div>
+    <div class="pat">
+      <div class="ptag">02 · inspect</div>
+      <h4>Trace объясняет провал</h4>
+      <p>Смотреть только финальный ответ мало. Нужен путь: model calls, tool calls, retrieval, state changes и handoffs, иначе ошибка превращается в «модель странно решила».</p>
+    </div>
+    <div class="pat">
+      <div class="ptag">03 · choose</div>
+      <h4>Архитектура выбирается эмпирически</h4>
+      <p>Если eval падает из-за поиска — чинится retrieval. Если из-за планирования — меняется control loop. Если из-за координации — добавляется явный handoff или supervisor.</p>
+    </div>
+  </div>
+
+  <h3>Что трассировать</h3>
+  <table class="stack">
+    <thead>
+      <tr><th>Trace event</th><th>Что писать</th><th>Зачем это нужно</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Model calls</td><td>model/version, prompt template, input context, tokens, structured output, retries</td><td>Отделить ошибку рассуждения от ошибки промпта, контекста или версии модели.</td></tr>
+      <tr><td>Tool calls</td><td>tool name, arguments, result shape, error, timeout, retry policy</td><td>Понять, провалился ли агент из-за выбора tool, плохих аргументов или внешнего API.</td></tr>
+      <tr><td>Retrieval</td><td>query, collection, filters, retrieved chunks, scores, citations</td><td>Видеть, была ли у модели нужная информация и не победил ли случайный похожий фрагмент.</td></tr>
+      <tr><td>State changes</td><td>diff рабочего состояния, memory writes, artifact updates, decision checkpoints</td><td>Ловить drift состояния и ошибки, которые появляются не в одном шаге, а накапливаются по цепочке.</td></tr>
+      <tr><td>Handoffs</td><td>source agent, target agent, reason, payload, expected contract</td><td>Проверять, что делегирование улучшает результат, а не добавляет скрытую потерю контекста.</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Метрики, которые двигают дизайн</h3>
+  <table class="stack">
+    <thead>
+      <tr><th>Метрика</th><th>Как читать</th><th>Архитектурный сигнал</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Task success</td><td>Доля сценариев, где задача завершена по проверяемому критерию, а не «выглядит правдоподобно».</td><td>Если success не растёт, усложнение topology или coordination не оправдано.</td></tr>
+      <tr><td>Cost</td><td>Tokens, tool/API spend, retries, storage and trace volume per successful task.</td><td>Если cost растёт быстрее success, нужен более простой workflow, кэш, routing или меньшая модель.</td></tr>
+      <tr><td>Latency</td><td>P50/P95 end-to-end time, отдельно model latency, tool latency и queue time.</td><td>Высокая latency показывает, где нужны параллельные branches, streaming, prefetch или fewer handoffs.</td></tr>
+      <tr><td>Intervention rate</td><td>Как часто человек должен исправить, подтвердить, перезапустить или вручную завершить задачу.</td><td>Высокий intervention rate — сигнал к human-in-the-loop gates, лучшим tools или меньшей автономии.</td></tr>
+      <tr><td>Regression risk</td><td>Сколько старых сценариев ломается после изменения prompt, model, tool schema, memory или routing.</td><td>Высокий risk требует versioned evals, canary runs и архитектуры с меньшей площадью скрытых зависимостей.</td></tr>
+    </tbody>
+  </table>
+
+  <p>Итоговая связь простая: evaluation выбирает архитектуру. Агентная система не «становится production» за счёт красивой схемы; она становится управляемой, когда каждый новый слой — retrieval, memory, supervisor, multi-agent topology, protocol handoff — имеет наблюдаемый trace и улучшает конкретную метрику на устойчивом eval-наборе.</p>
+</section>
+
+<!-- ========== SECTION 9: WHAT TO ADD ========== -->
+<section>
+  <div class="sec-num">§ 09 — пробелы исходника</div>
   <h2>Чего ещё не было</h2>
 
   <h3>Фундаментальная граница: tools ≠ classical software</h3>
@@ -834,9 +914,9 @@
   <p>В исходнике эмерджентность приведена скорее как философская категория. В практике агентных систем «сильная эмерджентность» обычно используется как <em>оправдание непредсказуемости</em>, что часто скрывает обычное отсутствие observability. Слабая эмерджентность реальна (поведение системы из нескольких агентов сложнее каждого по отдельности). Сильная — редко доказуема в инженерных системах.</p>
 </section>
 
-<!-- ========== SECTION 8: SUMMARY ========== -->
+<!-- ========== SECTION 10: SUMMARY ========== -->
 <section>
-  <div class="sec-num">§ 08 — итог</div>
+  <div class="sec-num">§ 10 — итог</div>
   <h2>Что осталось от исходника</h2>
   <p>Исходный документ остаётся хорошим первым проходом. Основное, что его ослабляло:</p>
   <ol style="padding-left:18px;line-height:1.7;font-size:15.5px">
@@ -845,7 +925,9 @@
     <li>отсутствие границы «workflow vs agent» — добавлена как ось A2;</li>
     <li>отсутствие 5 канонических паттернов — добавлены;</li>
     <li>протоколы спрятаны в инфраструктуру — выделены в отдельный слой;</li>
-    <li>tech stack как смесь — разнесён на 6 уровней.</li>
+    <li>tech stack как смесь — разнесён на 6 уровней;</li>
+    <li>evaluation и observability были послесловием — теперь это рабочий цикл выбора архитектуры;</li>
+    <li>карта была стерильной по рискам — добавлена taxonomy failure modes.</li>
   </ol>
 
   <p>Карта теперь имеет ровно ту форму, в которой её можно расширять без накопления дребезга: добавление нового фреймворка / паттерна / протокола ложится на конкретное измерение, без заявления о полной независимости остальных.</p>

@@ -10,8 +10,8 @@ This folder tracks improvements for the agent ontology/taxonomy document.
 
 ## Wave 2: Close Content Gaps
 
-- [ ] [04 - Add failure modes](04-add-failure-modes.md)
-- [ ] [05 - Add evaluation and observability](05-add-evaluation-observability.md)
+- [x] [04 - Add failure modes](04-add-failure-modes.md)
+- [x] [05 - Add evaluation and observability](05-add-evaluation-observability.md)
 - [ ] [06 - Add 2022-2026 timeline](06-add-2022-2026-timeline.md)
 - [ ] [07 - Plot real systems on the map](07-plot-real-systems.md)
 - [ ] [08 - Expand memory typology](08-expand-memory-typology.md)
@@ -30,4 +30,4 @@ This folder tracks improvements for the agent ontology/taxonomy document.
 
 ## Source Critique Summary
 
-The original artifact overstated orthogonality and used some misleading visuals. Remaining gaps include production-critical topics: evaluation, observability, failure modes, HITL, economics, history, real systems, and a fuller memory model.
+The original artifact overstated orthogonality and used some misleading visuals. Failure modes, evaluation, and observability are now covered; remaining gaps include HITL, economics, history, real systems, and a fuller memory model.
