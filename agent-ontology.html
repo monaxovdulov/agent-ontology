@@ -500,61 +500,99 @@
 <!-- ========== SECTION 4: COMPOSITION (RECURSIVE) ========== -->
 <section>
   <div class="sec-num">§ 04 — композиция</div>
-  <h2>Рекурсия, а не лестница</h2>
-  <p>В исходнике пять «уровней» от модели до управленца. Это иллюзия лестницы. На деле — одна и та же конструкция, вложенная сама в себя. Sub-agent — это полноценный агент со своим harness и своими sub-agents. Глубина ничем не ограничена структурно — только практически.</p>
+  <h2>Рекурсия через вызовы, а не лестница</h2>
+  <p>В исходнике пять «уровней» от модели до управленца. Это иллюзия лестницы. На деле — одна и та же конструкция может вызывать другую такую конструкцию: meta-orchestrator координирует domain agents, а они вызывают tools или делегируют peer agents. Рекурсия появляется как цепочка calls и contracts, а не как физическая иерархия.</p>
 
   <figure>
   <svg viewBox="0 0 800 480" xmlns="http://www.w3.org/2000/svg">
-    <text x="40" y="36" class="ttl">composition — рекурсивная вложенность</text>
-    <text x="40" y="55" class="lbl-sm">каждый «агент» — это и атом, и контейнер для агентов</text>
+    <defs>
+      <marker id="fig3-arrow-orch" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+        <path d="M 0 0 L 10 5 L 0 10 z" fill="#b8410c"/>
+      </marker>
+      <marker id="fig3-arrow-tool" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+        <path d="M 0 0 L 10 5 L 0 10 z" fill="#1a1f2e"/>
+      </marker>
+      <marker id="fig3-arrow-peer" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+        <path d="M 0 0 L 10 5 L 0 10 z" fill="#3a4256"/>
+      </marker>
+    </defs>
 
-    <!-- nested boxes -->
+    <text x="40" y="36" class="ttl">composition — call graph, not nesting</text>
+    <text x="40" y="55" class="lbl-sm">agents, tools, and peers are separate nodes; structure is expressed by directed calls</text>
+
+    <!-- orchestration edges -->
+    <path d="M400 144 C400 174 156 174 156 208" fill="none" stroke="#b8410c" stroke-width="2" marker-end="url(#fig3-arrow-orch)"/>
+    <path d="M400 144 C400 174 400 174 400 208" fill="none" stroke="#b8410c" stroke-width="2" marker-end="url(#fig3-arrow-orch)"/>
+    <path d="M400 144 C400 174 644 174 644 208" fill="none" stroke="#b8410c" stroke-width="2" marker-end="url(#fig3-arrow-orch)"/>
+    <text x="415" y="174" class="lbl-acc">orchestration / coordination</text>
+
+    <!-- invocation and delegation edges -->
+    <path d="M156 280 C156 310 146 320 146 348" fill="none" stroke="#1a1f2e" stroke-width="1.7" marker-end="url(#fig3-arrow-tool)"/>
+    <path d="M400 280 C380 310 330 320 330 348" fill="none" stroke="#1a1f2e" stroke-width="1.7" marker-end="url(#fig3-arrow-tool)"/>
+    <path d="M644 280 C620 310 514 320 514 348" fill="none" stroke="#1a1f2e" stroke-width="1.7" marker-end="url(#fig3-arrow-tool)"/>
+    <path d="M644 280 C690 306 688 324 688 348" fill="none" stroke="#3a4256" stroke-width="1.7" stroke-dasharray="5 4" marker-end="url(#fig3-arrow-peer)"/>
+
+    <!-- sibling nodes -->
     <g>
-      <!-- outermost: meta-orchestrator -->
-      <rect x="60" y="90" width="700" height="320" fill="none" stroke="#1a1f2e" stroke-width="2"/>
-      <text x="76" y="112" class="lbl-acc">МЕТА-ОРКЕСТРАТОР · agent N</text>
-      <text x="76" y="128" class="lbl-sm">harness + tools + sub-agents</text>
-
-      <!-- inner box: domain agent -->
-      <rect x="100" y="150" width="630" height="240" fill="#e8dfca" stroke="#1a1f2e" stroke-width="1.5"/>
-      <text x="116" y="172" class="lbl-acc">DOMAIN AGENT · agent N-1</text>
-      <text x="116" y="186" class="lbl-sm">harness + tools + sub-agents</text>
-
-      <!-- inner: harness -->
-      <rect x="140" y="210" width="550" height="160" fill="#dcd0b3" stroke="#1a1f2e" stroke-width="1.5"/>
-      <text x="156" y="232" class="lbl-acc">HARNESS</text>
-      <text x="156" y="246" class="lbl-sm">control loop + skills + prompts</text>
-
-      <!-- inner: augmented LLM -->
-      <rect x="180" y="270" width="470" height="80" fill="#f1ead9" stroke="#1a1f2e" stroke-width="1.5"/>
-      <text x="196" y="292" class="lbl-acc">AUGMENTED LLM</text>
-      <text x="196" y="306" class="lbl-sm">model + tools + retrieval + memory</text>
-
-      <!-- inner: model atom -->
-      <rect x="220" y="320" width="160" height="22" fill="#b8410c"/>
-      <text x="300" y="335" class="lbl" text-anchor="middle" fill="#f1ead9">MODEL · LLM</text>
-
-      <!-- side annotations -->
-      <g>
-        <line x1="650" y1="290" x2="710" y2="290" stroke="#1a1f2e" stroke-width="1"/>
-        <text x="715" y="285" class="lbl-sm">tool i</text>
-        <line x1="650" y1="310" x2="710" y2="310" stroke="#1a1f2e" stroke-width="1"/>
-        <text x="715" y="305" class="lbl-sm">RAG</text>
-        <line x1="650" y1="330" x2="710" y2="330" stroke="#1a1f2e" stroke-width="1"/>
-        <text x="715" y="325" class="lbl-sm">memory</text>
-      </g>
-
-      <!-- recursion indicator -->
-      <g transform="translate(40,95)">
-        <text x="0" y="0" class="lbl-sm">↻</text>
-        <text x="-6" y="14" class="lbl-sm" transform="rotate(-90 0 0)" text-anchor="end">рекурсия</text>
-      </g>
+      <rect x="300" y="80" width="200" height="64" fill="#f1ead9" stroke="#1a1f2e" stroke-width="1.7"/>
+      <text x="400" y="106" class="lbl-acc" text-anchor="middle">META-ORCHESTRATOR</text>
+      <text x="400" y="124" class="lbl-sm" text-anchor="middle">plans · routes · monitors</text>
     </g>
 
-    <text x="40" y="445" class="lbl-sm">«менеджер» / «сотрудник» — <tspan font-weight="600">роли</tspan>, а не уровни. Та же конструкция, просто на верхнем слое инструменты — это другие агенты.</text>
-    <text x="40" y="463" class="lbl-sm">практический предел — 3-4 уровня вложенности (latency, потери при передаче, observability).</text>
+    <g>
+      <rect x="66" y="208" width="180" height="72" fill="#e8dfca" stroke="#1a1f2e" stroke-width="1.5"/>
+      <text x="156" y="236" class="lbl-acc" text-anchor="middle">DOMAIN AGENT A</text>
+      <text x="156" y="254" class="lbl-sm" text-anchor="middle">research harness</text>
+    </g>
+
+    <g>
+      <rect x="310" y="208" width="180" height="72" fill="#e8dfca" stroke="#1a1f2e" stroke-width="1.5"/>
+      <text x="400" y="236" class="lbl-acc" text-anchor="middle">DOMAIN AGENT B</text>
+      <text x="400" y="254" class="lbl-sm" text-anchor="middle">builder harness</text>
+    </g>
+
+    <g>
+      <rect x="554" y="208" width="180" height="72" fill="#e8dfca" stroke="#1a1f2e" stroke-width="1.5"/>
+      <text x="644" y="236" class="lbl-acc" text-anchor="middle">DOMAIN AGENT C</text>
+      <text x="644" y="254" class="lbl-sm" text-anchor="middle">review harness</text>
+    </g>
+
+    <g>
+      <rect x="66" y="348" width="160" height="58" fill="#dcd0b3" stroke="#1a1f2e" stroke-width="1.3"/>
+      <text x="146" y="373" class="lbl" text-anchor="middle">TOOL NODE</text>
+      <text x="146" y="390" class="lbl-sm" text-anchor="middle">search / RAG</text>
+    </g>
+
+    <g>
+      <rect x="250" y="348" width="160" height="58" fill="#dcd0b3" stroke="#1a1f2e" stroke-width="1.3"/>
+      <text x="330" y="373" class="lbl" text-anchor="middle">TOOL NODE</text>
+      <text x="330" y="390" class="lbl-sm" text-anchor="middle">API / shell</text>
+    </g>
+
+    <g>
+      <rect x="434" y="348" width="160" height="58" fill="#dcd0b3" stroke="#1a1f2e" stroke-width="1.3"/>
+      <text x="514" y="373" class="lbl" text-anchor="middle">TOOL NODE</text>
+      <text x="514" y="390" class="lbl-sm" text-anchor="middle">tests / evals</text>
+    </g>
+
+    <g>
+      <rect x="618" y="348" width="140" height="58" fill="#f1ead9" stroke="#3a4256" stroke-width="1.3" stroke-dasharray="5 4"/>
+      <text x="688" y="373" class="lbl" text-anchor="middle">PEER AGENT</text>
+      <text x="688" y="390" class="lbl-sm" text-anchor="middle">delegated task</text>
+    </g>
+
+    <g>
+      <line x1="40" y1="432" x2="98" y2="432" stroke="#b8410c" stroke-width="2" marker-end="url(#fig3-arrow-orch)"/>
+      <text x="110" y="436" class="lbl-sm">orchestration</text>
+      <line x1="225" y1="432" x2="283" y2="432" stroke="#1a1f2e" stroke-width="1.7" marker-end="url(#fig3-arrow-tool)"/>
+      <text x="295" y="436" class="lbl-sm">tool invocation</text>
+      <line x1="438" y1="432" x2="496" y2="432" stroke="#3a4256" stroke-width="1.7" stroke-dasharray="5 4" marker-end="url(#fig3-arrow-peer)"/>
+      <text x="508" y="436" class="lbl-sm">peer delegation</text>
+    </g>
+
+    <text x="40" y="463" class="lbl-sm">«менеджер» / «сотрудник» — роли в графе координации; практический предел задают latency, потери контекста и observability.</text>
   </svg>
-  <figcaption><b>fig.3</b> · композиция как матрёшка, а не как лестница</figcaption>
+  <figcaption><b>fig.3</b> · composition as calls/coordinates, not contains: meta-orchestrator, domain agents, tools, and peers are sibling nodes</figcaption>
   </figure>
 </section>
 
@@ -721,7 +759,7 @@
     </thead>
     <tbody>
       <tr><td>Модели</td><td>Базовые LLM, поверх которых всё строится</td><td>Claude Opus/Sonnet/Haiku, GPT, Gemini, Llama, DeepSeek</td></tr>
-      <tr><td>Протоколы</td><td>Стандартные интерфейсы между компонентами. Сквозной слой, частично независимый от фреймворков.</td><td><b>MCP</b> (model↔tools, де-факто стандарт), <b>A2A</b> (agent↔agent, Linux Foundation), LangChain Agent Protocol, AGNTCY</td></tr>
+      <tr><td>Протоколы</td><td>Стандартные интерфейсы между компонентами. Сквозной слой, частично независимый от фреймворков.</td><td><b>MCP</b> (model↔tools, де-факто стандарт), <b>A2A</b> (agent↔agent, Linux Foundation; enterprise-нишевый), LangChain Agent Protocol, AGNTCY</td></tr>
       <tr><td>Паттерны</td><td>Архитектурные шаблоны, не привязанные к фреймворку</td><td>RAG, ReAct, CoT, Reflexion, Plan-and-Execute, Tree-of-Thoughts, 5 паттернов Anthropic</td></tr>
       <tr><td>Фреймворки</td><td>Библиотеки для сборки агентов</td><td>LangChain, LangGraph, CrewAI, AutoGen, OpenAI Agents SDK, Pydantic AI, Spring AI</td></tr>
       <tr><td>Платформы</td><td>Готовые харнессы / IDE / облако</td><td>Claude Code, Cursor, Codex, Vertex AI, Bedrock</td></tr>
@@ -730,7 +768,7 @@
   </table>
 
   <h3>Протокольный слой — отдельная история</h3>
-  <p>В апреле 2025 Google выпустил <b>A2A</b> и передал его в Linux Foundation. По задумке — комплементарен MCP: MCP стандартизует «модель ↔ инструменты», A2A — «агент ↔ агент». На практике к концу 2025 MCP стал доминирующим стандартом, A2A заметно отстал в community-adoption (хотя жив в enterprise). Уроки: <em>protocol wars выигрывают developer experience и грассрутс, а не корпоративная архитектура</em>.</p>
+  <p>В апреле 2025 Google выпустил <b>A2A</b> и передал его в Linux Foundation. По задумке — комплементарен MCP: MCP стандартизует «модель ↔ инструменты», A2A — «агент ↔ агент». На практике к концу 2025 MCP получил заметно более сильное developer adoption, а A2A остался живым, но enterprise-нишевым: его сильнее тянут корпоративные интеграции, чем grassroots-разработчики. Урок: <em>для широкого протокольного adoption developer experience и комьюнити-тяга важнее одной только корпоративной архитектуры</em>.</p>
 
   <figure>
   <svg viewBox="0 0 800 240" xmlns="http://www.w3.org/2000/svg">
@@ -760,7 +798,7 @@
     <!-- bottom legend -->
     <text x="80" y="180" class="lbl-sm">MCP: «USB-C для AI» — единый разъём модели в инструменты.</text>
     <text x="80" y="196" class="lbl-sm">A2A: «сетевой слой» — агенты разных вендоров общаются между собой.</text>
-    <text x="80" y="212" class="lbl-acc">2026: MCP = де-факто. A2A = жив, но enterprise-нишевый.</text>
+    <text x="80" y="212" class="lbl-acc">2026: MCP сильнее у разработчиков. A2A жив, enterprise-нишевый.</text>
 
     <defs>
       <marker id="a2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
@@ -771,7 +809,7 @@
       </marker>
     </defs>
   </svg>
-  <figcaption><b>fig.5</b> · два протокола занимают разные ниши, но MCP победил в реальном использовании</figcaption>
+  <figcaption><b>fig.5</b> · два протокола занимают разные ниши: MCP сильнее в developer adoption, A2A остаётся enterprise-нишевым</figcaption>
   </figure>
 </section>
 

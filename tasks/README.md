@@ -5,8 +5,8 @@ This folder tracks improvements for the agent ontology/taxonomy document.
 ## Wave 1: Fix False Claims
 
 - [x] [01 - Reframe axis independence](01-reframe-axis-independence.md)
-- [ ] [02 - Redesign composition diagram](02-redesign-composition-diagram.md)
-- [ ] [03 - Correct A2A positioning](03-correct-a2a-positioning.md)
+- [x] [02 - Redesign composition diagram](02-redesign-composition-diagram.md)
+- [x] [03 - Correct A2A positioning](03-correct-a2a-positioning.md)
 
 ## Wave 2: Close Content Gaps
 
