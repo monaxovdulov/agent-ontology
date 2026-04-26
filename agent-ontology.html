@@ -134,6 +134,73 @@
     .stack td,.stack th{padding:6px 7px;font-size:13px}
   }
 
+  /* Real systems map */
+  .system-map{
+    position:relative;
+    min-height:430px;
+    margin:22px 0 24px;
+    border:1px solid var(--ink);
+    background:
+      linear-gradient(to right, rgba(26,31,46,.11) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(26,31,46,.11) 1px, transparent 1px),
+      var(--paper-2);
+    background-size:33.333% 100%,100% 33.333%;
+    overflow:hidden;
+  }
+  .system-map::before{
+    content:"A2 автономия: workflow → hybrid → agent";
+    position:absolute;left:24px;right:24px;bottom:16px;
+    font-family:"JetBrains Mono",monospace;font-size:11px;letter-spacing:.06em;
+    color:var(--accent);text-transform:uppercase;
+  }
+  .map-row-label{
+    position:absolute;left:18px;
+    font-family:"JetBrains Mono",monospace;font-size:10px;letter-spacing:.05em;
+    color:var(--ink-2);text-transform:uppercase;
+  }
+  .map-row-label.top{top:22px}
+  .map-row-label.mid{top:48%}
+  .map-row-label.bot{bottom:58px}
+  .system-point{
+    position:absolute;
+    left:var(--x);top:var(--y);
+    width:128px;
+    transform:translate(-50%,-50%);
+    border:1px solid var(--ink);
+    background:var(--paper);
+    padding:7px 8px;
+    font-family:"JetBrains Mono",monospace;
+    font-size:10px;
+    line-height:1.3;
+    box-shadow:3px 3px 0 rgba(26,31,46,.16);
+  }
+  .system-point b{display:block;color:var(--accent);font-size:11px;margin-bottom:2px}
+  .system-point.tentative{border-style:dashed}
+  .system-note{
+    font-family:"JetBrains Mono",monospace;
+    font-size:11px;
+    color:var(--muted);
+    text-transform:uppercase;
+    letter-spacing:.07em;
+    margin-top:-10px;
+  }
+  @media(max-width:680px){
+    .system-map{
+      min-height:0;
+      display:grid;
+      gap:8px;
+      padding:18px;
+      background:var(--paper-2);
+    }
+    .system-map::before,.map-row-label{display:none}
+    .system-point{
+      position:static;
+      transform:none;
+      width:auto;
+      box-shadow:none;
+    }
+  }
+
   /* Footnote */
   .foot{
     margin-top:80px;padding-top:24px;border-top:1px solid var(--ink);
@@ -497,9 +564,92 @@
   </figure>
 </section>
 
-<!-- ========== SECTION 4: COMPOSITION (RECURSIVE) ========== -->
+<!-- ========== SECTION 4: REAL SYSTEMS ========== -->
 <section>
-  <div class="sec-num">§ 04 — композиция</div>
+  <div class="sec-num">§ 04 — реальные системы</div>
+  <h2>Реальные системы как точки на карте</h2>
+  <p>Карта становится навигационным инструментом, когда конкретная система получает координату. Ниже placement по публично проверяемому поведению продукта, а не по внутренней архитектуре: сначала читаем <b>A2</b> (кто управляет потоком), затем <b>A3×A4</b> (какой граф и координация), потом уточняем <b>A1/A5/A6</b>.</p>
+
+  <div class="system-map" aria-label="Реальные системы на карте A2 и A3/A4">
+    <div class="map-row-label top">star / pool · command delegation</div>
+    <div class="map-row-label mid">cyclic loop · blackboard / evidence</div>
+    <div class="map-row-label bot">DAG / blocks · workflow control</div>
+
+    <div class="system-point" style="--x:72%;--y:25%">
+      <b>Cursor</b>
+      background coding agents
+    </div>
+    <div class="system-point" style="--x:88%;--y:17%">
+      <b>Devin</b>
+      delegated software work
+    </div>
+    <div class="system-point tentative" style="--x:87%;--y:37%">
+      <b>Manus</b>
+      general task agent
+    </div>
+    <div class="system-point" style="--x:62%;--y:63%">
+      <b>Claude Code</b>
+      permissioned CLI loop
+    </div>
+    <div class="system-point" style="--x:78%;--y:72%">
+      <b>deep research</b>
+      bounded research agent
+    </div>
+    <div class="system-point" style="--x:39%;--y:83%">
+      <b>AutoGPT</b>
+      workflow platform contrast
+    </div>
+  </div>
+  <div class="system-note">Пунктир = placement осторожный: публичные docs подтверждают capability, но не раскрывают внутреннюю координацию.</div>
+
+  <table class="stack">
+    <thead>
+      <tr><th>Система</th><th>Координата A2/A3/A4</th><th>A1/A5/A6</th><th>Почему здесь</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Cursor</td>
+        <td><b>A2</b>: agent для Background Agents; foreground Agent ближе к hybrid из-за approvals.<br><b>A3</b>: star/pool — пользователь запускает независимые удалённые coding agents.<br><b>A4</b>: иерархическая команда + tool loop; background режим auto-runs terminal commands.</td>
+        <td><b>A1</b>: IDE/remote-VM harness + code tools + MCP.<br><b>A5</b>: coding worker, иногда reviewer/fixer.<br><b>A6</b>: IDE/platform + GitHub app.</td>
+        <td>Официальные docs описывают асинхронных агентов, которые редактируют и запускают код в изолированной Ubuntu VM, работают на отдельной ветке и допускают follow-up или takeover.</td>
+      </tr>
+      <tr>
+        <td>Devin</td>
+        <td><b>A2</b>: agent, с human handoff.<br><b>A3</b>: star/pool — отдельные sessions, параллельные задачи, scheduled runs.<br><b>A4</b>: иерархическая делегация через prompt/ticket/schedule; состояние видно в session.</td>
+        <td><b>A1</b>: software-engineer harness с IDE, terminal, browser, playbooks.<br><b>A5</b>: worker/generalist, reviewer, support engineer.<br><b>A6</b>: SaaS platform + Slack/Jira/Linear/GitHub-style integrations.</td>
+        <td>Docs осторожно, но прямо говорят: Devin пишет, запускает и тестирует код; его можно направлять на tickets, bugs, refactors, docs и recurring sessions.</td>
+      </tr>
+      <tr>
+        <td>Claude Code</td>
+        <td><b>A2</b>: hybrid → agent — модель выбирает действия, но shell/edit требуют permission policy.<br><b>A3</b>: cyclic single-agent loop; star появляется при subagents.<br><b>A4</b>: command + permission gates + hooks.</td>
+        <td><b>A1</b>: terminal harness с file tools, Bash, web/MCP, hooks, subagents.<br><b>A5</b>: coding worker и локальный orchestrator.<br><b>A6</b>: CLI/SDK platform.</td>
+        <td>Anthropic docs описывают terminal-native agentic coding tool, который может редактировать файлы, запускать команды и создавать commits, но по умолчанию держит опасные действия за explicit approval.</td>
+      </tr>
+      <tr>
+        <td>Manus <em>(tentative)</em></td>
+        <td><b>A2</b>: agent в пределах заявленных task modes.<br><b>A3</b>: star/pool для Wide Research; single browser operator для веб-задач.<br><b>A4</b>: hierarchical decomposition; независимые workers без подтверждённого peer-to-peer.</td>
+        <td><b>A1</b>: web/browser harness + connectors/Zapier.<br><b>A5</b>: generalist researcher/operator.<br><b>A6</b>: hosted platform + browser extension/integrations.</td>
+        <td>Официальные docs подтверждают Browser Operator, который планирует и выполняет действия в браузере после permission, и Wide Research, где главный agent дробит задачу на независимые подзадачи. Внутренний orchestrator не раскрыт, поэтому placement помечен осторожно.</td>
+      </tr>
+      <tr>
+        <td>deep research</td>
+        <td><b>A2</b>: bounded agent — автономен внутри read-only research boundary.<br><b>A3</b>: cyclic search/read/analyze/synthesize loop.<br><b>A4</b>: blackboard/evidence coordination через план, источники, citations и progress trace.</td>
+        <td><b>A1</b>: research harness с web/file search, MCP search/fetch и code interpreter в API.<br><b>A5</b>: researcher/synthesizer.<br><b>A6</b>: ChatGPT tool + OpenAI Responses API.</td>
+        <td>OpenAI docs описывают план исследования, выбор источников пользователем, прогресс, interrupt/refine и отчёт с citations; API guide ограничивает deep research supported tools в основном search/fetch/data-analysis контуром.</td>
+      </tr>
+      <tr>
+        <td>AutoGPT <em>(contrast)</em></td>
+        <td><b>A2</b>: workflow → hybrid; classic autonomous loop остаётся историческим контрастом.<br><b>A3</b>: DAG/cyclic block graph.<br><b>A4</b>: encoded workflow control + shared runtime state; не mesh.</td>
+        <td><b>A1</b>: agent builder, blocks, server/runtime.<br><b>A5</b>: automation worker assembled by user.<br><b>A6</b>: open-source/self-host platform.</td>
+        <td>Текущий README и docs смещают AutoGPT к platform для build/deploy/run agents: пользователь собирает workflow из blocks, деплоит и мониторит continuous agents. Это полезный контраст к продуктам, где автономный harness скрыт за UX.</td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ========== SECTION 5: COMPOSITION (RECURSIVE) ========== -->
+<section>
+  <div class="sec-num">§ 05 — композиция</div>
   <h2>Рекурсия через вызовы, а не лестница</h2>
   <p>В исходнике пять «уровней» от модели до управленца. Это иллюзия лестницы. На деле — одна и та же конструкция может вызывать другую такую конструкцию: meta-orchestrator координирует domain agents, а они вызывают tools или делегируют peer agents. Рекурсия появляется как цепочка calls и contracts, а не как физическая иерархия.</p>
 
@@ -596,9 +746,9 @@
   </figure>
 </section>
 
-<!-- ========== SECTION 5: ANTHROPIC PATTERNS ========== -->
+<!-- ========== SECTION 6: ANTHROPIC PATTERNS ========== -->
 <section>
-  <div class="sec-num">§ 05 — пропуск исходника</div>
+  <div class="sec-num">§ 06 — пропуск исходника</div>
   <h2>Пять канонических паттернов</h2>
   <p>Это центральная вещь, которой не было в исходном тексте. Anthropic в «Building Effective Agents» (Schluntz &amp; Zhang) ввели стандартный словарь, который теперь повторяют все основные фреймворки (Spring AI, LangGraph, OpenAI и т.д.). Это <em>workflow-паттерны</em> — детерминированные обвязки вокруг LLM. Полноценный «agent» — это уже шестое, отдельное.</p>
 
@@ -747,9 +897,9 @@
   <p style="font-size:14.5px;color:var(--ink-2)">Multi-agent системы потребляют примерно <b>в 10–15 раз больше токенов</b>, чем single-agent. Это не недостаток дизайна — это цена параллелизма и контекста. Поэтому в рекомендациях явно: «не усложнять без demonstrable improvement».</p>
 </section>
 
-<!-- ========== SECTION 6: TECH STACK CLEAN ========== -->
+<!-- ========== SECTION 7: TECH STACK CLEAN ========== -->
 <section>
-  <div class="sec-num">§ 06 — тех. слой</div>
+  <div class="sec-num">§ 07 — тех. слой</div>
   <h2>Стек, разнесённый по уровням</h2>
   <p>Каждый уровень — самостоятельный, со своей рыночной динамикой. В исходнике они были перемешаны.</p>
 
@@ -813,9 +963,9 @@
   </figure>
 </section>
 
-<!-- ========== SECTION 7: FAILURE MODES ========== -->
+<!-- ========== SECTION 8: FAILURE MODES ========== -->
 <section>
-  <div class="sec-num">§ 07 — failure modes</div>
+  <div class="sec-num">§ 08 — failure modes</div>
   <h2>Как ломаются агентные системы</h2>
   <p>Failure modes — это не отдельная «ось» онтологии, а производные от <b>A2 × A3 × A4</b>: автономии, топологии и механизма координации. Один и тот же дефект ведёт себя по-разному в workflow, star-схеме, mesh-сети или цикле с критиком.</p>
 
@@ -835,9 +985,9 @@
   <p style="font-size:14.5px;color:var(--ink-2)">Практическое правило: добавляя автономию, shared memory или agent↔agent коммуникацию, надо одновременно добавлять <b>границы доверия</b>. Иначе архитектурная сила multi-agent системы — распространение контекста между узлами — становится каналом распространения ошибок.</p>
 </section>
 
-<!-- ========== SECTION 8: EVALUATION ========== -->
+<!-- ========== SECTION 9: EVALUATION ========== -->
 <section>
-  <div class="sec-num">§ 08 — проверка</div>
+  <div class="sec-num">§ 09 — проверка</div>
   <h2>Evaluation &amp; Observability</h2>
   <p>Evaluation в агентной системе — не постскрипт после дизайна, а рабочий цикл разработки. Сначала фиксируется простой baseline: prompt, workflow или augmented LLM с минимальным числом moving parts. Затем запускаются evals на реальных сценариях, читаются traces, меняется архитектура, и тот же набор прогоняется снова как regression suite.</p>
 
@@ -893,9 +1043,110 @@
   <p>Итоговая связь простая: evaluation выбирает архитектуру. Агентная система не «становится production» за счёт красивой схемы; она становится управляемой, когда каждый новый слой — retrieval, memory, supervisor, multi-agent topology, protocol handoff — имеет наблюдаемый trace и улучшает конкретную метрику на устойчивом eval-наборе.</p>
 </section>
 
-<!-- ========== SECTION 9: WHAT TO ADD ========== -->
+<!-- ========== SECTION 10: 2022-2026 TIMELINE ========== -->
 <section>
-  <div class="sec-num">§ 09 — пробелы исходника</div>
+  <div class="sec-num">§ 10 — timeline</div>
+  <h2>Timeline 2022–2026</h2>
+  <p>Эта ось не про очередность релизов. В карту попадают только сдвиги, которые меняют архитектуру: как модель планирует, вызывает внешние действия, распределяет работу и получает исполняемую среду. Продуктовые названия — только маркеры, не доказательство новой парадигмы.</p>
+
+  <figure>
+  <svg viewBox="0 0 800 430" xmlns="http://www.w3.org/2000/svg">
+    <text x="40" y="36" class="ttl">2022–2026: от prompting-паттерна к исполняемой среде</text>
+    <text x="40" y="56" class="lbl-sm">верхняя дорожка — durable conceptual shift; нижняя — hype/product layer</text>
+
+    <line x1="92" y1="208" x2="708" y2="208" stroke="#1a1f2e" stroke-width="1.5"/>
+    <line x1="40" y1="76" x2="760" y2="76" stroke="#1a1f2e" opacity=".25"/>
+    <line x1="40" y1="248" x2="760" y2="248" stroke="#1a1f2e" opacity=".25"/>
+
+    <text x="40" y="99" class="lbl-acc">устойчивый сдвиг</text>
+    <text x="40" y="272" class="lbl-sm">что не фиксируем как сдвиг</text>
+
+    <!-- 2022 -->
+    <g transform="translate(92,0)">
+      <circle cx="0" cy="208" r="7" fill="#b8410c" stroke="#1a1f2e"/>
+      <text x="0" y="228" class="lbl-acc" text-anchor="middle">2022</text>
+      <line x1="0" y1="117" x2="0" y2="201" stroke="#b8410c" stroke-width="1.2"/>
+      <rect x="-58" y="104" width="116" height="84" fill="#dcd0b3" stroke="#1a1f2e"/>
+      <text x="0" y="128" class="lbl-acc" text-anchor="middle">ReAct</text>
+      <text x="0" y="148" class="lbl-sm" text-anchor="middle">reasoning +</text>
+      <text x="0" y="163" class="lbl-sm" text-anchor="middle">acting in one</text>
+      <text x="0" y="178" class="lbl-sm" text-anchor="middle">control loop</text>
+      <rect x="-58" y="289" width="116" height="62" fill="#e8dfca" stroke="#1a1f2e" stroke-dasharray="4 3"/>
+      <text x="0" y="315" class="lbl-sm" text-anchor="middle">не «магия»</text>
+      <text x="0" y="331" class="lbl-sm" text-anchor="middle">автономии</text>
+    </g>
+
+    <!-- 2023 -->
+    <g transform="translate(246,0)">
+      <circle cx="0" cy="208" r="7" fill="#b8410c" stroke="#1a1f2e"/>
+      <text x="0" y="228" class="lbl-acc" text-anchor="middle">2023</text>
+      <line x1="0" y1="117" x2="0" y2="201" stroke="#b8410c" stroke-width="1.2"/>
+      <rect x="-58" y="104" width="116" height="84" fill="#dcd0b3" stroke="#1a1f2e"/>
+      <text x="0" y="128" class="lbl-acc" text-anchor="middle">function calls</text>
+      <text x="0" y="148" class="lbl-sm" text-anchor="middle">tool use as</text>
+      <text x="0" y="163" class="lbl-sm" text-anchor="middle">typed contract</text>
+      <text x="0" y="178" class="lbl-sm" text-anchor="middle">with APIs</text>
+      <rect x="-58" y="289" width="116" height="62" fill="#e8dfca" stroke="#1a1f2e" stroke-dasharray="4 3"/>
+      <text x="0" y="315" class="lbl-sm" text-anchor="middle">не гонка</text>
+      <text x="0" y="331" class="lbl-sm" text-anchor="middle">плагинов</text>
+    </g>
+
+    <!-- 2024 -->
+    <g transform="translate(400,0)">
+      <circle cx="0" cy="208" r="7" fill="#b8410c" stroke="#1a1f2e"/>
+      <text x="0" y="228" class="lbl-acc" text-anchor="middle">2024</text>
+      <line x1="0" y1="117" x2="0" y2="201" stroke="#b8410c" stroke-width="1.2"/>
+      <rect x="-58" y="104" width="116" height="84" fill="#dcd0b3" stroke="#1a1f2e"/>
+      <text x="0" y="128" class="lbl-acc" text-anchor="middle">workflow/agent</text>
+      <text x="0" y="148" class="lbl-sm" text-anchor="middle">autonomy becomes</text>
+      <text x="0" y="163" class="lbl-sm" text-anchor="middle">a design axis,</text>
+      <text x="0" y="178" class="lbl-sm" text-anchor="middle">not a label</text>
+      <rect x="-58" y="289" width="116" height="62" fill="#e8dfca" stroke="#1a1f2e" stroke-dasharray="4 3"/>
+      <text x="0" y="315" class="lbl-sm" text-anchor="middle">не каждый</text>
+      <text x="0" y="331" class="lbl-sm" text-anchor="middle">workflow — agent</text>
+    </g>
+
+    <!-- 2025 -->
+    <g transform="translate(554,0)">
+      <circle cx="0" cy="208" r="7" fill="#b8410c" stroke="#1a1f2e"/>
+      <text x="0" y="228" class="lbl-acc" text-anchor="middle">2025</text>
+      <line x1="0" y1="117" x2="0" y2="201" stroke="#b8410c" stroke-width="1.2"/>
+      <rect x="-58" y="104" width="116" height="84" fill="#dcd0b3" stroke="#1a1f2e"/>
+      <text x="0" y="128" class="lbl-acc" text-anchor="middle">multi-agent + CUA</text>
+      <text x="0" y="148" class="lbl-sm" text-anchor="middle">coordination and</text>
+      <text x="0" y="163" class="lbl-sm" text-anchor="middle">GUI become</text>
+      <text x="0" y="178" class="lbl-sm" text-anchor="middle">execution surface</text>
+      <rect x="-58" y="289" width="116" height="62" fill="#e8dfca" stroke="#1a1f2e" stroke-dasharray="4 3"/>
+      <text x="0" y="315" class="lbl-sm" text-anchor="middle">research preview;</text>
+      <text x="0" y="331" class="lbl-sm" text-anchor="middle">cost/eval gates</text>
+    </g>
+
+    <!-- 2026 -->
+    <g transform="translate(708,0)">
+      <circle cx="0" cy="208" r="7" fill="#b8410c" stroke="#1a1f2e"/>
+      <text x="0" y="228" class="lbl-acc" text-anchor="middle">2026</text>
+      <line x1="0" y1="117" x2="0" y2="201" stroke="#b8410c" stroke-width="1.2"/>
+      <rect x="-58" y="104" width="116" height="84" fill="#dcd0b3" stroke="#1a1f2e"/>
+      <text x="0" y="128" class="lbl-acc" text-anchor="middle">harness hardening</text>
+      <text x="0" y="148" class="lbl-sm" text-anchor="middle">sandbox, files,</text>
+      <text x="0" y="163" class="lbl-sm" text-anchor="middle">memory and</text>
+      <text x="0" y="178" class="lbl-sm" text-anchor="middle">durable runs</text>
+      <rect x="-58" y="289" width="116" height="62" fill="#e8dfca" stroke="#1a1f2e" stroke-dasharray="4 3"/>
+      <text x="0" y="315" class="lbl-sm" text-anchor="middle">snapshot:</text>
+      <text x="0" y="331" class="lbl-sm" text-anchor="middle">not consensus yet</text>
+    </g>
+
+    <text x="40" y="390" class="lbl-sm">правило чтения: год важен только если меняется contract, control loop, topology или execution substrate</text>
+  </svg>
+  <figcaption><b>fig.6</b> · timeline отделяет устойчивые архитектурные сдвиги от продуктового шума; 2026 — проверенный snapshot на апрель, а не итог года</figcaption>
+  </figure>
+
+  <p style="font-size:14.5px;color:var(--ink-2)">2026 пока не закрытый год. Проверенный сигнал на апрель — не «новый тип агента», а усиление harness: sandbox, файловая среда, state и durable execution. Поэтому точка 2026 помечена как snapshot, а не как итог.</p>
+</section>
+
+<!-- ========== SECTION 11: WHAT TO ADD ========== -->
+<section>
+  <div class="sec-num">§ 11 — пробелы исходника</div>
   <h2>Чего ещё не было</h2>
 
   <h3>Фундаментальная граница: tools ≠ classical software</h3>
@@ -914,9 +1165,9 @@
   <p>В исходнике эмерджентность приведена скорее как философская категория. В практике агентных систем «сильная эмерджентность» обычно используется как <em>оправдание непредсказуемости</em>, что часто скрывает обычное отсутствие observability. Слабая эмерджентность реальна (поведение системы из нескольких агентов сложнее каждого по отдельности). Сильная — редко доказуема в инженерных системах.</p>
 </section>
 
-<!-- ========== SECTION 10: SUMMARY ========== -->
+<!-- ========== SECTION 12: SUMMARY ========== -->
 <section>
-  <div class="sec-num">§ 10 — итог</div>
+  <div class="sec-num">§ 12 — итог</div>
   <h2>Что осталось от исходника</h2>
   <p>Исходный документ остаётся хорошим первым проходом. Основное, что его ослабляло:</p>
   <ol style="padding-left:18px;line-height:1.7;font-size:15.5px">
@@ -927,7 +1178,9 @@
     <li>протоколы спрятаны в инфраструктуру — выделены в отдельный слой;</li>
     <li>tech stack как смесь — разнесён на 6 уровней;</li>
     <li>evaluation и observability были послесловием — теперь это рабочий цикл выбора архитектуры;</li>
-    <li>карта была стерильной по рискам — добавлена taxonomy failure modes.</li>
+    <li>карта была стерильной по рискам — добавлена taxonomy failure modes;</li>
+    <li>абстрактная карта не показывала реальные продукты — добавлены Cursor, Devin, Claude Code, Manus, deep research и AutoGPT;</li>
+    <li>историческая плоскость отсутствовала — добавлена timeline 2022–2026 с осторожным snapshot для 2026.</li>
   </ol>
 
   <p>Карта теперь имеет ровно ту форму, в которой её можно расширять без накопления дребезга: добавление нового фреймворка / паттерна / протокола ложится на конкретное измерение, без заявления о полной независимости остальных.</p>
@@ -935,8 +1188,19 @@
 
 <div class="foot">
   <b>Источники</b><br>
+  · Yao et al. (2022). ReAct: Synergizing Reasoning and Acting in Language Models.<br>
+  · OpenAI (2023-06). Function calling and other API updates.<br>
   · Anthropic (2024). Building Effective Agents — Schluntz &amp; Zhang.<br>
   · Anthropic (2025). Writing Tools for Agents.<br>
+  · Anthropic (2025-06). How we built our multi-agent research system.<br>
+  · OpenAI (2025-01). Computer-Using Agent.<br>
+  · OpenAI (2026-04). The next evolution of the Agents SDK.<br>
+  · Cursor Docs. Agent tools; Background Agents.<br>
+  · Devin Docs. Introducing Devin; Scheduled Sessions.<br>
+  · Anthropic Docs. Claude Code overview; Security; Settings.<br>
+  · Manus Docs. Browser Operator; Wide Research; Zapier integration.<br>
+  · OpenAI Help/API Docs. Deep research in ChatGPT; Deep research guide.<br>
+  · AutoGPT README and docs. Platform blocks; Agent blocks.<br>
   · Anthropic Cookbook · patterns/agents.<br>
   · Google Developers Blog (2025-04). Announcing the Agent2Agent Protocol.<br>
   · Linux Foundation (2025-06). A2A Project announcement.<br>

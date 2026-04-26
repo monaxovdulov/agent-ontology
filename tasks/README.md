@@ -12,8 +12,8 @@ This folder tracks improvements for the agent ontology/taxonomy document.
 
 - [x] [04 - Add failure modes](04-add-failure-modes.md)
 - [x] [05 - Add evaluation and observability](05-add-evaluation-observability.md)
-- [ ] [06 - Add 2022-2026 timeline](06-add-2022-2026-timeline.md)
-- [ ] [07 - Plot real systems on the map](07-plot-real-systems.md)
+- [x] [06 - Add 2022-2026 timeline](06-add-2022-2026-timeline.md)
+- [x] [07 - Plot real systems on the map](07-plot-real-systems.md)
 - [ ] [08 - Expand memory typology](08-expand-memory-typology.md)
 
 ## Wave 3: Make The Framing Honest
@@ -30,4 +30,4 @@ This folder tracks improvements for the agent ontology/taxonomy document.
 
 ## Source Critique Summary
 
-The original artifact overstated orthogonality and used some misleading visuals. Failure modes, evaluation, and observability are now covered; remaining gaps include HITL, economics, history, real systems, and a fuller memory model.
+The original artifact overstated orthogonality and used some misleading visuals. Failure modes, evaluation, observability, history, and real-system placement are now covered; remaining gaps include HITL, economics, and a fuller memory model.

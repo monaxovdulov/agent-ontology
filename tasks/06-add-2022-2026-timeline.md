@@ -1,5 +1,9 @@
 # 06 - Add 2022-2026 Timeline
 
+## Status
+
+Done.
+
 ## Priority
 
 Wave 2: close content gaps.
@@ -22,7 +26,14 @@ Add a timeline diagram showing the evolution of agent concepts from 2022 to 2026
 
 ## Acceptance Criteria
 
-- The document includes one timeline visual.
-- The timeline distinguishes conceptual shifts from product hype.
-- The 2026 entry is verified with fresh sources before publication.
+- [x] The document includes one timeline visual.
+- [x] The timeline distinguishes conceptual shifts from product hype.
+- [x] The 2026 entry is verified with fresh sources before publication.
 
+## Notes
+
+- Added `Timeline 2022–2026` to `agent-ontology.html` after `Evaluation & Observability` and before the source-gap section.
+- Used one SVG timeline in the existing figure style, with a durable-shift lane and a product/hype caution lane.
+- After integration with the real-systems section, the source-gap and summary sections now sit at §11/§12.
+- Verified the 2026 point against current primary sources and kept it cautious: harness hardening, sandbox/files/memory/durable execution, not a claimed new paradigm.
+- Source checks used: ReAct paper; OpenAI function calling announcement; Anthropic `Building effective agents`; Anthropic multi-agent research system write-up; OpenAI Computer-Using Agent; OpenAI Agents SDK 2026 update.
