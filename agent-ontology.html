@@ -1,0 +1,823 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Ландшафт AI-агентов — чистая онтология</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT,WONK@0,9..144,300..900,0..100,0..1;1,9..144,300..900,0..100,0..1&family=JetBrains+Mono:ital,wght@0,400..800;1,400..800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#f1ead9;
+    --paper-2:#e8dfca;
+    --paper-3:#dcd0b3;
+    --ink:#1a1f2e;
+    --ink-2:#3a4256;
+    --muted:#6b6256;
+    --accent:#b8410c;
+    --accent-2:#7a2810;
+    --rule:#1a1f2e;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0;background:var(--paper);color:var(--ink);}
+  body{
+    font-family:"Fraunces",Georgia,serif;
+    font-feature-settings:"ss01","ss02","onum";
+    font-variation-settings:"opsz" 32,"SOFT" 30,"WONK" 0;
+    font-size:17px;line-height:1.55;
+    background-image:
+      radial-gradient(circle at 0% 0%, rgba(184,65,12,.04) 0, transparent 40%),
+      radial-gradient(circle at 100% 100%, rgba(26,31,46,.05) 0, transparent 40%);
+  }
+  .grain{position:fixed;inset:0;pointer-events:none;opacity:.18;mix-blend-mode:multiply;z-index:1;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.1 0 0 0 0 0.12 0 0 0 0 0.18 0 0 0 .35 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+  }
+  .wrap{max-width:980px;margin:0 auto;padding:48px 28px 120px;position:relative;z-index:2;}
+  @media(max-width:640px){.wrap{padding:28px 18px 80px}}
+
+  /* Header */
+  .masthead{border-top:3px double var(--ink);border-bottom:3px double var(--ink);padding:18px 0;margin-bottom:36px;}
+  .stamp{font-family:"JetBrains Mono",monospace;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;}
+  h1{
+    font-family:"Fraunces",serif;font-variation-settings:"opsz" 144,"SOFT" 0,"WONK" 1;
+    font-weight:500;font-size:clamp(36px,7vw,72px);line-height:.95;
+    margin:18px 0 8px;letter-spacing:-.02em;
+  }
+  h1 em{font-style:italic;color:var(--accent);font-variation-settings:"opsz" 144,"SOFT" 100,"WONK" 1;}
+  .subtitle{font-family:"JetBrains Mono",monospace;font-size:13px;letter-spacing:.04em;color:var(--muted);text-transform:uppercase;margin-top:8px}
+
+  /* Sections */
+  section{margin:64px 0 0}
+  .sec-num{font-family:"JetBrains Mono",monospace;font-size:11px;letter-spacing:.2em;color:var(--accent);text-transform:uppercase;margin-bottom:6px}
+  h2{
+    font-family:"Fraunces",serif;font-variation-settings:"opsz" 96,"SOFT" 20,"WONK" 1;
+    font-weight:500;font-size:clamp(26px,4.4vw,38px);line-height:1.1;letter-spacing:-.015em;
+    margin:0 0 18px;border-bottom:1px solid var(--ink);padding-bottom:8px;
+  }
+  h3{
+    font-family:"Fraunces",serif;font-weight:600;font-variation-settings:"opsz" 32;
+    font-size:20px;margin:28px 0 8px;letter-spacing:-.01em;
+  }
+  p{margin:0 0 14px}
+  .lead{font-size:19px;line-height:1.55;color:var(--ink-2);font-style:italic;font-variation-settings:"opsz" 32,"SOFT" 60}
+  code,kbd,.mono{font-family:"JetBrains Mono",monospace;font-size:.88em;background:var(--paper-2);padding:1px 5px;border:1px solid var(--paper-3);border-radius:2px}
+
+  /* Drift list */
+  .drift{counter-reset:d;list-style:none;padding:0;margin:0}
+  .drift li{
+    counter-increment:d;
+    border-left:2px solid var(--accent);
+    padding:14px 0 14px 56px;margin:0 0 4px;
+    position:relative;
+  }
+  .drift li::before{
+    content:counter(d,decimal-leading-zero);
+    position:absolute;left:14px;top:14px;
+    font-family:"JetBrains Mono",monospace;font-size:13px;letter-spacing:.05em;
+    color:var(--accent);font-weight:600;
+  }
+  .drift b{font-weight:700;font-style:italic;color:var(--ink)}
+  .drift .fix{
+    display:block;margin-top:6px;
+    font-family:"JetBrains Mono",monospace;font-size:12px;
+    color:var(--ink-2);
+  }
+  .drift .fix::before{content:"→ ";color:var(--accent);font-weight:700}
+
+  /* Axis cards */
+  .axes{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px;margin:18px 0}
+  .axis{
+    background:var(--paper-2);
+    border:1px solid var(--ink);
+    padding:18px 18px 16px;
+    position:relative;
+  }
+  .axis::before{
+    content:attr(data-num);
+    position:absolute;top:-1px;right:-1px;
+    background:var(--ink);color:var(--paper);
+    font-family:"JetBrains Mono",monospace;font-size:11px;letter-spacing:.1em;
+    padding:4px 8px;
+  }
+  .axis h4{
+    font-family:"Fraunces",serif;font-weight:600;font-style:italic;
+    font-size:18px;margin:0 0 4px;letter-spacing:-.01em;
+  }
+  .axis .axis-q{font-family:"JetBrains Mono",monospace;font-size:11px;color:var(--accent);text-transform:uppercase;letter-spacing:.05em;margin-bottom:10px;display:block}
+  .axis ul{margin:0;padding:0 0 0 18px;font-size:14.5px;line-height:1.5}
+  .axis ul li{margin:2px 0}
+
+  /* Diagram blocks */
+  figure{margin:28px 0;padding:0}
+  figure svg{display:block;width:100%;height:auto;background:var(--paper-2);border:1px solid var(--ink)}
+  figcaption{
+    font-family:"JetBrains Mono",monospace;font-size:11px;color:var(--muted);
+    text-transform:uppercase;letter-spacing:.08em;margin-top:8px;
+  }
+  figcaption b{color:var(--ink)}
+
+  /* Pattern grid */
+  .patterns{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px;margin:18px 0}
+  .pat{border:1px solid var(--ink);background:var(--paper-2);padding:14px 16px}
+  .pat .ptag{font-family:"JetBrains Mono",monospace;font-size:10px;letter-spacing:.15em;color:var(--accent);text-transform:uppercase}
+  .pat h4{font-family:"Fraunces",serif;font-weight:600;font-size:17px;margin:4px 0 6px;font-style:italic}
+  .pat p{margin:0;font-size:14px;line-height:1.45;color:var(--ink-2)}
+
+  /* Stack table */
+  .stack{width:100%;border-collapse:collapse;margin:18px 0;font-size:14.5px}
+  .stack th,.stack td{border:1px solid var(--ink);padding:8px 10px;text-align:left;vertical-align:top}
+  .stack th{background:var(--ink);color:var(--paper);font-family:"JetBrains Mono",monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;font-weight:500}
+  .stack td:first-child{background:var(--paper-3);font-family:"JetBrains Mono",monospace;font-size:12px;letter-spacing:.04em;text-transform:uppercase;width:24%}
+  @media(max-width:560px){
+    .stack td:first-child{width:32%;font-size:11px}
+    .stack td,.stack th{padding:6px 7px;font-size:13px}
+  }
+
+  /* Footnote */
+  .foot{
+    margin-top:80px;padding-top:24px;border-top:1px solid var(--ink);
+    font-family:"JetBrains Mono",monospace;font-size:11px;letter-spacing:.04em;
+    color:var(--muted);line-height:1.7;
+  }
+  .foot b{color:var(--ink)}
+
+  /* SVG text styling */
+  svg .lbl{font-family:"JetBrains Mono",monospace;font-size:11px;fill:var(--ink)}
+  svg .lbl-sm{font-family:"JetBrains Mono",monospace;font-size:9.5px;fill:var(--ink-2)}
+  svg .lbl-acc{font-family:"JetBrains Mono",monospace;font-size:11px;fill:var(--accent);font-weight:600}
+  svg .ttl{font-family:"Fraunces",serif;font-style:italic;font-size:16px;font-weight:600;fill:var(--ink)}
+
+  blockquote{
+    border-left:3px solid var(--accent);
+    margin:18px 0;padding:6px 0 6px 18px;
+    font-style:italic;color:var(--ink-2);font-size:17px;
+  }
+
+</style>
+</head>
+<body>
+<div class="grain"></div>
+<div class="wrap">
+
+<header class="masthead">
+  <div class="stamp">
+    <span>Ревизия онтологии · v2.0</span>
+    <span>2026/04</span>
+  </div>
+  <h1>Ландшафт <em>AI-агентов</em><br>чистая онтология</h1>
+  <div class="subtitle">проверка на дребезг · семь ортогональных осей · пять канонических паттернов</div>
+</header>
+
+<p class="lead">Исходный материал — крепкий каркас, но в нём смешаны оси, перепутаны уровни абстракции и пропущена центральная ось консенсуса 2025 года. Ниже: что починено, что добавлено, и где была категориальная путаница.</p>
+
+<!-- ========== SECTION 1: DRIFT ========== -->
+<section>
+  <div class="sec-num">§ 01 — диагностика</div>
+  <h2>Онтологический дребезг</h2>
+  <p>Девять мест, где разные сущности были поданы как однородные.</p>
+
+  <ol class="drift">
+    <li><b>Топологии и механизмы координации смешаны в одну плоскость.</b> Разделы 2 и 3 поданы как «обычные» и «принципиально иные» парадигмы. На самом деле это две <em>ортогональные оси</em>: <code>топология связей</code> (граф) и <code>механизм координации</code> (как принимаются решения). Дерево с blackboard-координацией — валидная комбинация. Их нельзя ставить в один список.
+    <span class="fix">разделить на две независимые оси, показать их как сетку</span></li>
+
+    <li><b>Подмножества выданы как равноправные альтернативы.</b> Tree ⊂ DAG ⊂ общий граф. Pipeline — частный случай DAG. Pool+Dispatcher — частный случай звезды (DAG глубины 1). В исходнике они в одном плоском списке, как будто это разные типы.
+    <span class="fix">показать иерархию обобщения, а не плоский перечень</span></li>
+
+    <li><b>«Уровни 1–5» в разделе 1 — не уровни, а рекурсия.</b> Sub-agent сам имеет harness, в нём свои скиллы и саб-агенты. Это не лестница, а <em>рекурсивная композиция</em>. «Менеджер» и «сотрудник» — не структурные слои, а <em>роли</em>.
+    <span class="fix">отделить ось «композиция» от оси «роли»</span></li>
+
+    <li><b>Society of Mind стоит рядом с Blackboard и Auction.</b> Blackboard, Stigmergy, Auction — реальные инженерные паттерны координации. Society of Mind — теоретическая модель Минского, метафора. Категориальная путаница: сравнивать механизм с философской рамкой нельзя.
+    <span class="fix">вынести Society of Mind в «теоретические рамки»</span></li>
+
+    <li><b>Stigmergy и Swarm Intelligence перекрываются.</b> Стигмергия — это <em>один из механизмов</em>, через которые работает рой. Они не альтернативы; одно — частный случай другого.
+    <span class="fix">swarm — это семейство, stigmergy — конкретный механизм внутри</span></li>
+
+    <li><b>Тех-стек смешивает категории.</b> MCP — протокол. RAG — паттерн. FastAPI — общий веб-фреймворк, не агентный. Message queues — общая инфраструктура. LangChain (фреймворк) и Claude Code (платформа/IDE) на разных уровнях абстракции.
+    <span class="fix">разнести по слоям: модели / протоколы / паттерны / фреймворки / платформы / инфраструктура</span></li>
+
+    <li><b>Пропущена центральная ось консенсуса: Workflow vs Agent.</b> Anthropic в «Building Effective Agents» проводит ключевую границу: <em>workflow</em> = LLM работает в предопределённых код-путях, <em>agent</em> = LLM сама управляет потоком и выбором инструментов. Это градиент автономии. Без него вся таксономия теряет ось.
+    <span class="fix">добавить ось «степень автономии»</span></li>
+
+    <li><b>Пропущен «Augmented LLM» как базовый блок.</b> В исходнике «модель» — это просто функция токены→токены, а следующий уровень — harness. Между ними отсутствует канонический примитив: <em>модель + tools + retrieval + memory</em>. Это атом всех современных агентных систем.
+    <span class="fix">вставить augmented LLM между моделью и harness</span></li>
+
+    <li><b>Протокольный слой сжат до одной строки.</b> MCP упомянут в инфраструктуре, но это <em>отдельная ось</em>. Параллельно живут: A2A (Google, апр. 2025, передан Linux Foundation), LangChain Agent Protocol, AGNTCY. Это самостоятельный технологический слой, ортогональный фреймворкам.
+    <span class="fix">выделить протоколы в отдельный слой стека</span></li>
+  </ol>
+</section>
+
+<!-- ========== SECTION 2: AXES ========== -->
+<section>
+  <div class="sec-num">§ 02 — структура</div>
+  <h2>Семь ортогональных осей</h2>
+  <p>Любая агентная система — точка в семимерном пространстве. Описывать систему = указать координату по каждой оси. Если две системы отличаются только по одной оси — остальные оси действительно независимы.</p>
+
+  <div class="axes">
+    <div class="axis" data-num="A1">
+      <h4>Композиция</h4>
+      <span class="axis-q">из чего сделан агент</span>
+      <ul>
+        <li>LLM (модель)</li>
+        <li>Augmented LLM = модель + tools + retrieval + memory</li>
+        <li>Harness = augmented LLM + цикл управления + промпты + скиллы</li>
+        <li>Sub-agents (рекурсивно)</li>
+      </ul>
+    </div>
+    <div class="axis" data-num="A2">
+      <h4>Степень автономии</h4>
+      <span class="axis-q">кто управляет потоком</span>
+      <ul>
+        <li>Workflow — код управляет, LLM в фиксированных точках</li>
+        <li>Гибрид — LLM ветвит на узлах</li>
+        <li>Agent — LLM сама выбирает следующий шаг</li>
+      </ul>
+    </div>
+    <div class="axis" data-num="A3">
+      <h4>Топология связей</h4>
+      <span class="axis-q">граф взаимодействий</span>
+      <ul>
+        <li>Pipeline (линия)</li>
+        <li>Tree (иерархия)</li>
+        <li>DAG (общий ациклический граф)</li>
+        <li>Cyclic graph (с обратными петлями)</li>
+        <li>Mesh (peer-to-peer)</li>
+        <li>Star (диспетчер + воркеры)</li>
+      </ul>
+    </div>
+    <div class="axis" data-num="A4">
+      <h4>Механизм координации</h4>
+      <span class="axis-q">как принимаются решения</span>
+      <ul>
+        <li>Иерархическая команда (сверху вниз)</li>
+        <li>Blackboard (через общее состояние)</li>
+        <li>Стигмергия (следы в среде)</li>
+        <li>Аукцион / рынок (ставки за задачи)</li>
+        <li>Эмерджентный (локальные правила → swarm)</li>
+        <li>Конкурентный (победителя выбирают)</li>
+      </ul>
+    </div>
+    <div class="axis" data-num="A5">
+      <h4>Роли</h4>
+      <span class="axis-q">функция агента в системе</span>
+      <ul>
+        <li>Worker — исполнитель</li>
+        <li>Orchestrator — координатор</li>
+        <li>Router / Dispatcher — раздаёт</li>
+        <li>Critic / Evaluator — оценивает</li>
+        <li>Specialist / Generalist</li>
+      </ul>
+    </div>
+    <div class="axis" data-num="A6">
+      <h4>Технологический слой</h4>
+      <span class="axis-q">на чём построено</span>
+      <ul>
+        <li>Модели (LLM)</li>
+        <li>Протоколы (MCP, A2A, …)</li>
+        <li>Паттерны (RAG, ReAct, CoT, …)</li>
+        <li>Фреймворки (LangGraph, CrewAI, …)</li>
+        <li>Платформы (Claude Code, Cursor, …)</li>
+        <li>Инфраструктура</li>
+      </ul>
+    </div>
+    <div class="axis" data-num="A7">
+      <h4>Свойства / trade-offs</h4>
+      <span class="axis-q">что эмерджентно возникает</span>
+      <ul>
+        <li>Эмерджентность (слабая / сильная)</li>
+        <li>Latency vs точность</li>
+        <li>Стоимость токенов (mult.-agent ×10–15)</li>
+        <li>Observability vs автономия</li>
+        <li>Предсказуемость vs гибкость</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ========== DIAGRAM 1: AXES STAR ========== -->
+<figure>
+<svg viewBox="0 0 800 520" xmlns="http://www.w3.org/2000/svg">
+  <!-- bg subtle grid -->
+  <defs>
+    <pattern id="dots" width="20" height="20" patternUnits="userSpaceOnUse">
+      <circle cx="1" cy="1" r=".7" fill="#1a1f2e" opacity=".15"/>
+    </pattern>
+  </defs>
+  <rect width="800" height="520" fill="url(#dots)"/>
+
+  <!-- title -->
+  <text x="40" y="40" class="ttl">семь осей — ортогональные измерения системы</text>
+  <text x="40" y="60" class="lbl-sm">любая агентная система = точка в этом пространстве</text>
+
+  <!-- center -->
+  <g transform="translate(400,290)">
+    <!-- 7 axes radiating from center -->
+    <g stroke="#1a1f2e" stroke-width="1" fill="none">
+      <!-- A1 top -->
+      <line x1="0" y1="0" x2="0" y2="-180"/>
+      <!-- A2 top-right -->
+      <line x1="0" y1="0" x2="156" y2="-90"/>
+      <!-- A3 bottom-right -->
+      <line x1="0" y1="0" x2="156" y2="90"/>
+      <!-- A4 bottom -->
+      <line x1="0" y1="0" x2="0" y2="180"/>
+      <!-- A5 bottom-left -->
+      <line x1="0" y1="0" x2="-156" y2="90"/>
+      <!-- A6 top-left -->
+      <line x1="0" y1="0" x2="-156" y2="-90"/>
+      <!-- A7 right (extra, slight angle) -->
+      <line x1="0" y1="0" x2="200" y2="0" stroke-dasharray="3 3"/>
+    </g>
+
+    <!-- center node -->
+    <circle r="6" fill="#b8410c"/>
+    <text x="0" y="22" class="lbl-acc" text-anchor="middle">СИСТЕМА</text>
+
+    <!-- axis labels & ticks -->
+    <!-- A1 -->
+    <g>
+      <text x="0" y="-195" class="lbl" text-anchor="middle">A1 · композиция</text>
+      <text x="0" y="-180" class="lbl-sm" text-anchor="middle" dy="-2">↑</text>
+      <circle cx="0" cy="-60" r="3" fill="#1a1f2e"/><text x="8" y="-58" class="lbl-sm">model</text>
+      <circle cx="0" cy="-110" r="3" fill="#1a1f2e"/><text x="8" y="-108" class="lbl-sm">augmented LLM</text>
+      <circle cx="0" cy="-160" r="3" fill="#1a1f2e"/><text x="8" y="-158" class="lbl-sm">harness + sub-agents</text>
+    </g>
+    <!-- A2 -->
+    <g>
+      <text x="170" y="-95" class="lbl">A2 · автономия</text>
+      <text x="170" y="-80" class="lbl-sm">workflow → agent</text>
+    </g>
+    <!-- A3 -->
+    <g>
+      <text x="170" y="100" class="lbl">A3 · топология</text>
+      <text x="170" y="115" class="lbl-sm">pipeline ⊂ tree ⊂ DAG ⊂ graph</text>
+    </g>
+    <!-- A4 -->
+    <g>
+      <text x="0" y="200" class="lbl" text-anchor="middle">A4 · координация</text>
+      <text x="0" y="215" class="lbl-sm" text-anchor="middle">command · blackboard · auction · swarm</text>
+    </g>
+    <!-- A5 -->
+    <g>
+      <text x="-170" y="100" class="lbl" text-anchor="end">A5 · роли</text>
+      <text x="-170" y="115" class="lbl-sm" text-anchor="end">worker · orch · critic · router</text>
+    </g>
+    <!-- A6 -->
+    <g>
+      <text x="-170" y="-95" class="lbl" text-anchor="end">A6 · тех. слой</text>
+      <text x="-170" y="-80" class="lbl-sm" text-anchor="end">model · protocol · framework</text>
+    </g>
+    <!-- A7 -->
+    <g>
+      <text x="210" y="4" class="lbl-acc">A7 · свойства</text>
+      <text x="210" y="18" class="lbl-sm">latency · cost · emergence</text>
+    </g>
+  </g>
+
+  <!-- footnote -->
+  <text x="40" y="500" class="lbl-sm">пунктир — производная ось (свойства возникают, а не задаются)</text>
+</svg>
+<figcaption><b>fig.1</b> · ортогональность осей — система описывается координатой по каждой</figcaption>
+</figure>
+
+<!-- ========== SECTION 3: TOPOLOGY × COORDINATION ========== -->
+<section>
+  <div class="sec-num">§ 03 — главное наблюдение</div>
+  <h2>Топология ⊥ координация</h2>
+  <p>Самая частая ошибка — думать, что выбор «дерево или blackboard» — это один выбор. Нет. Это два независимых выбора.</p>
+
+  <figure>
+  <svg viewBox="0 0 800 520" xmlns="http://www.w3.org/2000/svg">
+    <text x="40" y="36" class="ttl">сетка топология × координация</text>
+    <text x="40" y="55" class="lbl-sm">любая клетка — реальная архитектура. примеры внутри.</text>
+
+    <!-- Grid -->
+    <g transform="translate(180,90)">
+      <!-- columns: coordination -->
+      <text x="0" y="-12" class="lbl" text-anchor="middle">command</text>
+      <text x="115" y="-12" class="lbl" text-anchor="middle">blackboard</text>
+      <text x="230" y="-12" class="lbl" text-anchor="middle">auction</text>
+      <text x="345" y="-12" class="lbl" text-anchor="middle">swarm</text>
+      <text x="460" y="-12" class="lbl" text-anchor="middle">competitive</text>
+      <text x="0" y="-28" class="lbl-sm" text-anchor="middle">↓ координация →</text>
+
+      <!-- rows: topology -->
+      <g font-family="JetBrains Mono" font-size="11" fill="#1a1f2e">
+        <text x="-12" y="20" text-anchor="end">tree</text>
+        <text x="-12" y="80" text-anchor="end">DAG</text>
+        <text x="-12" y="140" text-anchor="end">cyclic</text>
+        <text x="-12" y="200" text-anchor="end">mesh</text>
+        <text x="-12" y="260" text-anchor="end">pool</text>
+      </g>
+      <text x="-90" y="20" class="lbl-sm" transform="rotate(-90 -90 140)" text-anchor="middle">↑ топология</text>
+
+      <!-- cells 5 cols × 5 rows -->
+      <g stroke="#1a1f2e" stroke-width="1" fill="none">
+        <!-- vertical lines -->
+        <line x1="-58" y1="0" x2="-58" y2="290"/>
+        <line x1="57" y1="0" x2="57" y2="290"/>
+        <line x1="172" y1="0" x2="172" y2="290"/>
+        <line x1="287" y1="0" x2="287" y2="290"/>
+        <line x1="402" y1="0" x2="402" y2="290"/>
+        <line x1="517" y1="0" x2="517" y2="290"/>
+        <!-- horizontal lines -->
+        <line x1="-58" y1="0" x2="517" y2="0"/>
+        <line x1="-58" y1="58" x2="517" y2="58"/>
+        <line x1="-58" y1="116" x2="517" y2="116"/>
+        <line x1="-58" y1="174" x2="517" y2="174"/>
+        <line x1="-58" y1="232" x2="517" y2="232"/>
+        <line x1="-58" y1="290" x2="517" y2="290"/>
+      </g>
+
+      <!-- cell content (samples) -->
+      <g font-family="JetBrains Mono" font-size="9" fill="#3a4256">
+        <!-- row tree -->
+        <text x="0" y="32" text-anchor="middle">CrewAI</text>
+        <text x="0" y="44" text-anchor="middle">org chart</text>
+        <text x="115" y="32" text-anchor="middle">редко</text>
+        <text x="230" y="32" text-anchor="middle">редко</text>
+        <text x="345" y="32" text-anchor="middle">×</text>
+        <text x="460" y="32" text-anchor="middle">tournament</text>
+
+        <!-- row DAG -->
+        <text x="0" y="90" text-anchor="middle">LangGraph</text>
+        <text x="0" y="102" text-anchor="middle">orch-workers</text>
+        <text x="115" y="90" text-anchor="middle">HEARSAY-II</text>
+        <text x="115" y="102" text-anchor="middle">expert sys.</text>
+        <text x="230" y="90" text-anchor="middle">contract net</text>
+        <text x="345" y="90" text-anchor="middle">×</text>
+        <text x="460" y="90" text-anchor="middle">best-of-N</text>
+
+        <!-- row cyclic -->
+        <text x="0" y="148" text-anchor="middle">eval-optim.</text>
+        <text x="0" y="160" text-anchor="middle">reflexion</text>
+        <text x="115" y="148" text-anchor="middle">scratchpad</text>
+        <text x="115" y="160" text-anchor="middle">shared mem</text>
+        <text x="230" y="148" text-anchor="middle">re-bidding</text>
+        <text x="345" y="148" text-anchor="middle">feedback</text>
+        <text x="460" y="148" text-anchor="middle">debate</text>
+
+        <!-- row mesh -->
+        <text x="0" y="206" text-anchor="middle">×</text>
+        <text x="115" y="206" text-anchor="middle">A2A network</text>
+        <text x="115" y="218" text-anchor="middle">multi-agent</text>
+        <text x="230" y="206" text-anchor="middle">market sim</text>
+        <text x="345" y="206" text-anchor="middle">stigmergy</text>
+        <text x="345" y="218" text-anchor="middle">ant-colony</text>
+        <text x="460" y="206" text-anchor="middle">SoM</text>
+
+        <!-- row pool -->
+        <text x="0" y="264" text-anchor="middle">parallel</text>
+        <text x="0" y="276" text-anchor="middle">section.</text>
+        <text x="115" y="264" text-anchor="middle">задача-доска</text>
+        <text x="230" y="264" text-anchor="middle">аукцион</text>
+        <text x="230" y="276" text-anchor="middle">воркеров</text>
+        <text x="345" y="264" text-anchor="middle">×</text>
+        <text x="460" y="264" text-anchor="middle">voting</text>
+      </g>
+
+      <!-- highlight cell: workflow most common -->
+      <rect x="-58" y="58" width="115" height="58" fill="#b8410c" opacity=".12"/>
+      <rect x="-58" y="58" width="115" height="58" fill="none" stroke="#b8410c" stroke-width="1.5"/>
+    </g>
+
+    <text x="40" y="430" class="lbl-acc">⬛ оранжевая клетка — где живёт 80% production-систем сегодня</text>
+    <text x="40" y="448" class="lbl-sm">DAG + командная иерархия = orchestrator-workers (Anthropic паттерн).</text>
+    <text x="40" y="466" class="lbl-sm">«×» — комбинация бессмысленна (например, дерево + swarm: рой требует p2p).</text>
+    <text x="40" y="484" class="lbl-sm">SoM = Society of Mind как теоретическая модель, а не инженерный механизм.</text>
+  </svg>
+  <figcaption><b>fig.2</b> · 5×5 сетка показывает ортогональность — клеток валидных гораздо больше, чем «парадигм»</figcaption>
+  </figure>
+</section>
+
+<!-- ========== SECTION 4: COMPOSITION (RECURSIVE) ========== -->
+<section>
+  <div class="sec-num">§ 04 — композиция</div>
+  <h2>Рекурсия, а не лестница</h2>
+  <p>В исходнике пять «уровней» от модели до управленца. Это иллюзия лестницы. На деле — одна и та же конструкция, вложенная сама в себя. Sub-agent — это полноценный агент со своим harness и своими sub-agents. Глубина ничем не ограничена структурно — только практически.</p>
+
+  <figure>
+  <svg viewBox="0 0 800 480" xmlns="http://www.w3.org/2000/svg">
+    <text x="40" y="36" class="ttl">composition — рекурсивная вложенность</text>
+    <text x="40" y="55" class="lbl-sm">каждый «агент» — это и атом, и контейнер для агентов</text>
+
+    <!-- nested boxes -->
+    <g>
+      <!-- outermost: meta-orchestrator -->
+      <rect x="60" y="90" width="700" height="320" fill="none" stroke="#1a1f2e" stroke-width="2"/>
+      <text x="76" y="112" class="lbl-acc">МЕТА-ОРКЕСТРАТОР · agent N</text>
+      <text x="76" y="128" class="lbl-sm">harness + tools + sub-agents</text>
+
+      <!-- inner box: domain agent -->
+      <rect x="100" y="150" width="630" height="240" fill="#e8dfca" stroke="#1a1f2e" stroke-width="1.5"/>
+      <text x="116" y="172" class="lbl-acc">DOMAIN AGENT · agent N-1</text>
+      <text x="116" y="186" class="lbl-sm">harness + tools + sub-agents</text>
+
+      <!-- inner: harness -->
+      <rect x="140" y="210" width="550" height="160" fill="#dcd0b3" stroke="#1a1f2e" stroke-width="1.5"/>
+      <text x="156" y="232" class="lbl-acc">HARNESS</text>
+      <text x="156" y="246" class="lbl-sm">control loop + skills + prompts</text>
+
+      <!-- inner: augmented LLM -->
+      <rect x="180" y="270" width="470" height="80" fill="#f1ead9" stroke="#1a1f2e" stroke-width="1.5"/>
+      <text x="196" y="292" class="lbl-acc">AUGMENTED LLM</text>
+      <text x="196" y="306" class="lbl-sm">model + tools + retrieval + memory</text>
+
+      <!-- inner: model atom -->
+      <rect x="220" y="320" width="160" height="22" fill="#b8410c"/>
+      <text x="300" y="335" class="lbl" text-anchor="middle" fill="#f1ead9">MODEL · LLM</text>
+
+      <!-- side annotations -->
+      <g>
+        <line x1="650" y1="290" x2="710" y2="290" stroke="#1a1f2e" stroke-width="1"/>
+        <text x="715" y="285" class="lbl-sm">tool i</text>
+        <line x1="650" y1="310" x2="710" y2="310" stroke="#1a1f2e" stroke-width="1"/>
+        <text x="715" y="305" class="lbl-sm">RAG</text>
+        <line x1="650" y1="330" x2="710" y2="330" stroke="#1a1f2e" stroke-width="1"/>
+        <text x="715" y="325" class="lbl-sm">memory</text>
+      </g>
+
+      <!-- recursion indicator -->
+      <g transform="translate(40,95)">
+        <text x="0" y="0" class="lbl-sm">↻</text>
+        <text x="-6" y="14" class="lbl-sm" transform="rotate(-90 0 0)" text-anchor="end">рекурсия</text>
+      </g>
+    </g>
+
+    <text x="40" y="445" class="lbl-sm">«менеджер» / «сотрудник» — <tspan font-weight="600">роли</tspan>, а не уровни. Та же конструкция, просто на верхнем слое инструменты — это другие агенты.</text>
+    <text x="40" y="463" class="lbl-sm">практический предел — 3-4 уровня вложенности (latency, потери при передаче, observability).</text>
+  </svg>
+  <figcaption><b>fig.3</b> · композиция как матрёшка, а не как лестница</figcaption>
+  </figure>
+</section>
+
+<!-- ========== SECTION 5: ANTHROPIC PATTERNS ========== -->
+<section>
+  <div class="sec-num">§ 05 — пропуск исходника</div>
+  <h2>Пять канонических паттернов</h2>
+  <p>Это центральная вещь, которой не было в исходном тексте. Anthropic в «Building Effective Agents» (Schluntz &amp; Zhang) ввели стандартный словарь, который теперь повторяют все основные фреймворки (Spring AI, LangGraph, OpenAI и т.д.). Это <em>workflow-паттерны</em> — детерминированные обвязки вокруг LLM. Полноценный «agent» — это уже шестое, отдельное.</p>
+
+  <div class="patterns">
+    <div class="pat">
+      <span class="ptag">P0 · базовый блок</span>
+      <h4>Augmented LLM</h4>
+      <p>Модель + инструменты + retrieval + память. Атом всех остальных конструкций. Не паттерн, а примитив.</p>
+    </div>
+    <div class="pat">
+      <span class="ptag">P1 · последовательно</span>
+      <h4>Prompt Chaining</h4>
+      <p>Декомпозиция задачи на шаги. Каждый шаг — отдельный вызов LLM. Между ними — программные проверки (gates). Точность ↑, latency ↑.</p>
+    </div>
+    <div class="pat">
+      <span class="ptag">P2 · ветвление</span>
+      <h4>Routing</h4>
+      <p>Классификатор → специализированные обработчики. Нужен, когда категории входа различимы и каждой нужен свой подход.</p>
+    </div>
+    <div class="pat">
+      <span class="ptag">P3 · параллельно</span>
+      <h4>Parallelization</h4>
+      <p>Sectioning (разные части задачи параллельно) или Voting (несколько независимых попыток с агрегацией).</p>
+    </div>
+    <div class="pat">
+      <span class="ptag">P4 · динамическая декомпозиция</span>
+      <h4>Orchestrator-Workers</h4>
+      <p>Центральная LLM сама определяет подзадачи, делегирует воркерам, синтезирует результат. Применяется, когда декомпозицию нельзя предсказать.</p>
+    </div>
+    <div class="pat">
+      <span class="ptag">P5 · цикл с критиком</span>
+      <h4>Evaluator-Optimizer</h4>
+      <p>Генератор ↔ критик. Критик даёт фидбэк, генератор переписывает. Итерация до сходимости. Полезно, когда критерии чёткие.</p>
+    </div>
+    <div class="pat" style="border-color:#b8410c;background:#f1ead9">
+      <span class="ptag" style="color:#b8410c">A · полная автономия</span>
+      <h4>Autonomous Agent</h4>
+      <p>LLM сама управляет циклом, инструментами, остановкой. Никакого предопределённого графа. Дороже, менее предсказуемо. Правильно — только когда задача того требует.</p>
+    </div>
+  </div>
+
+  <figure>
+  <svg viewBox="0 0 800 360" xmlns="http://www.w3.org/2000/svg">
+    <text x="40" y="36" class="ttl">paтterns — миниатюры</text>
+
+    <!-- P1 chaining -->
+    <g transform="translate(60,80)">
+      <text x="0" y="0" class="lbl-acc">P1 · chaining</text>
+      <rect x="0" y="14" width="40" height="26" fill="#dcd0b3" stroke="#1a1f2e"/>
+      <text x="20" y="31" class="lbl-sm" text-anchor="middle">L1</text>
+      <line x1="40" y1="27" x2="60" y2="27" stroke="#1a1f2e" marker-end="url(#a)"/>
+      <rect x="60" y="14" width="40" height="26" fill="#dcd0b3" stroke="#1a1f2e"/>
+      <text x="80" y="31" class="lbl-sm" text-anchor="middle">L2</text>
+      <line x1="100" y1="27" x2="120" y2="27" stroke="#1a1f2e" marker-end="url(#a)"/>
+      <rect x="120" y="14" width="40" height="26" fill="#dcd0b3" stroke="#1a1f2e"/>
+      <text x="140" y="31" class="lbl-sm" text-anchor="middle">L3</text>
+    </g>
+
+    <!-- P2 routing -->
+    <g transform="translate(280,80)">
+      <text x="0" y="0" class="lbl-acc">P2 · routing</text>
+      <rect x="0" y="20" width="40" height="26" fill="#b8410c" stroke="#1a1f2e"/>
+      <text x="20" y="37" class="lbl-sm" text-anchor="middle" fill="#f1ead9">R</text>
+      <line x1="40" y1="33" x2="80" y2="14" stroke="#1a1f2e" marker-end="url(#a)"/>
+      <line x1="40" y1="33" x2="80" y2="33" stroke="#1a1f2e" marker-end="url(#a)"/>
+      <line x1="40" y1="33" x2="80" y2="52" stroke="#1a1f2e" marker-end="url(#a)"/>
+      <rect x="80" y="0" width="40" height="22" fill="#dcd0b3" stroke="#1a1f2e"/>
+      <text x="100" y="15" class="lbl-sm" text-anchor="middle">A</text>
+      <rect x="80" y="22" width="40" height="22" fill="#dcd0b3" stroke="#1a1f2e"/>
+      <text x="100" y="37" class="lbl-sm" text-anchor="middle">B</text>
+      <rect x="80" y="44" width="40" height="22" fill="#dcd0b3" stroke="#1a1f2e"/>
+      <text x="100" y="59" class="lbl-sm" text-anchor="middle">C</text>
+    </g>
+
+    <!-- P3 parallel -->
+    <g transform="translate(500,80)">
+      <text x="0" y="0" class="lbl-acc">P3 · parallel</text>
+      <rect x="0" y="20" width="40" height="26" fill="#dcd0b3" stroke="#1a1f2e"/>
+      <text x="20" y="37" class="lbl-sm" text-anchor="middle">in</text>
+      <line x1="40" y1="33" x2="80" y2="14" stroke="#1a1f2e" marker-end="url(#a)"/>
+      <line x1="40" y1="33" x2="80" y2="33" stroke="#1a1f2e" marker-end="url(#a)"/>
+      <line x1="40" y1="33" x2="80" y2="52" stroke="#1a1f2e" marker-end="url(#a)"/>
+      <rect x="80" y="0" width="36" height="20" fill="#dcd0b3" stroke="#1a1f2e"/>
+      <rect x="80" y="22" width="36" height="20" fill="#dcd0b3" stroke="#1a1f2e"/>
+      <rect x="80" y="44" width="36" height="20" fill="#dcd0b3" stroke="#1a1f2e"/>
+      <line x1="116" y1="10" x2="156" y2="33" stroke="#1a1f2e" marker-end="url(#a)"/>
+      <line x1="116" y1="33" x2="156" y2="33" stroke="#1a1f2e" marker-end="url(#a)"/>
+      <line x1="116" y1="54" x2="156" y2="33" stroke="#1a1f2e" marker-end="url(#a)"/>
+      <rect x="156" y="20" width="40" height="26" fill="#b8410c" stroke="#1a1f2e"/>
+      <text x="176" y="37" class="lbl-sm" text-anchor="middle" fill="#f1ead9">∑</text>
+    </g>
+
+    <!-- P4 orchestrator-workers -->
+    <g transform="translate(60,210)">
+      <text x="0" y="0" class="lbl-acc">P4 · orchestrator-workers</text>
+      <rect x="60" y="14" width="50" height="26" fill="#b8410c" stroke="#1a1f2e"/>
+      <text x="85" y="31" class="lbl-sm" text-anchor="middle" fill="#f1ead9">orch</text>
+      <line x1="85" y1="40" x2="30" y2="60" stroke="#1a1f2e" marker-end="url(#a)"/>
+      <line x1="85" y1="40" x2="85" y2="60" stroke="#1a1f2e" marker-end="url(#a)"/>
+      <line x1="85" y1="40" x2="140" y2="60" stroke="#1a1f2e" marker-end="url(#a)"/>
+      <rect x="10" y="62" width="40" height="22" fill="#dcd0b3" stroke="#1a1f2e"/>
+      <text x="30" y="77" class="lbl-sm" text-anchor="middle">w</text>
+      <rect x="65" y="62" width="40" height="22" fill="#dcd0b3" stroke="#1a1f2e"/>
+      <text x="85" y="77" class="lbl-sm" text-anchor="middle">w</text>
+      <rect x="120" y="62" width="40" height="22" fill="#dcd0b3" stroke="#1a1f2e"/>
+      <text x="140" y="77" class="lbl-sm" text-anchor="middle">w</text>
+      <line x1="30" y1="84" x2="80" y2="100" stroke="#1a1f2e" stroke-dasharray="2 2"/>
+      <line x1="85" y1="84" x2="85" y2="100" stroke="#1a1f2e" stroke-dasharray="2 2"/>
+      <line x1="140" y1="84" x2="90" y2="100" stroke="#1a1f2e" stroke-dasharray="2 2"/>
+      <text x="85" y="113" class="lbl-sm" text-anchor="middle">↑ синтез</text>
+    </g>
+
+    <!-- P5 eval-optimizer -->
+    <g transform="translate(280,210)">
+      <text x="0" y="0" class="lbl-acc">P5 · evaluator-optimizer</text>
+      <rect x="0" y="20" width="50" height="26" fill="#dcd0b3" stroke="#1a1f2e"/>
+      <text x="25" y="37" class="lbl-sm" text-anchor="middle">gen</text>
+      <rect x="100" y="20" width="50" height="26" fill="#b8410c" stroke="#1a1f2e"/>
+      <text x="125" y="37" class="lbl-sm" text-anchor="middle" fill="#f1ead9">eval</text>
+      <path d="M 50 27 L 100 27" stroke="#1a1f2e" fill="none" marker-end="url(#a)"/>
+      <path d="M 100 39 Q 75 70 50 39" stroke="#1a1f2e" fill="none" marker-end="url(#a)"/>
+      <text x="75" y="80" class="lbl-sm" text-anchor="middle">↻ feedback loop</text>
+    </g>
+
+    <!-- A autonomous -->
+    <g transform="translate(500,210)">
+      <text x="0" y="0" class="lbl-acc" fill="#b8410c">A · autonomous</text>
+      <circle cx="60" cy="40" r="30" fill="#b8410c" opacity=".15" stroke="#b8410c" stroke-width="1.5" stroke-dasharray="4 3"/>
+      <rect x="40" y="28" width="40" height="26" fill="#b8410c" stroke="#1a1f2e"/>
+      <text x="60" y="45" class="lbl-sm" text-anchor="middle" fill="#f1ead9">LLM</text>
+      <text x="60" y="90" class="lbl-sm" text-anchor="middle">сама ведёт цикл</text>
+      <text x="60" y="105" class="lbl-sm" text-anchor="middle">tools / stop / next</text>
+    </g>
+
+    <defs>
+      <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto">
+        <path d="M 0 0 L 10 5 L 0 10 z" fill="#1a1f2e"/>
+      </marker>
+    </defs>
+  </svg>
+  <figcaption><b>fig.4</b> · паттерны Anthropic — детерминированные workflow-обвязки + автономный agent отдельно</figcaption>
+  </figure>
+
+  <blockquote>«Start with simple prompts, optimize them with comprehensive evaluation, and add multi-step agentic systems only when simpler solutions fall short.» — Anthropic, 2024</blockquote>
+
+  <p style="font-size:14.5px;color:var(--ink-2)">Multi-agent системы потребляют примерно <b>в 10–15 раз больше токенов</b>, чем single-agent. Это не недостаток дизайна — это цена параллелизма и контекста. Поэтому в рекомендациях явно: «не усложнять без demonstrable improvement».</p>
+</section>
+
+<!-- ========== SECTION 6: TECH STACK CLEAN ========== -->
+<section>
+  <div class="sec-num">§ 06 — тех. слой</div>
+  <h2>Стек, разнесённый по уровням</h2>
+  <p>Каждый уровень — самостоятельный, со своей рыночной динамикой. В исходнике они были перемешаны.</p>
+
+  <table class="stack">
+    <thead>
+      <tr><th>Слой</th><th>Что это</th><th>Примеры (2025–26)</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Модели</td><td>Базовые LLM, поверх которых всё строится</td><td>Claude Opus/Sonnet/Haiku, GPT, Gemini, Llama, DeepSeek</td></tr>
+      <tr><td>Протоколы</td><td>Стандартные интерфейсы между компонентами. Ортогональный слой.</td><td><b>MCP</b> (model↔tools, де-факто стандарт), <b>A2A</b> (agent↔agent, Linux Foundation), LangChain Agent Protocol, AGNTCY</td></tr>
+      <tr><td>Паттерны</td><td>Архитектурные шаблоны, не привязанные к фреймворку</td><td>RAG, ReAct, CoT, Reflexion, Plan-and-Execute, Tree-of-Thoughts, 5 паттернов Anthropic</td></tr>
+      <tr><td>Фреймворки</td><td>Библиотеки для сборки агентов</td><td>LangChain, LangGraph, CrewAI, AutoGen, OpenAI Agents SDK, Pydantic AI, Spring AI</td></tr>
+      <tr><td>Платформы</td><td>Готовые харнессы / IDE / облако</td><td>Claude Code, Cursor, Codex, Vertex AI, Bedrock</td></tr>
+      <tr><td>Инфраструктура</td><td>Общая, не агенто-специфичная</td><td>Vector DBs (Pinecone, Weaviate), очереди (Kafka), API-обёртки (FastAPI), observability (Langfuse, Helicone)</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Протокольный слой — отдельная история</h3>
+  <p>В апреле 2025 Google выпустил <b>A2A</b> и передал его в Linux Foundation. По задумке — комплементарен MCP: MCP стандартизует «модель ↔ инструменты», A2A — «агент ↔ агент». На практике к концу 2025 MCP стал доминирующим стандартом, A2A заметно отстал в community-adoption (хотя жив в enterprise). Уроки: <em>protocol wars выигрывают developer experience и грассрутс, а не корпоративная архитектура</em>.</p>
+
+  <figure>
+  <svg viewBox="0 0 800 240" xmlns="http://www.w3.org/2000/svg">
+    <text x="40" y="32" class="ttl">MCP vs A2A — что они стандартизуют</text>
+
+    <!-- left: MCP -->
+    <g transform="translate(80,70)">
+      <rect x="0" y="0" width="120" height="40" fill="#dcd0b3" stroke="#1a1f2e"/>
+      <text x="60" y="24" class="lbl" text-anchor="middle">agent / model</text>
+      <line x1="60" y1="40" x2="60" y2="80" stroke="#b8410c" stroke-width="2" marker-end="url(#a2)"/>
+      <text x="68" y="62" class="lbl-acc">MCP</text>
+      <rect x="0" y="80" width="120" height="40" fill="#dcd0b3" stroke="#1a1f2e"/>
+      <text x="60" y="104" class="lbl" text-anchor="middle">tools / data</text>
+    </g>
+
+    <!-- right: A2A -->
+    <g transform="translate(540,70)">
+      <rect x="-80" y="0" width="100" height="40" fill="#dcd0b3" stroke="#1a1f2e"/>
+      <text x="-30" y="24" class="lbl" text-anchor="middle">agent A</text>
+      <rect x="80" y="0" width="100" height="40" fill="#dcd0b3" stroke="#1a1f2e"/>
+      <text x="130" y="24" class="lbl" text-anchor="middle">agent B</text>
+      <line x1="20" y1="20" x2="80" y2="20" stroke="#b8410c" stroke-width="2" marker-end="url(#a2)" marker-start="url(#a2start)"/>
+      <text x="50" y="14" class="lbl-acc" text-anchor="middle">A2A</text>
+      <text x="50" y="60" class="lbl-sm" text-anchor="middle">JSON-RPC / HTTP / SSE</text>
+    </g>
+
+    <!-- bottom legend -->
+    <text x="80" y="180" class="lbl-sm">MCP: «USB-C для AI» — единый разъём модели в инструменты.</text>
+    <text x="80" y="196" class="lbl-sm">A2A: «сетевой слой» — агенты разных вендоров общаются между собой.</text>
+    <text x="80" y="212" class="lbl-acc">2026: MCP = де-факто. A2A = жив, но enterprise-нишевый.</text>
+
+    <defs>
+      <marker id="a2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+        <path d="M 0 0 L 10 5 L 0 10 z" fill="#b8410c"/>
+      </marker>
+      <marker id="a2start" viewBox="0 0 10 10" refX="1" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+        <path d="M 10 0 L 0 5 L 10 10 z" fill="#b8410c"/>
+      </marker>
+    </defs>
+  </svg>
+  <figcaption><b>fig.5</b> · два протокола занимают разные ниши, но MCP победил в реальном использовании</figcaption>
+  </figure>
+</section>
+
+<!-- ========== SECTION 7: WHAT TO ADD ========== -->
+<section>
+  <div class="sec-num">§ 07 — пробелы исходника</div>
+  <h2>Чего ещё не было</h2>
+
+  <h3>Фундаментальная граница: tools ≠ classical software</h3>
+  <p>Anthropic в 2025 (Writing Tools for Agents) формализовали важное: классический софт — это контракт между двумя <em>детерминированными</em> системами (<code>getWeather("NYC")</code> всегда работает одинаково). Tools для агентов — это <em>контракт между детерминированной системой и недетерминированным агентом</em>. Это меняет требования: tool должен быть «скиллом», а не сырой обёрткой над API. Не <code>list_contacts</code>, а <code>search_contacts</code>.</p>
+
+  <h3>Оси автономии и предсказуемости — антикоррелированы</h3>
+  <p>Чем больше автономии у агента, тем менее предсказуема система. Это не баг, а фундаментальный trade-off. Production-системы обычно начинают с workflow и поднимают автономию <em>только</em> там, где это measurably улучшает результат.</p>
+
+  <h3>Memory — отдельная подсистема</h3>
+  <p>В исходнике память упомянута как «RAG → векторные БД». Реально память расщепляется на: <em>working memory</em> (контекст текущего диалога), <em>episodic</em> (что было в прошлых сессиях), <em>semantic</em> (общие знания / RAG), <em>procedural</em> (как делать вещи / скиллы). Это четыре разных хранилища с разной семантикой.</p>
+
+  <h3>Альтернативные парадигмы координации — больше реальных, меньше мистических</h3>
+  <p>Из перечисленных в исходнике, в production-системах AI-агентов реально используются: <b>иерархическая команда</b> (повсеместно), <b>blackboard</b> (через shared scratchpad / shared state в LangGraph), <b>аукцион</b> (изредка, для аллокации). Stigmergy и swarm — академически интересно, но в LLM-стеке почти не встречаются. Society of Mind — теоретическая рамка, не паттерн.</p>
+
+  <h3>Эмерджентность — да, но с оговоркой</h3>
+  <p>В исходнике эмерджентность приведена скорее как философская категория. В практике агентных систем «сильная эмерджентность» обычно используется как <em>оправдание непредсказуемости</em>, что часто скрывает обычное отсутствие observability. Слабая эмерджентность реальна (поведение системы из нескольких агентов сложнее каждого по отдельности). Сильная — редко доказуема в инженерных системах.</p>
+</section>
+
+<!-- ========== SECTION 8: SUMMARY ========== -->
+<section>
+  <div class="sec-num">§ 08 — итог</div>
+  <h2>Что осталось от исходника</h2>
+  <p>Исходный документ остаётся хорошим первым проходом. Основное, что его ослабляло:</p>
+  <ol style="padding-left:18px;line-height:1.7;font-size:15.5px">
+    <li>смешение оси «топология» и оси «координация» — теперь разделены;</li>
+    <li>«5 уровней» как лестница — теперь рекурсивная композиция;</li>
+    <li>отсутствие границы «workflow vs agent» — добавлена как ось A2;</li>
+    <li>отсутствие 5 канонических паттернов — добавлены;</li>
+    <li>протоколы спрятаны в инфраструктуру — выделены в отдельный слой;</li>
+    <li>tech stack как смесь — разнесён на 6 уровней.</li>
+  </ol>
+
+  <p>Карта теперь имеет ровно ту форму, в которой её можно расширять без накопления дребезга: добавление нового фреймворка / паттерна / протокола ложится на конкретную ось, не нарушая остальные.</p>
+</section>
+
+<div class="foot">
+  <b>Источники</b><br>
+  · Anthropic (2024). Building Effective Agents — Schluntz &amp; Zhang.<br>
+  · Anthropic (2025). Writing Tools for Agents.<br>
+  · Anthropic Cookbook · patterns/agents.<br>
+  · Google Developers Blog (2025-04). Announcing the Agent2Agent Protocol.<br>
+  · Linux Foundation (2025-06). A2A Project announcement.<br>
+  · Spring AI Reference. Building Effective Agents (импл. паттернов).<br>
+  · Минский М. (1986). Society of Mind.<br><br>
+  <b>Версия:</b> 2.0 · апрель 2026 · подлежит дальнейшему уточнению.
+</div>
+
+</div>
+</body>
+</html>
