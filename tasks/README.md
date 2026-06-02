@@ -24,10 +24,10 @@ This folder tracks improvements for the agent ontology/taxonomy document.
 
 ## Wave 4: Research Backfill
 
-- [ ] [12 - Research criticism of five-pattern framing](12-research-five-pattern-criticism.md)
-- [ ] [13 - Backfill classic MAS literature](13-backfill-classic-mas-literature.md)
-- [ ] [14 - Refresh with 2026 developments](14-refresh-2026-developments.md)
+- [x] [12 - Research criticism of five-pattern framing](12-research-five-pattern-criticism.md)
+- [x] [13 - Backfill classic MAS literature](13-backfill-classic-mas-literature.md)
+- [x] [14 - Refresh with 2026 developments](14-refresh-2026-developments.md)
 
 ## Source Critique Summary
 
-The original artifact overstated orthogonality and used some misleading visuals. Waves 1-3 are covered: framing, content gaps, anti-patterns, and decision support. Remaining larger gaps are research backfill and any future HITL/economics expansion.
+The original artifact overstated orthogonality and used some misleading visuals. Waves 1-4 are covered in `index.html`: framing, content gaps, anti-patterns, decision support, five-pattern qualification, classic MAS backfill, and the cautious 2026 refresh. Future work, if any, should focus on HITL/economics expansion or a separate content-format refactor.

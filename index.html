@@ -15,14 +15,14 @@
 
 <header class="masthead">
   <div class="stamp">
-    <span>Ревизия таксономии · v2.0</span>
-    <span>2026/04</span>
+    <span>Ревизия таксономии · v2.1</span>
+    <span>2026/06</span>
   </div>
   <h1>Ландшафт <em>AI-агентов</em><br>практическая таксономия</h1>
-  <div class="subtitle">проверка на дребезг · семь частично независимых измерений · пять канонических паттернов</div>
+  <div class="subtitle">проверка на дребезг · семь частично независимых измерений · минимальная достаточная автономия</div>
 </header>
 
-<p class="lead">Это не formal ontology в строгом смысле: здесь нет is-a / part-of / depends-on аксиом и inference rules. Документ работает как практическая таксономия и карта измерений для проверки согласованности агентных архитектур: что починено, что добавлено, и где была категориальная путаница.</p>
+<p class="lead">Это не formal ontology в строгом смысле: здесь нет is-a / part-of / depends-on аксиом и inference rules. Документ работает как практическая таксономия и карта измерений для инженерного выбора: какую степень автономии дать системе, какую топологию и координацию выбрать, где нужны evals, memory, HITL и протоколы, а где всё это только добавляет cost и неопределённость.</p>
 
 <!-- ========== SECTION 1: DRIFT ========== -->
 <section>
@@ -532,11 +532,13 @@
   </figure>
 </section>
 
-<!-- ========== SECTION 6: ANTHROPIC PATTERNS ========== -->
+<!-- ========== SECTION 6: WORKFLOW PATTERNS ========== -->
 <section>
   <div class="sec-num">§ 06 — пропуск исходника</div>
-  <h2>Пять канонических паттернов</h2>
-  <p>Это центральная вещь, которой не было в исходном тексте. Anthropic в «Building Effective Agents» (Schluntz &amp; Zhang) ввели стандартный словарь, который теперь повторяют все основные фреймворки (Spring AI, LangGraph, OpenAI и т.д.). Это <em>workflow-паттерны</em> — детерминированные обвязки вокруг LLM. Полноценный «agent» — это уже шестое, отдельное.</p>
+  <h2>Пять workflow-паттернов и два края карты</h2>
+  <p>Anthropic в «Building Effective Agents» (Schluntz &amp; Zhang) дали полезный словарь, но его нельзя читать как полную теорию всех agent architectures. Строго внутри этой рамки есть <b>пять workflow-паттернов</b>: prompt chaining, routing, parallelization, orchestrator-workers и evaluator-optimizer. <b>Augmented LLM</b> — базовый строительный блок, а <b>autonomous agent</b> — другой край оси A2, где LLM сама ведёт цикл.</p>
+
+  <p>Другие фреймворки режут пространство иначе: OpenAI Agents SDK подчёркивает agents / handoffs / tracing, LangGraph описывает агентов как узлы графа и supervisor/handoff-переходы, Microsoft Agent Framework отдельно называет group chat, handoff и другие orchestration patterns. Это не противоречие, а напоминание: пять паттернов Anthropic — хороший начальный словарь для workflow, но не консенсусная онтология.</p>
 
   <div class="patterns">
     <div class="pat">
@@ -675,12 +677,12 @@
       </marker>
     </defs>
   </svg>
-  <figcaption><b>fig.4</b> · паттерны Anthropic — детерминированные workflow-обвязки + автономный agent отдельно</figcaption>
+  <figcaption><b>fig.4</b> · Anthropic names five workflow patterns; augmented LLM and autonomous agent sit outside that count</figcaption>
   </figure>
 
   <blockquote>«Start with simple prompts, optimize them with comprehensive evaluation, and add multi-step agentic systems only when simpler solutions fall short.» — Anthropic, 2024</blockquote>
 
-  <p class="note">Multi-agent системы потребляют примерно <b>в 10–15 раз больше токенов</b>, чем single-agent. Это не недостаток дизайна — это цена параллелизма и контекста. Поэтому в рекомендациях явно: «не усложнять без demonstrable improvement».</p>
+  <p class="note">Multi-agent системы могут кратно увеличить token spend: в описании своего research-system Anthropic приводит примерно 15× относительно обычного chat. Это не универсальная константа и не автоматическое зло; это цена параллелизма, отдельных context windows и coordination overhead. Поэтому правило остаётся прежним: усложнять только при demonstrable improvement на eval.</p>
 </section>
 
 <!-- ========== SECTION 7: TECH STACK CLEAN ========== -->
@@ -696,7 +698,7 @@
     <tbody>
       <tr><td>Модели</td><td>Базовые LLM, поверх которых всё строится</td><td>Claude Opus/Sonnet/Haiku, GPT, Gemini, Llama, DeepSeek</td></tr>
       <tr><td>Протоколы</td><td>Стандартные интерфейсы между компонентами. Сквозной слой, частично независимый от фреймворков.</td><td><b>MCP</b> (model↔tools, де-факто стандарт), <b>A2A</b> (agent↔agent, Linux Foundation; enterprise-нишевый), LangChain Agent Protocol, AGNTCY</td></tr>
-      <tr><td>Паттерны</td><td>Архитектурные шаблоны, не привязанные к фреймворку</td><td>RAG, ReAct, CoT, Reflexion, Plan-and-Execute, Tree-of-Thoughts, 5 паттернов Anthropic</td></tr>
+      <tr><td>Паттерны</td><td>Архитектурные шаблоны, не привязанные к фреймворку</td><td>RAG, ReAct, CoT, Reflexion, Plan-and-Execute, Tree-of-Thoughts, workflow-паттерны Anthropic</td></tr>
       <tr><td>Фреймворки</td><td>Библиотеки для сборки агентов</td><td>LangChain, LangGraph, CrewAI, AutoGen, OpenAI Agents SDK, Pydantic AI, Spring AI</td></tr>
       <tr><td>Платформы</td><td>Готовые харнессы / IDE / облако</td><td>Claude Code, Cursor, Codex, Vertex AI, Bedrock</td></tr>
       <tr><td>Инфраструктура</td><td>Общая, не агенто-специфичная</td><td>Vector DBs (Pinecone, Weaviate), очереди (Kafka), API-обёртки (FastAPI), observability (Langfuse, Helicone)</td></tr>
@@ -704,7 +706,7 @@
   </table>
 
   <h3>Протокольный слой — отдельная история</h3>
-  <p>В апреле 2025 Google выпустил <b>A2A</b> и передал его в Linux Foundation. По задумке — комплементарен MCP: MCP стандартизует «модель ↔ инструменты», A2A — «агент ↔ агент». На практике к концу 2025 MCP получил заметно более сильное developer adoption, а A2A остался живым, но enterprise-нишевым: его сильнее тянут корпоративные интеграции, чем grassroots-разработчики. Урок: <em>для широкого протокольного adoption developer experience и комьюнити-тяга важнее одной только корпоративной архитектуры</em>.</p>
+  <p>В апреле 2025 Google выпустил <b>A2A</b> и передал его в Linux Foundation. По задумке — комплементарен MCP: MCP стандартизует «модель ↔ инструменты», A2A — «агент ↔ агент». К апрелю 2026 A2A имеет живую спецификацию с задачами, сообщениями, артефактами, JSON-RPC/HTTP и SSE-streaming, но его adoption выглядит более enterprise-нишевым, тогда как MCP заметнее в developer tooling. Урок: <em>для широкого протокольного adoption developer experience и комьюнити-тяга важнее одной только корпоративной архитектуры</em>.</p>
 
   <figure>
   <svg viewBox="0 0 800 240" xmlns="http://www.w3.org/2000/svg">
@@ -927,7 +929,7 @@
   <figcaption><b>fig.6</b> · timeline отделяет устойчивые архитектурные сдвиги от продуктового шума; 2026 — проверенный snapshot на апрель, а не итог года</figcaption>
   </figure>
 
-  <p class="note">2026 пока не закрытый год. Проверенный сигнал на апрель — не «новый тип агента», а усиление harness: sandbox, файловая среда, state и durable execution. Поэтому точка 2026 помечена как snapshot, а не как итог.</p>
+  <p class="note">2026 пока не закрытый год. Проверенный сигнал на апрель — не «новый тип агента», а усиление harness: sandbox, файловая среда, configurable memory, state и durable execution. A2A также уточняет agent-to-agent task/message/artifact контракт, но это укрепляет технологический слой A6, а не добавляет новую базовую ось.</p>
 </section>
 
 <!-- ========== SECTION 11: MEMORY TYPOLOGY ========== -->
@@ -1165,10 +1167,29 @@
   <p class="note">Связь с anti-patterns прямая: если выбранный слой не привязан к A1–A7 и не улучшает eval-метрику при приемлемых cost/risk, это over-engineering. Если HITL или memory добавлены без политики, они становятся новой failure surface, а не контролем.</p>
 </section>
 
-<!-- ========== SECTION 14: WHAT TO ADD ========== -->
+<!-- ========== SECTION 14: RESEARCH BACKFILL ========== -->
 <section>
-  <div class="sec-num">§ 14 — пробелы исходника</div>
-  <h2>Чего ещё не было</h2>
+  <div class="sec-num">§ 14 — research backfill</div>
+  <h2>Что добавляет research backfill</h2>
+
+  <p>Оставшаяся слабость исходной карты была не в отсутствии ещё одного фреймворка, а в отсутствии двух контекстов: pre-LLM multi-agent systems и критики слишком узкой five-pattern рамки. Backfill полезен только если он усиливает инженерный выбор, а не превращает документ в литературу ради литературы.</p>
+
+  <h3>Пять паттернов Anthropic — словарь workflow, не универсальная теория</h3>
+  <p>Сильная версия: использовать Anthropic-паттерны как стартовый язык для workflow-систем, где control flow в основном предопределён кодом. Слабая версия: объявлять их полным консенсусом по агентным архитектурам. OpenAI Agents SDK, LangGraph, AutoGen и Microsoft Agent Framework показывают другие полезные разрезы: handoffs, group chat, graph nodes, supervisor routing, durable runs и tracing. Эти разрезы лучше ложатся на A2/A3/A4/A6, чем на один закрытый список паттернов.</p>
+
+  <h3>Classic MAS: что переносится, а что нет</h3>
+  <table class="stack">
+    <thead>
+      <tr><th>Концепт до LLM</th><th>Что переносится</th><th>Где ломается перенос</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Blackboard / Hearsay-II</td><td>Shared state, независимые knowledge sources, focus-of-control и координация через общую доску хорошо объясняют LangGraph-style state и research blackboard.</td><td>LLM context poisoning делает shared state опаснее: нужны provenance, namespaces, TTL и правила записи.</td></tr>
+      <tr><td>Contract Net / auction</td><td>Task allocation через proposals полезен, когда specialists реально различаются по tools, cost, latency или домену.</td><td>Аукцион ради формы легко превращается в дорогой prompt-router; без eval и budget он хуже обычного routing.</td></tr>
+      <tr><td>Agent communication languages / FIPA ACL</td><td>Идея сообщений как действий — request, inform, propose, agree, refuse — помогает проектировать handoff contracts.</td><td>Современным LLM agents мало speech acts: нужны auth, capability discovery, artifacts, tool schemas, streaming и audit trace.</td></tr>
+      <tr><td>Организационные роли</td><td>Manager, worker, critic, broker и facilitator остаются хорошими ролями A5.</td><td>Роль в prompt не создаёт topology и не решает coordination. «Supervisor» без state, budget и termination — просто ещё один agent.</td></tr>
+      <tr><td>Society of Mind / swarm</td><td>Полезны как метафоры распределённого поведения и слабой эмерджентности.</td><td>Это не production pattern само по себе. В инженерной карте они должны уступать конкретным механизмам: blackboard, handoff, auction, routing, shared environment.</td></tr>
+    </tbody>
+  </table>
 
   <h3>Фундаментальная граница: tools ≠ classical software</h3>
   <p>Anthropic в 2025 (Writing Tools for Agents) формализовали важное: классический софт — это контракт между двумя <em>детерминированными</em> системами (<code>getWeather("NYC")</code> всегда работает одинаково). Tools для агентов — это <em>контракт между детерминированной системой и недетерминированным агентом</em>. Это меняет требования: tool должен быть «скиллом», а не сырой обёрткой над API. Не <code>list_contacts</code>, а <code>search_contacts</code>.</p>
@@ -1181,6 +1202,11 @@
 
   <h3>Эмерджентность — да, но с оговоркой</h3>
   <p>В исходнике эмерджентность приведена скорее как философская категория. В практике агентных систем «сильная эмерджентность» обычно используется как <em>оправдание непредсказуемости</em>, что часто скрывает обычное отсутствие observability. Слабая эмерджентность реальна (поведение системы из нескольких агентов сложнее каждого по отдельности). Сильная — редко доказуема в инженерных системах.</p>
+
+  <h3>2026 refresh: substrate, not new axis</h3>
+  <p>Свежие 2026-сигналы меняют не taxonomy, а требования к execution substrate. OpenAI Agents SDK усиливает модель-native harness: files/tools на компьютере, sandbox execution, configurable memory, snapshot/rehydration и durable long-running tasks. A2A уточняет agent-to-agent протокольный контракт. Это всё усиливает A6 и failure/eval разделы, но не требует восьмой оси: архитектурный вопрос по-прежнему решается через autonomy, topology, coordination, memory policy и eval readiness.</p>
+
+  <p class="note">Итог backfill: старые MAS-концепты полезны как инженерные шаблоны, но LLM-агенты добавляют новую поверхность риска — недетерминированный выбор tool, prompt/context poisoning, cost explosion и необходимость трассировать каждый handoff.</p>
 </section>
 
 <!-- ========== SECTION 15: SUMMARY ========== -->
@@ -1192,7 +1218,7 @@
     <li>смешение оси «топология» и оси «координация» — теперь разделены;</li>
     <li>«5 уровней» как лестница — теперь рекурсивная композиция;</li>
     <li>отсутствие границы «workflow vs agent» — добавлена как ось A2;</li>
-    <li>отсутствие 5 канонических паттернов — добавлены;</li>
+    <li>отсутствие workflow-паттернов Anthropic — добавлены и ограничены как полезный словарь, а не полная теория;</li>
     <li>протоколы спрятаны в инфраструктуру — выделены в отдельный слой;</li>
     <li>tech stack как смесь — разнесён на 6 уровней;</li>
     <li>evaluation и observability были послесловием — теперь это рабочий цикл выбора архитектуры;</li>
@@ -1201,7 +1227,8 @@
     <li>memory была сведена к RAG — теперь разделена на working, episodic, semantic и procedural;</li>
     <li>историческая плоскость отсутствовала — добавлена timeline 2022–2026 с осторожным snapshot для 2026;</li>
     <li>карта не предупреждала о типовых ошибках применения — добавлен раздел anti-patterns;</li>
-    <li>карта не отвечала на вопрос «что строить под задачу X» — добавлен decision tree выбора минимальной достаточной архитектуры.</li>
+    <li>карта не отвечала на вопрос «что строить под задачу X» — добавлен decision tree выбора минимальной достаточной архитектуры;</li>
+    <li>не хватало research backfill — добавлены classic MAS-концепты, критика five-pattern рамки и осторожный 2026 refresh.</li>
   </ol>
 
   <p>Итоговая рамка намеренно практическая: это taxonomy / карта измерений с проверкой согласованности, а не formal ontology с аксиомами, типами отношений и правилами вывода.</p>
@@ -1217,6 +1244,9 @@
   · Anthropic (2025-06). How we built our multi-agent research system.<br>
   · OpenAI (2025-01). Computer-Using Agent.<br>
   · OpenAI (2026-04). The next evolution of the Agents SDK.<br>
+  · OpenAI Agents SDK docs. Agents, handoffs, tracing, sandbox execution.<br>
+  · LangGraph docs. Multi-agent systems, supervisor, handoffs.<br>
+  · Microsoft Agent Framework. Orchestration patterns: group chat, handoff, workflows.<br>
   · Cursor Docs. Agent tools; Background Agents.<br>
   · Devin Docs. Introducing Devin; Scheduled Sessions.<br>
   · Anthropic Docs. Claude Code overview; Security; Settings.<br>
@@ -1225,10 +1255,16 @@
   · AutoGPT README and docs. Platform blocks; Agent blocks.<br>
   · Anthropic Cookbook · patterns/agents.<br>
   · Google Developers Blog (2025-04). Announcing the Agent2Agent Protocol.<br>
+  · A2A Project Specification. Agent2Agent protocol, tasks, messages, artifacts, JSON-RPC/SSE.<br>
   · Linux Foundation (2025-06). A2A Project announcement.<br>
   · Spring AI Reference. Building Effective Agents (импл. паттернов).<br>
+  · Erman, Hayes-Roth, Lesser, Reddy (1980). The HEARSAY-II Speech Understanding System.<br>
+  · Smith (1980). The Contract Net Protocol.<br>
+  · Nii (1986). Blackboard application systems.<br>
+  · Wooldridge &amp; Jennings (1995). Intelligent agents: theory and practice.<br>
+  · FIPA (2001). ACL Message Structure Specification.<br>
   · Минский М. (1986). Society of Mind.<br><br>
-  <b>Версия:</b> 2.0 · апрель 2026 · подлежит дальнейшему уточнению.
+  <b>Версия:</b> 2.1 · июнь 2026 · подлежит дальнейшему уточнению.
 </footer>
 
 </main>
