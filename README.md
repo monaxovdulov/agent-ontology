@@ -2,4 +2,6 @@
 
 Single-page HTML project.
 
-Open `agent-ontology.html` in a browser to view it.
+Published with GitHub Pages at:
+
+https://monaxovdulov.github.io/agent-ontology/
