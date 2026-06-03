@@ -1,0 +1,1607 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-06-03",
+  "review_context": {
+    "page": "index.html",
+    "purpose": "Claim-level evidence registry for future local annotations on the AI agents taxonomy page.",
+    "important_rule": "A source ID in this registry means a candidate evidence object exists. A claim is supported only when the source appears in supporting_source_ids and source_support explains what the source actually supports.",
+    "source_catalog_base": "research/bibliography.json and research/sources.md",
+    "audit_inputs": [
+      "audit/annotation-ui-spec.md",
+      "audit/claim-ledger.md",
+      "audit/evidence-gaps.md",
+      "research/content-risks.md",
+      "research/negative-findings.md"
+    ]
+  },
+  "evidence_strength_values": [
+    "strong",
+    "medium",
+    "weak",
+    "contested",
+    "missing"
+  ],
+  "claim_type_values": [
+    "definition",
+    "taxonomy-claim",
+    "historical-claim",
+    "protocol-status-claim",
+    "product-system-claim",
+    "architectural-recommendation",
+    "causal-claim",
+    "safety-claim",
+    "evaluation-claim",
+    "meta-commentary"
+  ],
+  "source_status_values": {
+    "cataloged": "Reviewed in research/sources.md or research/bibliography.json.",
+    "internal-negative-finding": "Internal research note that limits or contests a claim.",
+    "internal-audit": "Internal audit or workflow evidence; useful for rewrite process, not public taxonomy support.",
+    "source-stub": "Mentioned in the current page/footer or audit but not yet cataloged in research/sources.md; must be reviewed before carrying a public claim."
+  },
+  "sources": {
+    "anthropic-building-effective-agents": {
+      "title": "Building Effective Agents",
+      "authors_or_org": "Erik Schluntz and Barry Zhang, Anthropic",
+      "date": "2024-12-19",
+      "url": "https://www.anthropic.com/engineering/building-effective-agents",
+      "source_type": "official engineering blog / architecture guide",
+      "evidence_tier": "Tier 2",
+      "reliability": "primary",
+      "registry_status": "cataloged",
+      "time_sensitive": false,
+      "supports": "Workflow-vs-agent distinction, augmented LLM practitioner vocabulary, workflow patterns, start-simple guidance.",
+      "does_not_support": "A field-wide consensus taxonomy or universal claim that every agent system is built from Anthropic's exact primitive."
+    },
+    "anthropic-writing-tools-for-agents": {
+      "title": "Writing Tools for Agents",
+      "authors_or_org": "Anthropic",
+      "date": "2025-09-11",
+      "url": "https://www.anthropic.com/engineering/writing-tools-for-agents",
+      "source_type": "official engineering blog / tool design case study",
+      "evidence_tier": "Tier 2",
+      "reliability": "primary",
+      "registry_status": "cataloged",
+      "time_sensitive": true,
+      "accessed": "2026-06-03",
+      "supports": "Tool names, descriptions, schemas, outputs, and error handling as part of the agent reasoning and safety surface.",
+      "does_not_support": "A formal theorem that agent tools are not software APIs, or a universal safety model for every tool runtime."
+    },
+    "anthropic-multi-agent-research-system": {
+      "title": "How We Built Our Multi-Agent Research System",
+      "authors_or_org": "Anthropic",
+      "date": "2025-06-13",
+      "url": "https://www.anthropic.com/engineering/built-multi-agent-research-system",
+      "source_type": "official engineering blog / production case study",
+      "evidence_tier": "Tier 2",
+      "reliability": "primary",
+      "registry_status": "cataloged",
+      "time_sensitive": true,
+      "accessed": "2026-06-03",
+      "supports": "Supervisor-worker research topology, parallel subagents, measured cost/trace trade-offs in broad research tasks.",
+      "does_not_support": "A general claim that multi-agent architectures outperform simpler workflows across domains."
+    },
+    "openai-practical-guide-building-agents": {
+      "title": "A Practical Guide to Building Agents",
+      "authors_or_org": "OpenAI",
+      "date": "2025",
+      "url": "https://cdn.openai.com/business-guides-and-resources/a-practical-guide-to-building-agents.pdf",
+      "source_type": "official guide / technical report",
+      "evidence_tier": "Tier 1",
+      "reliability": "primary",
+      "registry_status": "cataloged",
+      "time_sensitive": true,
+      "accessed": "2026-06-03",
+      "supports": "Incremental agent design, orchestration, tools, guardrails, and evaluation-oriented deployment.",
+      "does_not_support": "A complete ontology or proof that one architecture is best for all tasks."
+    },
+    "openai-agents-sdk-docs": {
+      "title": "OpenAI Agents SDK Documentation",
+      "authors_or_org": "OpenAI",
+      "date": "living docs; accessed 2026-06-03",
+      "url": "https://platform.openai.com/docs/guides/agents",
+      "source_type": "official docs",
+      "evidence_tier": "Tier 1",
+      "reliability": "primary",
+      "registry_status": "cataloged",
+      "time_sensitive": true,
+      "accessed": "2026-06-03",
+      "supports": "Current OpenAI vocabulary for agents, hosted tools, handoffs, and guardrails.",
+      "does_not_support": "Hidden internals of OpenAI products or durable claims about future SDK features."
+    },
+    "openai-agents-sdk-tracing": {
+      "title": "OpenAI Agents SDK Tracing Documentation",
+      "authors_or_org": "OpenAI",
+      "date": "living docs; accessed 2026-06-03",
+      "url": "https://openai.github.io/openai-agents-python/tracing/",
+      "source_type": "official docs",
+      "evidence_tier": "Tier 1",
+      "reliability": "primary",
+      "registry_status": "cataloged",
+      "time_sensitive": true,
+      "accessed": "2026-06-03",
+      "supports": "Agent traces, spans, model calls, tool calls, and handoffs as observable execution units.",
+      "does_not_support": "A claim that tracing alone selects or validates an architecture."
+    },
+    "openai-computer-using-agent": {
+      "title": "OpenAI Computer Use Tool Documentation",
+      "authors_or_org": "OpenAI",
+      "date": "living docs; accessed 2026-06-03",
+      "url": "https://platform.openai.com/docs/guides/tools-computer-use",
+      "source_type": "official docs",
+      "evidence_tier": "Tier 1",
+      "reliability": "primary",
+      "registry_status": "cataloged",
+      "time_sensitive": true,
+      "accessed": "2026-06-03",
+      "supports": "Computer-use loops involving screenshots, actions, and interaction with external interfaces.",
+      "does_not_support": "Broad product claims about all browser operators or hidden product topology."
+    },
+    "openai-operator-system-card": {
+      "title": "Operator System Card",
+      "authors_or_org": "OpenAI",
+      "date": "2025-01-23",
+      "url": "https://cdn.openai.com/operator_system_card.pdf",
+      "source_type": "official system card / safety report",
+      "evidence_tier": "Tier 1",
+      "reliability": "primary",
+      "registry_status": "cataloged",
+      "time_sensitive": true,
+      "accessed": "2026-06-03",
+      "supports": "Browser-agent safety framing, confirmations, restricted actions, monitoring, and adversarial risks.",
+      "does_not_support": "A claim that human approval alone is sufficient for safe agent operation."
+    },
+    "mcp-spec-2025-11-25": {
+      "title": "Model Context Protocol Specification",
+      "authors_or_org": "Model Context Protocol project",
+      "date": "2025-11-25; accessed 2026-06-03",
+      "url": "https://modelcontextprotocol.io/specification/2025-11-25",
+      "source_type": "official protocol specification",
+      "evidence_tier": "Tier 1",
+      "reliability": "primary",
+      "registry_status": "cataloged",
+      "time_sensitive": true,
+      "accessed": "2026-06-03",
+      "supports": "MCP primitives and scope for connecting AI applications to tools, prompts, resources, context, and transports.",
+      "does_not_support": "Comparative public adoption superiority over A2A."
+    },
+    "google-a2a-announcement": {
+      "title": "Announcing the Agent2Agent Protocol",
+      "authors_or_org": "Google",
+      "date": "2025-04-09",
+      "url": "https://developers.googleblog.com/en/a2a-a-new-era-of-agent-interoperability/",
+      "source_type": "official announcement / protocol rationale",
+      "evidence_tier": "Tier 2",
+      "reliability": "primary",
+      "registry_status": "cataloged",
+      "time_sensitive": true,
+      "accessed": "2026-06-03",
+      "supports": "A2A launch intent and agent-to-agent interoperability scope.",
+      "does_not_support": "Current 2026 A2A project status without pairing with the latest spec and Linux Foundation update."
+    },
+    "a2a-protocol-spec": {
+      "title": "A2A Protocol Specification",
+      "authors_or_org": "A2A Project, Linux Foundation",
+      "date": "latest spec accessed 2026-06-03; v1.0.0 released 2026-04-09",
+      "url": "https://a2a-protocol.org/latest/specification/",
+      "source_type": "official protocol specification",
+      "evidence_tier": "Tier 1",
+      "reliability": "primary",
+      "registry_status": "cataloged",
+      "time_sensitive": true,
+      "accessed": "2026-06-03",
+      "supports": "A2A concepts such as agent cards, tasks, messages, artifacts, streaming, push notifications, and security.",
+      "does_not_support": "A neutral comparison of A2A adoption against MCP adoption."
+    },
+    "linux-foundation-a2a-v1": {
+      "title": "A2A Protocol Surpasses 150 Organizations, Lands in Major Cloud Platforms, and Sees Enterprise Production Use in First Year",
+      "authors_or_org": "Linux Foundation",
+      "date": "2026-04-09",
+      "url": "https://www.linuxfoundation.org/press/a2a-protocol-surpasses-150-organizations-lands-in-major-cloud-platforms-and-sees-enterprise-production-use-in-first-year",
+      "source_type": "official press release / governance and adoption update",
+      "evidence_tier": "Tier 2",
+      "reliability": "primary for project status; weak for comparative adoption",
+      "registry_status": "cataloged",
+      "time_sensitive": true,
+      "accessed": "2026-06-03",
+      "supports": "A2A v1.0.0, Linux Foundation project activity, and official project adoption claims as of 2026-04-09.",
+      "does_not_support": "An independent adoption study or MCP-vs-A2A market ranking."
+    },
+    "langchain-agent-protocol": {
+      "title": "LangChain Agent Protocol",
+      "authors_or_org": "LangChain",
+      "date": "living repository; accessed 2026-06-03",
+      "url": "https://github.com/langchain-ai/agent-protocol",
+      "source_type": "official protocol repository",
+      "evidence_tier": "Tier 1",
+      "reliability": "primary",
+      "registry_status": "cataloged",
+      "time_sensitive": true,
+      "accessed": "2026-06-03",
+      "supports": "Runtime-control protocol scope for running agents.",
+      "does_not_support": "Agent-to-agent interoperability or tool/context exchange as its whole scope."
+    },
+    "agntcy-docs": {
+      "title": "AGNTCY Documentation",
+      "authors_or_org": "AGNTCY",
+      "date": "living docs; accessed 2026-06-03",
+      "url": "https://docs.agntcy.org/",
+      "source_type": "official docs / protocol ecosystem",
+      "evidence_tier": "Tier 1",
+      "reliability": "primary for project scope",
+      "registry_status": "cataloged",
+      "time_sensitive": true,
+      "accessed": "2026-06-03",
+      "supports": "Identity, directory, discovery, and interoperability concerns in agent ecosystems.",
+      "does_not_support": "MCP or A2A adoption comparisons."
+    },
+    "opentelemetry-genai-semconv": {
+      "title": "OpenTelemetry GenAI Semantic Conventions",
+      "authors_or_org": "OpenTelemetry",
+      "date": "living spec; accessed 2026-06-03",
+      "url": "https://opentelemetry.io/docs/specs/semconv/gen-ai/",
+      "source_type": "official observability specification",
+      "evidence_tier": "Tier 1",
+      "reliability": "primary",
+      "registry_status": "cataloged",
+      "time_sensitive": true,
+      "accessed": "2026-06-03",
+      "supports": "Vendor-neutral vocabulary for tracing GenAI operations.",
+      "does_not_support": "Product-specific evaluation thresholds or architecture choice by itself."
+    },
+    "react": {
+      "title": "ReAct: Synergizing Reasoning and Acting in Language Models",
+      "authors_or_org": "Shunyu Yao et al.",
+      "date": "ICLR 2023; arXiv 2022-10",
+      "url": "https://openreview.net/forum?id=WE_vluYUL-X",
+      "source_type": "peer-reviewed paper",
+      "evidence_tier": "Tier 1",
+      "reliability": "primary",
+      "registry_status": "cataloged",
+      "time_sensitive": false,
+      "supports": "Interleaving reasoning and external actions in language-model agents.",
+      "does_not_support": "All modern agent architectures or all tool-use patterns."
+    },
+    "reflexion": {
+      "title": "Reflexion: Language Agents with Verbal Reinforcement Learning",
+      "authors_or_org": "Noah Shinn et al.",
+      "date": "2023",
+      "url": "https://arxiv.org/abs/2303.11366",
+      "source_type": "paper / preprint",
+      "evidence_tier": "Tier 2",
+      "reliability": "primary",
+      "registry_status": "cataloged",
+      "time_sensitive": false,
+      "supports": "Evaluator/self-feedback loops and memory-like stored lessons.",
+      "does_not_support": "A universal memory taxonomy."
+    },
+    "generative-agents": {
+      "title": "Generative Agents: Interactive Simulacra of Human Behavior",
+      "authors_or_org": "Joon Sung Park et al.",
+      "date": "UIST 2023",
+      "url": "https://arxiv.org/abs/2304.03442",
+      "source_type": "peer-reviewed paper",
+      "evidence_tier": "Tier 1",
+      "reliability": "primary",
+      "registry_status": "cataloged",
+      "time_sensitive": false,
+      "supports": "Memory stream, reflection, planning, and social interaction architecture.",
+      "does_not_support": "Strong emergence as a primary engineering explanation."
+    },
+    "memgpt": {
+      "title": "MemGPT: Towards LLMs as Operating Systems",
+      "authors_or_org": "Charles Packer et al.",
+      "date": "2023-10-12",
+      "url": "https://arxiv.org/abs/2310.08560",
+      "source_type": "paper / preprint",
+      "evidence_tier": "Tier 2",
+      "reliability": "primary",
+      "registry_status": "cataloged",
+      "time_sensitive": false,
+      "supports": "Managed memory hierarchy and explicit movement between context and external storage.",
+      "does_not_support": "Memory as merely a bigger context window, or a fixed field-wide four-type taxonomy."
+    },
+    "autogen": {
+      "title": "AutoGen: Enabling Next-Gen LLM Applications via Multi-Agent Conversation",
+      "authors_or_org": "Qingyun Wu et al., Microsoft Research",
+      "date": "2023-08-16",
+      "url": "https://arxiv.org/abs/2308.08155",
+      "source_type": "paper / preprint; official Microsoft project source",
+      "evidence_tier": "Tier 2",
+      "reliability": "primary",
+      "registry_status": "cataloged",
+      "time_sensitive": true,
+      "accessed": "2026-06-03",
+      "supports": "Conversation-based multi-agent orchestration and role coordination.",
+      "does_not_support": "Current product feature claims without newer docs."
+    },
+    "magentic-one": {
+      "title": "Magentic-One: A Generalist Multi-Agent System",
+      "authors_or_org": "Microsoft Research / AutoGen team",
+      "date": "2024-11-06",
+      "url": "https://arxiv.org/abs/2411.04468",
+      "source_type": "paper / preprint; production-style research system",
+      "evidence_tier": "Tier 2",
+      "reliability": "primary",
+      "registry_status": "cataloged",
+      "time_sensitive": true,
+      "accessed": "2026-06-03",
+      "supports": "Orchestrator plus specialized agents for browsing, coding, file handling, and terminal work.",
+      "does_not_support": "Proof that this topology is generally preferable."
+    },
+    "agentbench": {
+      "title": "AgentBench: Evaluating LLMs as Agents",
+      "authors_or_org": "Xiao Liu et al.",
+      "date": "ICLR 2024",
+      "url": "https://arxiv.org/abs/2308.03688",
+      "source_type": "benchmark paper",
+      "evidence_tier": "Tier 1",
+      "reliability": "primary",
+      "registry_status": "cataloged",
+      "time_sensitive": false,
+      "supports": "Interactive-environment benchmark design and task-success evaluation.",
+      "does_not_support": "Durable leaderboard claims."
+    },
+    "webarena": {
+      "title": "WebArena: A Realistic Web Environment for Building Autonomous Agents",
+      "authors_or_org": "Shuyan Zhou et al.",
+      "date": "ICLR 2024",
+      "url": "https://arxiv.org/abs/2307.13854",
+      "source_type": "benchmark paper",
+      "evidence_tier": "Tier 1",
+      "reliability": "primary",
+      "registry_status": "cataloged",
+      "time_sensitive": false,
+      "supports": "Realistic web-agent task design with actions, state, and success criteria.",
+      "does_not_support": "Current web-agent product capability claims."
+    },
+    "swe-bench": {
+      "title": "SWE-bench: Can Language Models Resolve Real-World GitHub Issues?",
+      "authors_or_org": "Carlos E. Jimenez et al.",
+      "date": "ICLR 2024",
+      "url": "https://arxiv.org/abs/2310.06770",
+      "source_type": "benchmark paper",
+      "evidence_tier": "Tier 1",
+      "reliability": "primary",
+      "registry_status": "cataloged",
+      "time_sensitive": false,
+      "supports": "Coding-agent benchmark design based on real GitHub issues and tests.",
+      "does_not_support": "Product-specific claims about coding-agent internals."
+    },
+    "gaia": {
+      "title": "GAIA: A Benchmark for General AI Assistants",
+      "authors_or_org": "Gregoire Mialon et al.",
+      "date": "ICLR 2024",
+      "url": "https://arxiv.org/abs/2311.12983",
+      "source_type": "benchmark paper",
+      "evidence_tier": "Tier 1",
+      "reliability": "primary",
+      "registry_status": "cataloged",
+      "time_sensitive": false,
+      "supports": "Benchmark design for mixed reasoning, tools, web browsing, and assistant tasks.",
+      "does_not_support": "Current model or product rankings."
+    },
+    "tau-bench": {
+      "title": "tau-bench: A Benchmark for Tool-Agent-User Interaction in Real-World Domains",
+      "authors_or_org": "Karthik Narasimhan / collaborators",
+      "date": "2024-06-17",
+      "url": "https://arxiv.org/abs/2406.12045",
+      "source_type": "benchmark paper / preprint",
+      "evidence_tier": "Tier 2",
+      "reliability": "primary",
+      "registry_status": "cataloged",
+      "time_sensitive": false,
+      "supports": "Tool-agent-user interactions under policies and state.",
+      "does_not_support": "All HITL safety claims or production deployment safety."
+    },
+    "osworld": {
+      "title": "OSWorld: Benchmarking Multimodal Agents for Open-Ended Tasks in Real Computer Environments",
+      "authors_or_org": "Tianbao Xie et al.",
+      "date": "2024",
+      "url": "https://arxiv.org/abs/2404.07972",
+      "source_type": "benchmark paper",
+      "evidence_tier": "Tier 1",
+      "reliability": "primary",
+      "registry_status": "cataloged",
+      "time_sensitive": false,
+      "supports": "Desktop/computer-use benchmark design for GUI-level action.",
+      "does_not_support": "Vendor product capability claims."
+    },
+    "openai-paperbench": {
+      "title": "PaperBench",
+      "authors_or_org": "OpenAI",
+      "date": "2025-04-02",
+      "url": "https://cdn.openai.com/papers/22265bac-3191-44e5-b057-7aaacd8e90cd/paperbench.pdf",
+      "source_type": "benchmark / technical report",
+      "evidence_tier": "Tier 1",
+      "reliability": "primary",
+      "registry_status": "cataloged",
+      "time_sensitive": false,
+      "supports": "Long-horizon scientific implementation benchmark design.",
+      "does_not_support": "General claims that long-horizon agent tasks are solved."
+    },
+    "openai-browsecomp": {
+      "title": "BrowseComp",
+      "authors_or_org": "OpenAI",
+      "date": "2025-04-16",
+      "url": "https://arxiv.org/abs/2504.12516",
+      "source_type": "benchmark / technical report",
+      "evidence_tier": "Tier 2",
+      "reliability": "primary",
+      "registry_status": "cataloged",
+      "time_sensitive": false,
+      "supports": "Hard web-browsing benchmark design for search, source selection, and multi-step synthesis.",
+      "does_not_support": "Deep research product boundary claims."
+    },
+    "agentdojo": {
+      "title": "AgentDojo: A Dynamic Environment to Evaluate Attacks and Defenses for LLM Agents",
+      "authors_or_org": "Edoardo Debenedetti et al.",
+      "date": "NeurIPS 2024",
+      "url": "https://arxiv.org/abs/2406.13352",
+      "source_type": "benchmark paper",
+      "evidence_tier": "Tier 1",
+      "reliability": "primary",
+      "registry_status": "cataloged",
+      "time_sensitive": false,
+      "supports": "Prompt-injection and tool-use attack evaluation in agentic settings.",
+      "does_not_support": "A complete production security control framework."
+    },
+    "owasp-llm-top-10-2025": {
+      "title": "OWASP Top 10 for LLM Applications 2025",
+      "authors_or_org": "OWASP GenAI Security Project",
+      "date": "2024-11-17 release for 2025; accessed 2026-06-03",
+      "url": "https://genai.owasp.org/llm-top-10/",
+      "source_type": "official security guidance",
+      "evidence_tier": "Tier 1",
+      "reliability": "primary security framework",
+      "registry_status": "cataloged",
+      "time_sensitive": true,
+      "accessed": "2026-06-03",
+      "supports": "Security vocabulary for prompt injection, excessive agency, data leakage, supply-chain risk, and similar risks.",
+      "does_not_support": "Agent-specific protocol security as a complete model."
+    },
+    "owasp-agentic-skills-top-10": {
+      "title": "OWASP Agentic Skills Top 10",
+      "authors_or_org": "OWASP GenAI Security Project",
+      "date": "updated March 2026; accessed 2026-06-03",
+      "url": "https://owasp.org/www-project-agentic-skills-top-10/",
+      "source_type": "official security guidance",
+      "evidence_tier": "Tier 1",
+      "reliability": "primary security framework",
+      "registry_status": "cataloged",
+      "time_sensitive": true,
+      "accessed": "2026-06-03",
+      "supports": "Agentic skill/tool execution risk, authority, manifests, audit logging, and autonomous workflow behavior.",
+      "does_not_support": "Full product-specific security posture for Claude Code, Cursor, Codex, or similar tools."
+    },
+    "five-eyes-agentic-ai-guidance": {
+      "title": "Careful Adoption of Agentic AI Services",
+      "authors_or_org": "Five Eyes cybersecurity agencies, published by New Zealand NCSC",
+      "date": "2026-05-01",
+      "url": "https://www.ncsc.govt.nz/protect-your-organisation/careful-adoption-of-agentic-ai-services/",
+      "source_type": "public-sector security guidance",
+      "evidence_tier": "Tier 1",
+      "reliability": "primary official guidance",
+      "registry_status": "cataloged",
+      "time_sensitive": true,
+      "accessed": "2026-06-03",
+      "supports": "Governance, permissions, monitoring, procurement, and controls for agentic AI services.",
+      "does_not_support": "Technical details for any single vendor implementation."
+    },
+    "wooldridge-jennings-1995": {
+      "title": "Intelligent Agents: Theory and Practice",
+      "authors_or_org": "Michael Wooldridge and Nicholas R. Jennings",
+      "date": "1995",
+      "url": "https://doi.org/10.1017/S0269888900008122",
+      "source_type": "peer-reviewed paper",
+      "evidence_tier": "Tier 1",
+      "reliability": "primary",
+      "registry_status": "cataloged",
+      "time_sensitive": false,
+      "supports": "Classic agent properties such as autonomy, social ability, reactivity, and proactiveness.",
+      "does_not_support": "Modern LLM-agent implementation details."
+    },
+    "shoham-1993": {
+      "title": "Agent-Oriented Programming",
+      "authors_or_org": "Yoav Shoham",
+      "date": "1993",
+      "url": "https://doi.org/10.1016/0004-3702(93)90034-9",
+      "source_type": "peer-reviewed paper",
+      "evidence_tier": "Tier 1",
+      "reliability": "primary",
+      "registry_status": "cataloged",
+      "time_sensitive": false,
+      "supports": "Agent-oriented abstractions and mental-state vocabulary.",
+      "does_not_support": "A direct mapping from symbolic agents to LLM harnesses."
+    },
+    "contract-net-protocol": {
+      "title": "The Contract Net Protocol: High-Level Communication and Control in a Distributed Problem Solver",
+      "authors_or_org": "Reid G. Smith",
+      "date": "1980",
+      "url": "https://doi.org/10.1109/TC.1980.1675516",
+      "source_type": "peer-reviewed paper",
+      "evidence_tier": "Tier 1",
+      "reliability": "primary",
+      "registry_status": "cataloged",
+      "time_sensitive": false,
+      "supports": "Task announcement, bidding, award, and market-style multi-agent coordination.",
+      "does_not_support": "A claim that all modern delegation systems implement Contract Net."
+    },
+    "bdi-agents-rao-georgeff": {
+      "title": "BDI Agents: From Theory to Practice",
+      "authors_or_org": "Anand S. Rao and Michael P. Georgeff",
+      "date": "1995",
+      "url": "https://cdn.aaai.org/ICMAS/1995/ICMAS95-042.pdf",
+      "source_type": "conference paper",
+      "evidence_tier": "Tier 1",
+      "reliability": "primary",
+      "registry_status": "cataloged",
+      "time_sensitive": false,
+      "supports": "Beliefs, desires, intentions, commitments, and plan selection as classic agent architecture concepts.",
+      "does_not_support": "Anthropomorphic claims about LLM cognition."
+    },
+    "cursor-docs-agent-tools-background-agents": {
+      "title": "Cursor Docs: Agent tools; Background Agents",
+      "authors_or_org": "Cursor",
+      "date": "footer-only source; needs access date",
+      "url": null,
+      "source_type": "official product docs candidate",
+      "evidence_tier": "TBD",
+      "reliability": "candidate primary",
+      "registry_status": "source-stub",
+      "time_sensitive": true,
+      "supports": "Candidate source for Cursor visible feature claims.",
+      "does_not_support": "Cursor internal topology until docs are reviewed and specific pages are cataloged."
+    },
+    "devin-docs-introducing-scheduled-sessions": {
+      "title": "Devin Docs: Introducing Devin; Scheduled Sessions",
+      "authors_or_org": "Cognition / Devin",
+      "date": "footer-only source; needs access date",
+      "url": null,
+      "source_type": "official product docs candidate",
+      "evidence_tier": "TBD",
+      "reliability": "candidate primary",
+      "registry_status": "source-stub",
+      "time_sensitive": true,
+      "supports": "Candidate source for Devin visible feature and scheduled-session claims.",
+      "does_not_support": "Hidden Devin architecture or coordination internals until docs are reviewed."
+    },
+    "anthropic-claude-code-docs": {
+      "title": "Anthropic Docs: Claude Code overview; Security; Settings",
+      "authors_or_org": "Anthropic",
+      "date": "footer-only source; needs access date",
+      "url": null,
+      "source_type": "official product docs candidate",
+      "evidence_tier": "TBD",
+      "reliability": "candidate primary",
+      "registry_status": "source-stub",
+      "time_sensitive": true,
+      "supports": "Candidate source for Claude Code visible tool, terminal, permission, hook, and subagent claims.",
+      "does_not_support": "Claude Code security posture as sufficient without independent safety sources."
+    },
+    "manus-docs-browser-wide-research": {
+      "title": "Manus Docs: Browser Operator; Wide Research; Zapier integration",
+      "authors_or_org": "Manus",
+      "date": "footer-only source; needs access date",
+      "url": null,
+      "source_type": "official product docs candidate",
+      "evidence_tier": "TBD",
+      "reliability": "candidate primary",
+      "registry_status": "source-stub",
+      "time_sensitive": true,
+      "supports": "Candidate source for Manus visible browser/operator and wide research feature claims.",
+      "does_not_support": "Manus internal orchestrator or topology unless official docs expose it."
+    },
+    "openai-deep-research-docs": {
+      "title": "OpenAI Help/API Docs: Deep research in ChatGPT; Deep research guide",
+      "authors_or_org": "OpenAI",
+      "date": "footer-only source; needs access date",
+      "url": null,
+      "source_type": "official product/API docs candidate",
+      "evidence_tier": "TBD",
+      "reliability": "candidate primary",
+      "registry_status": "source-stub",
+      "time_sensitive": true,
+      "supports": "Candidate source for OpenAI deep research feature and supported-tool claims.",
+      "does_not_support": "Absolute read-only boundaries or hidden architecture without exact docs."
+    },
+    "autogpt-readme-docs": {
+      "title": "AutoGPT README and docs: Platform blocks; Agent blocks",
+      "authors_or_org": "AutoGPT project",
+      "date": "footer-only source; needs access date",
+      "url": null,
+      "source_type": "official project docs candidate",
+      "evidence_tier": "TBD",
+      "reliability": "candidate primary",
+      "registry_status": "source-stub",
+      "time_sensitive": true,
+      "supports": "Candidate source for current AutoGPT platform/workflow positioning.",
+      "does_not_support": "A general historical conclusion without dated version context."
+    },
+    "openai-function-calling-2023": {
+      "title": "Function calling and other API updates",
+      "authors_or_org": "OpenAI",
+      "date": "2023-06; footer-only source",
+      "url": null,
+      "source_type": "official announcement candidate",
+      "evidence_tier": "TBD",
+      "reliability": "candidate primary",
+      "registry_status": "source-stub",
+      "time_sensitive": false,
+      "supports": "Candidate source for the 2023 function/tool calling timeline milestone.",
+      "does_not_support": "Current function/tool calling API behavior without living docs."
+    },
+    "negative-anthropic-pattern-consensus": {
+      "title": "Negative Finding: No peer-reviewed consensus that Anthropic's five patterns are the canonical agent taxonomy",
+      "authors_or_org": "Local research note",
+      "date": "2026-06-03",
+      "url": "research/negative-findings.md#2-no-peer-reviewed-consensus-that-anthropics-five-patterns-are-the-canonical-agent-taxonomy",
+      "source_type": "internal negative finding",
+      "evidence_tier": "internal",
+      "reliability": "audit finding",
+      "registry_status": "internal-negative-finding",
+      "time_sensitive": true,
+      "supports": "Caution against consensus/canonical language around Anthropic workflow patterns.",
+      "does_not_support": "Public source evidence by itself."
+    },
+    "negative-mcp-a2a-adoption": {
+      "title": "Negative Finding: No robust public evidence that MCP has clearly stronger developer adoption than A2A",
+      "authors_or_org": "Local research note",
+      "date": "2026-06-03",
+      "url": "research/negative-findings.md#1-no-robust-public-evidence-that-mcp-has-clearly-stronger-developer-adoption-than-a2a",
+      "source_type": "internal negative finding",
+      "evidence_tier": "internal",
+      "reliability": "audit finding",
+      "registry_status": "internal-negative-finding",
+      "time_sensitive": true,
+      "supports": "Caution against MCP-vs-A2A comparative adoption claims.",
+      "does_not_support": "A positive adoption ranking."
+    },
+    "negative-product-architecture": {
+      "title": "Negative Finding: Product architecture claims are mostly inference",
+      "authors_or_org": "Local research note",
+      "date": "2026-06-03",
+      "url": "research/negative-findings.md#6-product-architecture-claims-are-mostly-inference",
+      "source_type": "internal negative finding",
+      "evidence_tier": "internal",
+      "reliability": "audit finding",
+      "registry_status": "internal-negative-finding",
+      "time_sensitive": true,
+      "supports": "Caution that product docs support visible behavior more than hidden topology.",
+      "does_not_support": "Any product feature existence claim."
+    },
+    "negative-memory-taxonomy": {
+      "title": "Negative Finding: No universal agent-memory taxonomy",
+      "authors_or_org": "Local research note",
+      "date": "2026-06-03",
+      "url": "research/negative-findings.md#3-no-universal-agent-memory-taxonomy",
+      "source_type": "internal negative finding",
+      "evidence_tier": "internal",
+      "reliability": "audit finding",
+      "registry_status": "internal-negative-finding",
+      "time_sensitive": true,
+      "supports": "Caution that memory terminology is inconsistent across papers and products.",
+      "does_not_support": "Any positive memory architecture claim."
+    },
+    "negative-hitl-sufficiency": {
+      "title": "Negative Finding: HITL is not proven as a sufficient safety control",
+      "authors_or_org": "Local research note",
+      "date": "2026-06-03",
+      "url": "research/negative-findings.md#7-hitl-is-not-proven-as-a-sufficient-safety-control",
+      "source_type": "internal negative finding",
+      "evidence_tier": "internal",
+      "reliability": "audit finding",
+      "registry_status": "internal-negative-finding",
+      "time_sensitive": true,
+      "supports": "Caution that HITL must be paired with permissions, trusted context, monitoring, and audit.",
+      "does_not_support": "A positive safety guarantee."
+    },
+    "negative-benchmark-leaderboards": {
+      "title": "Negative Finding: Benchmark leaderboards are too volatile for durable page claims",
+      "authors_or_org": "Local research note",
+      "date": "2026-06-03",
+      "url": "research/negative-findings.md#8-benchmark-leaderboards-are-too-volatile-for-durable-page-claims",
+      "source_type": "internal negative finding",
+      "evidence_tier": "internal",
+      "reliability": "audit finding",
+      "registry_status": "internal-negative-finding",
+      "time_sensitive": true,
+      "supports": "Caution to cite benchmark design instead of transient scores.",
+      "does_not_support": "Any benchmark performance claim."
+    },
+    "negative-emergence": {
+      "title": "Negative Finding: Emergence is not a useful primary engineering explanation",
+      "authors_or_org": "Local research note",
+      "date": "2026-06-03",
+      "url": "research/negative-findings.md#9-emergence-is-not-a-useful-primary-engineering-explanation",
+      "source_type": "internal negative finding",
+      "evidence_tier": "internal",
+      "reliability": "audit finding",
+      "registry_status": "internal-negative-finding",
+      "time_sensitive": true,
+      "supports": "Caution to prefer mechanism-first explanations over emergence claims.",
+      "does_not_support": "A philosophical claim about strong emergence."
+    },
+    "audit-annotation-ui-spec": {
+      "title": "Evidence Annotation UI Spec",
+      "authors_or_org": "Local audit",
+      "date": "2026-06-03",
+      "url": "audit/annotation-ui-spec.md",
+      "source_type": "internal audit",
+      "evidence_tier": "internal",
+      "reliability": "workflow guidance",
+      "registry_status": "internal-audit",
+      "time_sensitive": false,
+      "supports": "Annotation fields, marker behavior, and claim/source registry mechanics.",
+      "does_not_support": "Any public taxonomy claim."
+    },
+    "research-sources-catalog": {
+      "title": "Sources Catalog",
+      "authors_or_org": "Local research backlog",
+      "date": "2026-06-03",
+      "url": "research/sources.md",
+      "source_type": "internal source catalog",
+      "evidence_tier": "internal",
+      "reliability": "workflow guidance",
+      "registry_status": "internal-audit",
+      "time_sensitive": true,
+      "supports": "Existence and review notes for cataloged source records.",
+      "does_not_support": "The underlying external claims without using the actual external source."
+    },
+    "tasks-readme": {
+      "title": "Task Queue README",
+      "authors_or_org": "Local project",
+      "date": "current repository state",
+      "url": "tasks/README.md",
+      "source_type": "internal workflow note",
+      "evidence_tier": "internal",
+      "reliability": "workflow guidance",
+      "registry_status": "internal-audit",
+      "time_sensitive": false,
+      "supports": "Internal rewrite history and process notes.",
+      "does_not_support": "Public taxonomy claims."
+    }
+  },
+  "priority_claim_ids": [
+    "C09",
+    "C10",
+    "C11",
+    "C12",
+    "C14",
+    "C15",
+    "C16",
+    "C18",
+    "C19",
+    "C20",
+    "C21",
+    "C22",
+    "C23",
+    "C24",
+    "C32",
+    "C33",
+    "C35",
+    "C36",
+    "C37",
+    "C38",
+    "C39",
+    "C40",
+    "C41",
+    "C42",
+    "C44",
+    "C46",
+    "C52",
+    "C53",
+    "C54",
+    "C55"
+  ],
+  "deferred_priority_claim_ids_due_to_30_claim_cap": [
+    {
+      "claim_id": "C13",
+      "reason": "Covered partly by C12 and future core taxonomy rewrite."
+    },
+    {
+      "claim_id": "C34",
+      "reason": "Covered partly by C32/C33/C35 protocol adoption caveats."
+    },
+    {
+      "claim_id": "C43",
+      "reason": "Covered partly by C42/C44 memory boundary entries."
+    },
+    {
+      "claim_id": "C45",
+      "reason": "Lower priority than C46 for the decision-guide rewrite; should be added in prompt 12 if needed."
+    }
+  ],
+  "claims": {
+    "C09": {
+      "slug": "workflow-vs-agent-consensus-axis",
+      "claim_type": "taxonomy-claim",
+      "evidence_strength": "contested",
+      "current_claim_summary": "Workflow vs Agent is a central axis of consensus.",
+      "reasoning_bridge": "Anthropic and OpenAI support workflow-vs-agent as a useful practical design distinction, but the research backlog found no peer-reviewed consensus that it is a universal taxonomy axis.",
+      "supporting_source_ids": [
+        "anthropic-building-effective-agents",
+        "openai-practical-guide-building-agents"
+      ],
+      "context_source_ids": [
+        "negative-anthropic-pattern-consensus",
+        "react"
+      ],
+      "source_support": {
+        "anthropic-building-effective-agents": "Directly supports workflow vs agent practitioner framing.",
+        "openai-practical-guide-building-agents": "Supports incremental agent design and orchestration framing.",
+        "negative-anthropic-pattern-consensus": "Limits wording from consensus/canonical to influential practical framing."
+      },
+      "caveat": "Rewrite as a practical axis for this page, not as field-wide consensus.",
+      "reviewed_date": "2026-06-03"
+    },
+    "C10": {
+      "slug": "augmented-llm-canonical-atom",
+      "claim_type": "definition",
+      "secondary_claim_types": [
+        "taxonomy-claim"
+      ],
+      "evidence_strength": "weak",
+      "current_claim_summary": "Augmented LLM is the canonical primitive and atom of all modern agent systems.",
+      "reasoning_bridge": "Anthropic supports augmented LLM as a useful base building block, while OpenAI and ReAct support model-plus-tools patterns, but none of these sources make it a universal atom.",
+      "supporting_source_ids": [
+        "anthropic-building-effective-agents",
+        "openai-practical-guide-building-agents",
+        "react",
+        "mcp-spec-2025-11-25"
+      ],
+      "context_source_ids": [
+        "negative-anthropic-pattern-consensus"
+      ],
+      "source_support": {
+        "anthropic-building-effective-agents": "Supports the augmented LLM abstraction.",
+        "openai-practical-guide-building-agents": "Supports practical tool/orchestration patterns.",
+        "react": "Supports reasoning/action interleaving.",
+        "mcp-spec-2025-11-25": "Supports protocolized tool/context access, not the primitive itself."
+      },
+      "caveat": "Use 'Anthropic's useful base primitive for this map' rather than 'canonical atom of all systems.'",
+      "reviewed_date": "2026-06-03"
+    },
+    "C11": {
+      "slug": "protocol-layer-separate-scope",
+      "claim_type": "protocol-status-claim",
+      "evidence_strength": "medium",
+      "current_claim_summary": "The protocol layer is separate and includes MCP, A2A, LangChain Agent Protocol, and AGNTCY.",
+      "reasoning_bridge": "The specifications and project docs support these as protocol or protocol-ecosystem efforts, but they standardize different surfaces rather than one comparable layer.",
+      "supporting_source_ids": [
+        "mcp-spec-2025-11-25",
+        "a2a-protocol-spec",
+        "langchain-agent-protocol",
+        "agntcy-docs"
+      ],
+      "context_source_ids": [
+        "negative-mcp-a2a-adoption"
+      ],
+      "source_support": {
+        "mcp-spec-2025-11-25": "Supports tool/context protocol scope.",
+        "a2a-protocol-spec": "Supports agent-to-agent message/task/artifact scope.",
+        "langchain-agent-protocol": "Supports runtime-control API scope.",
+        "agntcy-docs": "Supports identity/discovery/interoperability ecosystem scope."
+      },
+      "caveat": "Compare by standardization target, not by a single maturity or adoption ladder.",
+      "reviewed_date": "2026-06-03"
+    },
+    "C12": {
+      "slug": "coordinate-map-a2-a3-a4-core",
+      "claim_type": "taxonomy-claim",
+      "evidence_strength": "medium",
+      "current_claim_summary": "Any agentic system can be described by coordinates; A2 x A3 x A4 is the most independent core.",
+      "reasoning_bridge": "Practitioner and classic MAS sources support autonomy, topology, and coordination as recurring design dimensions, but 'any system' should be framed as this page's practical map rather than a formal ontology.",
+      "supporting_source_ids": [
+        "anthropic-building-effective-agents",
+        "openai-practical-guide-building-agents",
+        "wooldridge-jennings-1995",
+        "shoham-1993",
+        "contract-net-protocol",
+        "autogen",
+        "magentic-one"
+      ],
+      "context_source_ids": [
+        "bdi-agents-rao-georgeff"
+      ],
+      "source_support": {
+        "wooldridge-jennings-1995": "Supports autonomy and social-agent dimensions.",
+        "contract-net-protocol": "Supports coordination mechanisms as a separate concern.",
+        "autogen": "Supports multi-agent topology and role coordination examples."
+      },
+      "caveat": "Avoid universal wording; say the map is useful for comparing public systems and design choices.",
+      "reviewed_date": null
+    },
+    "C14": {
+      "slug": "derived-tradeoffs-and-token-cost",
+      "claim_type": "causal-claim",
+      "secondary_claim_types": [
+        "evaluation-claim"
+      ],
+      "evidence_strength": "weak",
+      "current_claim_summary": "A7 includes emergence, latency, cost, observability; token cost is multi-agent x10-15.",
+      "reasoning_bridge": "Anthropic's multi-agent research case directly supports a large cost increase in one broad research setting, while tracing sources support observability burden, but the multiplier should not be generalized.",
+      "supporting_source_ids": [
+        "anthropic-multi-agent-research-system",
+        "openai-agents-sdk-tracing",
+        "opentelemetry-genai-semconv"
+      ],
+      "context_source_ids": [
+        "negative-benchmark-leaderboards"
+      ],
+      "source_support": {
+        "anthropic-multi-agent-research-system": "Supports substantial token/cost increase in a specific research system.",
+        "openai-agents-sdk-tracing": "Supports trace visibility for agent steps.",
+        "opentelemetry-genai-semconv": "Supports vendor-neutral telemetry vocabulary."
+      },
+      "caveat": "State cost amplification as a design risk to measure per domain, not as a universal multiplier.",
+      "reviewed_date": "2026-06-03"
+    },
+    "C15": {
+      "slug": "topology-coordination-grid-validity",
+      "claim_type": "taxonomy-claim",
+      "evidence_strength": "weak",
+      "current_claim_summary": "Every cell in the topology x coordination grid is a real architecture.",
+      "reasoning_bridge": "Classic and modern sources support multiple topology/coordination combinations, but not every grid cell is meaningful or evidenced.",
+      "supporting_source_ids": [
+        "contract-net-protocol",
+        "autogen",
+        "magentic-one",
+        "anthropic-multi-agent-research-system"
+      ],
+      "context_source_ids": [
+        "wooldridge-jennings-1995",
+        "shoham-1993"
+      ],
+      "source_support": {
+        "contract-net-protocol": "Supports auction/contract coordination.",
+        "autogen": "Supports conversation-based multi-agent coordination.",
+        "anthropic-multi-agent-research-system": "Supports supervisor-worker tree-like coordination in one production case."
+      },
+      "caveat": "Use the grid as a design space with example-backed cells; mark speculative or incoherent combinations.",
+      "reviewed_date": null
+    },
+    "C16": {
+      "slug": "eighty-percent-production-dag-command",
+      "claim_type": "product-system-claim",
+      "secondary_claim_types": [
+        "evaluation-claim"
+      ],
+      "evidence_strength": "missing",
+      "current_claim_summary": "80% of production systems today live in DAG plus command hierarchy.",
+      "reasoning_bridge": "No reviewed research source provides a public production adoption dataset or survey for this percentage.",
+      "supporting_source_ids": [],
+      "context_source_ids": [
+        "negative-mcp-a2a-adoption",
+        "negative-product-architecture"
+      ],
+      "source_support": {},
+      "caveat": "Delete unless a robust adoption survey or dataset is added; do not replace with another prevalence claim without evidence.",
+      "reviewed_date": "2026-06-03"
+    },
+    "C18": {
+      "slug": "real-systems-public-behavior-not-internals",
+      "claim_type": "product-system-claim",
+      "evidence_strength": "medium",
+      "current_claim_summary": "Real systems are plotted based on public behavior, not internal architecture.",
+      "reasoning_bridge": "Official product docs can support visible feature surfaces, while the local negative finding correctly limits inference about hidden topology.",
+      "supporting_source_ids": [
+        "openai-agents-sdk-docs",
+        "openai-computer-using-agent",
+        "anthropic-multi-agent-research-system"
+      ],
+      "context_source_ids": [
+        "negative-product-architecture",
+        "cursor-docs-agent-tools-background-agents",
+        "devin-docs-introducing-scheduled-sessions",
+        "anthropic-claude-code-docs",
+        "manus-docs-browser-wide-research",
+        "openai-deep-research-docs",
+        "autogpt-readme-docs"
+      ],
+      "source_support": {
+        "openai-agents-sdk-docs": "Supports OpenAI agent feature vocabulary.",
+        "openai-computer-using-agent": "Supports computer-use feature shape.",
+        "anthropic-multi-agent-research-system": "Provides one unusually detailed architecture case.",
+        "negative-product-architecture": "Limits product placement to public control surfaces and documented behavior."
+      },
+      "caveat": "Every product placement needs access dates and a visible distinction between documented behavior and taxonomy inference.",
+      "reviewed_date": "2026-06-03"
+    },
+    "C19": {
+      "slug": "cursor-product-placement",
+      "claim_type": "product-system-claim",
+      "evidence_strength": "weak",
+      "current_claim_summary": "Cursor coordinates and behavior include remote VM, branch, follow-up/takeover, and MCP.",
+      "reasoning_bridge": "The current page cites Cursor docs only as a footer source, so the registry can only treat Cursor claims as candidates until exact docs are cataloged.",
+      "supporting_source_ids": [],
+      "context_source_ids": [
+        "cursor-docs-agent-tools-background-agents",
+        "negative-product-architecture",
+        "mcp-spec-2025-11-25"
+      ],
+      "source_support": {
+        "mcp-spec-2025-11-25": "Supports MCP scope only, not Cursor feature claims.",
+        "negative-product-architecture": "Warns that visible behavior does not prove internal topology."
+      },
+      "caveat": "Before publishing, add exact Cursor URLs, access date, and separate documented features from A2/A3/A4 inference.",
+      "reviewed_date": "2026-06-03"
+    },
+    "C20": {
+      "slug": "devin-product-placement",
+      "claim_type": "product-system-claim",
+      "evidence_strength": "weak",
+      "current_claim_summary": "Devin writes, runs, and tests code; works on tickets, bugs, refactors, docs, and recurring sessions.",
+      "reasoning_bridge": "The footer mentions Devin docs, but no cataloged source currently verifies the exact feature list or coordinate inference.",
+      "supporting_source_ids": [],
+      "context_source_ids": [
+        "devin-docs-introducing-scheduled-sessions",
+        "negative-product-architecture",
+        "swe-bench"
+      ],
+      "source_support": {
+        "swe-bench": "Supports coding-agent evaluation task design, not Devin product behavior.",
+        "negative-product-architecture": "Limits claims about hidden product architecture."
+      },
+      "caveat": "Treat feature claims as time-sensitive and coordinate placement as inference until exact Devin docs are reviewed.",
+      "reviewed_date": "2026-06-03"
+    },
+    "C21": {
+      "slug": "claude-code-product-placement-and-approval",
+      "claim_type": "product-system-claim",
+      "secondary_claim_types": [
+        "safety-claim"
+      ],
+      "evidence_strength": "weak",
+      "current_claim_summary": "Claude Code is a terminal harness with file tools, Bash, web/MCP, hooks, subagents, and explicit approval.",
+      "reasoning_bridge": "Claude Code docs are only a source stub here, while OWASP and Anthropic tool guidance can support risk framing around tool authority and approval.",
+      "supporting_source_ids": [
+        "anthropic-writing-tools-for-agents",
+        "owasp-agentic-skills-top-10"
+      ],
+      "context_source_ids": [
+        "anthropic-claude-code-docs",
+        "mcp-spec-2025-11-25",
+        "negative-product-architecture"
+      ],
+      "source_support": {
+        "anthropic-writing-tools-for-agents": "Supports why tool interfaces are part of agent reasoning.",
+        "owasp-agentic-skills-top-10": "Supports agentic skill/tool execution risk framing.",
+        "anthropic-claude-code-docs": "Candidate source for product feature details; not yet cataloged."
+      },
+      "caveat": "Do not treat approval as sufficient safety; verify living Claude Code docs before marking product feature claims strong.",
+      "reviewed_date": "2026-06-03"
+    },
+    "C22": {
+      "slug": "manus-product-placement-tentative",
+      "claim_type": "product-system-claim",
+      "evidence_strength": "weak",
+      "current_claim_summary": "Manus Browser Operator and Wide Research placement; internal orchestrator undisclosed.",
+      "reasoning_bridge": "The current caveat is appropriate, but Manus docs are only a source stub and cannot yet support more than a tentative placement.",
+      "supporting_source_ids": [],
+      "context_source_ids": [
+        "manus-docs-browser-wide-research",
+        "negative-product-architecture",
+        "webarena",
+        "openai-browsecomp"
+      ],
+      "source_support": {
+        "webarena": "Supports web-agent evaluation dimensions, not Manus product claims.",
+        "openai-browsecomp": "Supports browsing/research benchmark dimensions, not Manus product claims.",
+        "negative-product-architecture": "Supports keeping the placement tentative."
+      },
+      "caveat": "Keep 'tentative' unless exact official Manus docs are cataloged and dated.",
+      "reviewed_date": "2026-06-03"
+    },
+    "C23": {
+      "slug": "openai-deep-research-product-placement",
+      "claim_type": "product-system-claim",
+      "evidence_strength": "weak",
+      "current_claim_summary": "OpenAI deep research is a bounded read-only research agent with MCP search/fetch and code interpreter.",
+      "reasoning_bridge": "OpenAI agent docs and browsing benchmarks support research-agent evaluation context, but the exact deep research tool boundary needs a cataloged product/API doc.",
+      "supporting_source_ids": [
+        "openai-agents-sdk-docs",
+        "openai-browsecomp"
+      ],
+      "context_source_ids": [
+        "openai-deep-research-docs",
+        "mcp-spec-2025-11-25",
+        "negative-product-architecture"
+      ],
+      "source_support": {
+        "openai-agents-sdk-docs": "Supports current agent tooling vocabulary.",
+        "openai-browsecomp": "Supports difficult browsing/research evaluation dimensions.",
+        "openai-deep-research-docs": "Candidate source for feature/tool boundaries; not yet cataloged."
+      },
+      "caveat": "Avoid absolute 'read-only' wording until exact current docs are cited with access date.",
+      "reviewed_date": "2026-06-03"
+    },
+    "C24": {
+      "slug": "autogpt-platform-contrast",
+      "claim_type": "product-system-claim",
+      "secondary_claim_types": [
+        "historical-claim"
+      ],
+      "evidence_strength": "weak",
+      "current_claim_summary": "AutoGPT is now a workflow/hybrid platform contrast.",
+      "reasoning_bridge": "The footer points to AutoGPT README/docs, but the research catalog has not reviewed them, so the historical contrast must stay dated and provisional.",
+      "supporting_source_ids": [],
+      "context_source_ids": [
+        "autogpt-readme-docs",
+        "negative-product-architecture"
+      ],
+      "source_support": {
+        "negative-product-architecture": "Limits platform placement to public docs and visible control surfaces."
+      },
+      "caveat": "Add exact repo/doc URLs, version or access date, and avoid broad claims about AutoGPT's evolution without dated evidence.",
+      "reviewed_date": "2026-06-03"
+    },
+    "C32": {
+      "slug": "mcp-defacto-a2a-enterprise-niche",
+      "claim_type": "protocol-status-claim",
+      "evidence_strength": "contested",
+      "current_claim_summary": "MCP is a de-facto standard and A2A is enterprise-niche.",
+      "reasoning_bridge": "MCP and A2A specs support different technical scopes, and the Linux Foundation update supports A2A activity, but public comparative adoption evidence is explicitly weak.",
+      "supporting_source_ids": [
+        "mcp-spec-2025-11-25",
+        "a2a-protocol-spec",
+        "linux-foundation-a2a-v1"
+      ],
+      "context_source_ids": [
+        "google-a2a-announcement",
+        "negative-mcp-a2a-adoption"
+      ],
+      "source_support": {
+        "mcp-spec-2025-11-25": "Supports MCP technical scope.",
+        "a2a-protocol-spec": "Supports A2A technical scope.",
+        "linux-foundation-a2a-v1": "Supports A2A 2026 project status, not neutral comparative adoption.",
+        "negative-mcp-a2a-adoption": "Directly contests MCP-won/A2A-failed style wording."
+      },
+      "caveat": "Replace with date-stamped scope wording and avoid 'de-facto standard' unless narrowly defined.",
+      "reviewed_date": "2026-06-03"
+    },
+    "C33": {
+      "slug": "a2a-status-launch-lf-v1",
+      "claim_type": "protocol-status-claim",
+      "evidence_strength": "contested",
+      "current_claim_summary": "A2A released in April 2025, transferred to LF, has a live spec by April 2026, but adoption is enterprise-niche while MCP is more visible.",
+      "reasoning_bridge": "Launch, spec, and Linux Foundation sources support A2A chronology and project activity, but the adoption comparison remains proxy-based and contested.",
+      "supporting_source_ids": [
+        "google-a2a-announcement",
+        "a2a-protocol-spec",
+        "linux-foundation-a2a-v1",
+        "mcp-spec-2025-11-25"
+      ],
+      "context_source_ids": [
+        "negative-mcp-a2a-adoption"
+      ],
+      "source_support": {
+        "google-a2a-announcement": "Supports April 2025 launch and intended scope.",
+        "a2a-protocol-spec": "Supports current specification concepts and v1.0.0 status.",
+        "linux-foundation-a2a-v1": "Supports official 2026 governance/adoption claims.",
+        "negative-mcp-a2a-adoption": "Limits comparative adoption wording."
+      },
+      "caveat": "Date the status as reviewed 2026-06-03 and do not infer an adoption ranking.",
+      "reviewed_date": "2026-06-03"
+    },
+    "C35": {
+      "slug": "fig5-mcp-usbc-a2a-network-adoption",
+      "claim_type": "protocol-status-claim",
+      "evidence_strength": "contested",
+      "current_claim_summary": "Figure 5 frames MCP as USB-C for AI, A2A as network layer, and hard-codes MCP stronger / A2A enterprise-niche.",
+      "reasoning_bridge": "The protocol specs support different scopes, but metaphor and adoption status need attribution and should not be embedded as settled diagram facts.",
+      "supporting_source_ids": [
+        "mcp-spec-2025-11-25",
+        "a2a-protocol-spec",
+        "linux-foundation-a2a-v1"
+      ],
+      "context_source_ids": [
+        "negative-mcp-a2a-adoption"
+      ],
+      "source_support": {
+        "mcp-spec-2025-11-25": "Supports MCP primitives and scope.",
+        "a2a-protocol-spec": "Supports A2A agent-to-agent message/task scope.",
+        "negative-mcp-a2a-adoption": "Contests adoption-ranking wording."
+      },
+      "caveat": "Use diagram labels for scope, not market conclusion; attribute or remove the USB-C metaphor.",
+      "reviewed_date": "2026-06-03"
+    },
+    "C36": {
+      "slug": "failure-modes-derived-from-axes",
+      "claim_type": "taxonomy-claim",
+      "secondary_claim_types": [
+        "safety-claim"
+      ],
+      "evidence_strength": "medium",
+      "current_claim_summary": "Failure modes derive from A2 x A3 x A4 rather than being a base axis.",
+      "reasoning_bridge": "Security and system sources support failure modes arising from autonomy, tools, memory, communication, permissions, and topology, so the axis framing is useful but incomplete if it only names A2/A3/A4.",
+      "supporting_source_ids": [
+        "owasp-llm-top-10-2025",
+        "owasp-agentic-skills-top-10",
+        "agentdojo",
+        "five-eyes-agentic-ai-guidance",
+        "anthropic-multi-agent-research-system"
+      ],
+      "context_source_ids": [
+        "openai-operator-system-card"
+      ],
+      "source_support": {
+        "owasp-llm-top-10-2025": "Supports prompt injection, excessive agency, data leakage, and supply-chain style risks.",
+        "owasp-agentic-skills-top-10": "Supports agentic skill/tool execution risk.",
+        "agentdojo": "Supports indirect prompt injection and tool-use attack evaluation."
+      },
+      "caveat": "Mention tools, memory, permissions, and product substrate in addition to A2/A3/A4.",
+      "reviewed_date": "2026-06-03"
+    },
+    "C37": {
+      "slug": "failure-mode-list",
+      "claim_type": "safety-claim",
+      "secondary_claim_types": [
+        "causal-claim"
+      ],
+      "evidence_strength": "medium",
+      "current_claim_summary": "Cascading errors, context poisoning, hallucination amplification, infinite loops, and agreement bias are agent failure modes.",
+      "reasoning_bridge": "Security guidance and AgentDojo support prompt injection, untrusted context, tool misuse, and excessive agency; some labels in the page are local taxonomy terms and need cautious wording.",
+      "supporting_source_ids": [
+        "agentdojo",
+        "owasp-llm-top-10-2025",
+        "owasp-agentic-skills-top-10",
+        "five-eyes-agentic-ai-guidance",
+        "openai-operator-system-card",
+        "anthropic-writing-tools-for-agents"
+      ],
+      "context_source_ids": [
+        "negative-hitl-sufficiency"
+      ],
+      "source_support": {
+        "agentdojo": "Supports indirect prompt injection and tool-use attack framing.",
+        "owasp-llm-top-10-2025": "Supports prompt injection, excessive agency, data leakage, and supply-chain risks.",
+        "anthropic-writing-tools-for-agents": "Supports tool outputs and schemas as part of the reasoning surface."
+      },
+      "caveat": "Keep local labels, but connect them to recognized security/eval categories and mark agreement bias as weaker terminology.",
+      "reviewed_date": "2026-06-03"
+    },
+    "C38": {
+      "slug": "autonomy-memory-a2a-trust-boundaries",
+      "claim_type": "safety-claim",
+      "secondary_claim_types": [
+        "architectural-recommendation"
+      ],
+      "evidence_strength": "strong",
+      "current_claim_summary": "Adding autonomy, shared memory, or A2A communication requires trust boundaries.",
+      "reasoning_bridge": "OWASP, AgentDojo, Five Eyes, and Operator safety sources directly support treating external content, tool authority, permissions, and delegated actions as trust-boundary problems.",
+      "supporting_source_ids": [
+        "owasp-llm-top-10-2025",
+        "owasp-agentic-skills-top-10",
+        "agentdojo",
+        "five-eyes-agentic-ai-guidance",
+        "openai-operator-system-card",
+        "anthropic-writing-tools-for-agents",
+        "a2a-protocol-spec"
+      ],
+      "context_source_ids": [
+        "negative-hitl-sufficiency"
+      ],
+      "source_support": {
+        "five-eyes-agentic-ai-guidance": "Supports permissions, monitoring, governance, and controls.",
+        "openai-operator-system-card": "Supports confirmations/restricted actions for browser-acting agents.",
+        "a2a-protocol-spec": "Supports agent-to-agent communication scope where identity/security matter."
+      },
+      "caveat": "Trust boundaries must include permissions, provenance, policy checks, and audit; HITL alone is not enough.",
+      "reviewed_date": "2026-06-03"
+    },
+    "C39": {
+      "slug": "eval-development-loop-start-simple",
+      "claim_type": "evaluation-claim",
+      "secondary_claim_types": [
+        "architectural-recommendation"
+      ],
+      "evidence_strength": "strong",
+      "current_claim_summary": "Evaluation is a development loop: start simple, optimize through evals.",
+      "reasoning_bridge": "Anthropic and OpenAI both support starting with simpler patterns and adding agentic complexity only when evaluation and task needs justify it.",
+      "supporting_source_ids": [
+        "anthropic-building-effective-agents",
+        "openai-practical-guide-building-agents",
+        "openai-agents-sdk-tracing"
+      ],
+      "context_source_ids": [
+        "opentelemetry-genai-semconv"
+      ],
+      "source_support": {
+        "anthropic-building-effective-agents": "Supports simple-first agent design and evaluation-oriented iteration.",
+        "openai-practical-guide-building-agents": "Supports incremental build/evaluate/deploy guidance.",
+        "openai-agents-sdk-tracing": "Supports trace instrumentation as part of iteration."
+      },
+      "caveat": "Do not imply that evals are automatic or sufficient without representative local tasks and risk controls.",
+      "reviewed_date": "2026-06-03"
+    },
+    "C40": {
+      "slug": "traces-and-benchmarks-select-architecture",
+      "claim_type": "evaluation-claim",
+      "evidence_strength": "medium",
+      "current_claim_summary": "Trace events and metrics decide architecture; evaluation chooses architecture.",
+      "reasoning_bridge": "Tracing docs and benchmark papers support useful observability and eval dimensions, but architecture should be justified by local task evals, traces, cost, latency, and risk rather than public benchmarks alone.",
+      "supporting_source_ids": [
+        "openai-agents-sdk-tracing",
+        "opentelemetry-genai-semconv",
+        "agentbench",
+        "webarena",
+        "swe-bench",
+        "gaia",
+        "tau-bench",
+        "osworld",
+        "openai-paperbench",
+        "openai-browsecomp"
+      ],
+      "context_source_ids": [
+        "negative-benchmark-leaderboards"
+      ],
+      "source_support": {
+        "openai-agents-sdk-tracing": "Supports tracing model calls, tool calls, handoffs, and spans.",
+        "opentelemetry-genai-semconv": "Supports standardized GenAI telemetry vocabulary.",
+        "agentbench": "Supports interactive agent eval dimensions.",
+        "negative-benchmark-leaderboards": "Warns against durable leaderboard-score claims."
+      },
+      "caveat": "Rewrite as 'local evals and traces justify architecture changes' rather than 'evaluation chooses architecture.'",
+      "reviewed_date": "2026-06-03"
+    },
+    "C41": {
+      "slug": "timeline-2022-2026",
+      "claim_type": "historical-claim",
+      "evidence_strength": "medium",
+      "current_claim_summary": "Timeline 2022-2026 covers ReAct, function calls, workflow/agent framing, multi-agent plus CUA, and harness hardening.",
+      "reasoning_bridge": "The milestone sequence is plausible with available sources, but each year needs its own source and the 2026 wording must be reviewed through 2026-06-03.",
+      "supporting_source_ids": [
+        "react",
+        "openai-function-calling-2023",
+        "anthropic-building-effective-agents",
+        "openai-computer-using-agent",
+        "openai-operator-system-card",
+        "anthropic-multi-agent-research-system",
+        "openai-agents-sdk-docs",
+        "a2a-protocol-spec",
+        "linux-foundation-a2a-v1",
+        "five-eyes-agentic-ai-guidance"
+      ],
+      "context_source_ids": [
+        "negative-benchmark-leaderboards"
+      ],
+      "source_support": {
+        "react": "Supports the 2022/2023 reasoning-plus-acting milestone.",
+        "openai-function-calling-2023": "Candidate source for the 2023 function-calling milestone; needs catalog entry.",
+        "anthropic-building-effective-agents": "Supports 2024 workflow/agent practitioner framing.",
+        "openai-computer-using-agent": "Supports computer-use tooling milestone.",
+        "a2a-protocol-spec": "Supports 2026 A2A spec status."
+      },
+      "caveat": "Use milestone-level annotations and replace stale 'April snapshot' language with 'reviewed through 2026-06-03.'",
+      "reviewed_date": "2026-06-03"
+    },
+    "C42": {
+      "slug": "memory-practical-four-part-typology",
+      "claim_type": "definition",
+      "secondary_claim_types": [
+        "taxonomy-claim"
+      ],
+      "evidence_strength": "medium",
+      "current_claim_summary": "Memory is not big prompt/RAG; the page uses a four-part practical typology.",
+      "reasoning_bridge": "MemGPT, Generative Agents, and Reflexion support distinct memory mechanisms, while the negative finding limits the four-part split to a practical page taxonomy.",
+      "supporting_source_ids": [
+        "memgpt",
+        "generative-agents",
+        "reflexion",
+        "mcp-spec-2025-11-25"
+      ],
+      "context_source_ids": [
+        "negative-memory-taxonomy"
+      ],
+      "source_support": {
+        "memgpt": "Supports managed memory beyond context window.",
+        "generative-agents": "Supports memory stream/reflection/planning mechanisms.",
+        "reflexion": "Supports feedback/lesson memory patterns.",
+        "negative-memory-taxonomy": "Limits the split from universal ontology to practical typology."
+      },
+      "caveat": "Say 'a practical split for this page' and avoid implying field-wide standardization.",
+      "reviewed_date": "2026-06-03"
+    },
+    "C44": {
+      "slug": "context-retrieval-logs-not-memory-by-default",
+      "claim_type": "definition",
+      "secondary_claim_types": [
+        "safety-claim"
+      ],
+      "evidence_strength": "medium",
+      "current_claim_summary": "Context window, retrieval, and logs are not memory by default; memory needs read/write policy.",
+      "reasoning_bridge": "Memory architecture and tool-design sources support explicit control over what is stored, recalled, and promoted into context, while tracing sources keep logs separate from memory.",
+      "supporting_source_ids": [
+        "memgpt",
+        "anthropic-writing-tools-for-agents",
+        "openai-practical-guide-building-agents",
+        "opentelemetry-genai-semconv"
+      ],
+      "context_source_ids": [
+        "negative-memory-taxonomy",
+        "owasp-agentic-skills-top-10"
+      ],
+      "source_support": {
+        "memgpt": "Supports explicit memory management mechanisms.",
+        "anthropic-writing-tools-for-agents": "Supports controlled tool/context surfaces.",
+        "opentelemetry-genai-semconv": "Supports traces/logs as observability artifacts, not memory by default."
+      },
+      "caveat": "Define memory operationally by read/write policy, provenance, TTL, and authority rather than storage medium alone.",
+      "reviewed_date": "2026-06-03"
+    },
+    "C46": {
+      "slug": "decision-tree-and-hitl-gates",
+      "claim_type": "architectural-recommendation",
+      "secondary_claim_types": [
+        "safety-claim"
+      ],
+      "evidence_strength": "medium",
+      "current_claim_summary": "Decision tree maps constraints to minimal sufficient architecture and uses HITL gates for risky errors.",
+      "reasoning_bridge": "Anthropic/OpenAI support simple-first architecture decisions, while safety sources support HITL as one control for high-risk actions but not a complete mitigation.",
+      "supporting_source_ids": [
+        "anthropic-building-effective-agents",
+        "openai-practical-guide-building-agents",
+        "owasp-llm-top-10-2025",
+        "owasp-agentic-skills-top-10",
+        "five-eyes-agentic-ai-guidance",
+        "openai-operator-system-card",
+        "agentdojo"
+      ],
+      "context_source_ids": [
+        "negative-hitl-sufficiency"
+      ],
+      "source_support": {
+        "anthropic-building-effective-agents": "Supports simple-first architecture decisions.",
+        "openai-practical-guide-building-agents": "Supports guardrails and orchestration decisions.",
+        "openai-operator-system-card": "Supports confirmations/restricted actions for high-risk browser actions.",
+        "negative-hitl-sufficiency": "Limits HITL from sufficient control to one part of a control stack."
+      },
+      "caveat": "Pair HITL with scoped permissions, trusted UI/context, audit trails, policy checks, monitoring, and untrusted-content boundaries.",
+      "reviewed_date": "2026-06-03"
+    },
+    "C52": {
+      "slug": "strong-emergence-engineering-stance",
+      "claim_type": "causal-claim",
+      "secondary_claim_types": [
+        "safety-claim"
+      ],
+      "evidence_strength": "contested",
+      "current_claim_summary": "Strong emergence is usually an excuse for unpredictability and rarely provable in engineering systems.",
+      "reasoning_bridge": "The research backlog found stronger support for mechanism-first explanations through topology, memory, tools, coordination, and traces than for broad philosophical claims about emergence.",
+      "supporting_source_ids": [
+        "negative-emergence",
+        "generative-agents",
+        "openai-agents-sdk-tracing",
+        "opentelemetry-genai-semconv"
+      ],
+      "context_source_ids": [
+        "wooldridge-jennings-1995",
+        "shoham-1993"
+      ],
+      "source_support": {
+        "negative-emergence": "Supports moving emergence language to cautious, mechanism-first framing.",
+        "generative-agents": "Supports architecture-specific explanation of social-agent behavior.",
+        "openai-agents-sdk-tracing": "Supports observable mechanism/tracing language."
+      },
+      "caveat": "Frame as an engineering preference: explain behavior through mechanisms and traces before invoking emergence.",
+      "reviewed_date": "2026-06-03"
+    },
+    "C53": {
+      "slug": "signals-2026-do-not-change-taxonomy",
+      "claim_type": "taxonomy-claim",
+      "secondary_claim_types": [
+        "protocol-status-claim"
+      ],
+      "evidence_strength": "medium",
+      "current_claim_summary": "2026 signals do not change the taxonomy; they strengthen execution substrate/A6 and failure/eval sections.",
+      "reasoning_bridge": "OpenAI docs, A2A v1.0.0, OpenTelemetry, and Five Eyes guidance support updated substrate/protocol/safety/eval evidence, but they do not prove the taxonomy is complete or frozen.",
+      "supporting_source_ids": [
+        "openai-agents-sdk-docs",
+        "openai-agents-sdk-tracing",
+        "a2a-protocol-spec",
+        "linux-foundation-a2a-v1",
+        "opentelemetry-genai-semconv",
+        "five-eyes-agentic-ai-guidance"
+      ],
+      "context_source_ids": [
+        "negative-mcp-a2a-adoption",
+        "negative-hitl-sufficiency"
+      ],
+      "source_support": {
+        "openai-agents-sdk-docs": "Supports current agent execution substrate vocabulary.",
+        "a2a-protocol-spec": "Supports current protocol scope/status.",
+        "five-eyes-agentic-ai-guidance": "Supports fresh 2026 safety/governance emphasis."
+      },
+      "caveat": "Date-stamp as reviewed 2026-06-03 and avoid saying future developments cannot change the map.",
+      "reviewed_date": "2026-06-03"
+    },
+    "C54": {
+      "slug": "remaining-from-original-changelog",
+      "claim_type": "meta-commentary",
+      "evidence_strength": "strong",
+      "current_claim_summary": "The page ends with what remains from the original and a list of what has been added.",
+      "reasoning_bridge": "Internal task files can support process history, but process history is not public evidence for the taxonomy and should move out of the main flow.",
+      "supporting_source_ids": [
+        "tasks-readme"
+      ],
+      "context_source_ids": [
+        "audit-annotation-ui-spec"
+      ],
+      "source_support": {
+        "tasks-readme": "Supports internal rewrite process history only.",
+        "audit-annotation-ui-spec": "Supports moving process notes away from public claim annotations."
+      },
+      "caveat": "Move to appendix/hidden notes or delete from the main read; do not annotate as taxonomy evidence.",
+      "reviewed_date": "2026-06-03"
+    },
+    "C55": {
+      "slug": "footer-bibliography-without-claim-mapping",
+      "claim_type": "meta-commentary",
+      "secondary_claim_types": [
+        "protocol-status-claim",
+        "historical-claim",
+        "product-system-claim"
+      ],
+      "evidence_strength": "strong",
+      "current_claim_summary": "The footer is a global source list without links, claim mapping, access dates, or evidence strength.",
+      "reasoning_bridge": "The local source catalog and annotation spec directly show that source existence must be separated from claim support and time-sensitive docs need access dates.",
+      "supporting_source_ids": [
+        "research-sources-catalog",
+        "audit-annotation-ui-spec"
+      ],
+      "context_source_ids": [
+        "negative-product-architecture",
+        "negative-mcp-a2a-adoption",
+        "negative-memory-taxonomy"
+      ],
+      "source_support": {
+        "research-sources-catalog": "Provides reviewed source records and source limitations.",
+        "audit-annotation-ui-spec": "Defines claim-level registry and annotation requirements.",
+        "negative-product-architecture": "Shows why footer-only product docs are not enough."
+      },
+      "caveat": "Replace footer-only bibliography with claim-level annotations and a source drawer/registry; keep public UI visually light.",
+      "reviewed_date": "2026-06-03"
+    }
+  },
+  "annotation_scaffold": {
+    "recommended_claim_markup": {
+      "element": "span.claim or tr.claim-row",
+      "required_data_attributes": [
+        "data-claim-id",
+        "data-claim-type",
+        "data-evidence-strength"
+      ],
+      "marker_class": "evidence-marker",
+      "marker_accessibility": "Use a button with aria-label; evidence strength must not be conveyed by color alone."
+    },
+    "public_marker_rules": {
+      "show": [
+        "strong",
+        "medium",
+        "weak",
+        "contested"
+      ],
+      "author_only": [
+        "missing"
+      ],
+      "avoid": "Square bracket citation markers in the main reading flow."
+    },
+    "tooltip_fields": [
+      "claim_type",
+      "evidence_strength",
+      "reasoning_bridge",
+      "up to three source labels",
+      "caveat"
+    ],
+    "drawer_fields": [
+      "selected claim",
+      "evidence summary",
+      "source list with links",
+      "what each source supports",
+      "what each source does not support",
+      "related negative findings",
+      "reviewed date"
+    ]
+  }
+}
