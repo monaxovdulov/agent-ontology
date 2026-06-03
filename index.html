@@ -970,17 +970,20 @@
 <section>
   <div class="sec-num">§ 11 — память</div>
   <h2>Memory typology</h2>
-  <p>Memory в агентной системе — не синоним «большого prompt» и не просто RAG поверх векторной БД. Это набор разных подсистем с разной длительностью жизни, правилами записи и уровнем доверия. Практическая привязка к архитектуре такая: <b>working memory</b> — это state/current context текущего запуска, <b>semantic memory</b> — RAG/knowledge layer, <b>episodic memory</b> — cross-session history, <b>procedural memory</b> — skills/procedures.</p>
+  <!-- C42 hidden note: MemGPT supports managed memory beyond context; Generative Agents supports memory stream/reflection/planning; Reflexion supports stored feedback/lessons; the local negative finding limits this to a practical page typology, not a universal ontology. -->
+  <p class="claim" data-claim-id="C42" data-claim-type="definition" data-evidence-strength="medium" data-reviewed-date="2026-06-03"><span class="evidence-chip">C42 · medium</span>Memory в агентной системе — не синоним «большого prompt» и не просто RAG поверх векторной БД. В этой странице это <b>практическая</b>, а не универсальная, типология: reviewed sources не дают field-wide стандарта agent-memory, а papers и products часто смешивают memory, retrieval, conversation history, reflection logs и long-term stores. Поэтому четыре типа ниже — рабочая инженерная разбивка: <b>working</b>, <b>episodic</b>, <b>semantic</b> и <b>procedural</b> memory.</p>
 
-  <table class="stack">
+  <p class="note">Главный design question здесь не «в какой базе лежат данные», а кто имеет право писать и читать memory, как долго запись живёт, откуда она взялась, насколько она свежая, когда её надо удалить и какой authority имеет retrieved или tool-provided text внутри prompt.</p>
+
+  <table class="stack memory-table memory-type-table">
     <thead>
-      <tr><th>Тип</th><th>Что хранит</th><th>Где живёт в architecture</th><th>Как использует агент</th></tr>
+      <tr><th>Тип</th><th>Что хранит</th><th>Практическая architecture mapping</th><th>Caveat / policy</th></tr>
     </thead>
     <tbody>
-      <tr><td>Working memory</td><td>Цель пользователя, текущий план, ограничения, последние tool outputs, промежуточные артефакты.</td><td>State/current context: graph state, scratchpad, selected messages inside the context window.</td><td>Держит фокус текущей задачи, передаёт handoff payload, помогает выбрать next action без повторного поиска.</td></tr>
-      <tr><td>Episodic memory</td><td>События прошлых сессий: решения, предпочтения, выполненные задачи, ошибки, важные outcomes.</td><td>Cross-session history: долговременное хранилище с write policy, TTL, provenance и правом забывания.</td><td>Восстанавливает проектный контекст, не заставляет пользователя повторять уже известное, поддерживает персонализацию.</td></tr>
-      <tr><td>Semantic memory</td><td>Факты, документы, политики, доменные знания, справочники, кодовая база или внешняя knowledge base.</td><td>RAG/knowledge layer: индекс, search API, vector store, citations, ranking and freshness rules.</td><td>Достаёт проверяемые знания в момент задачи; модель видит не всю базу, а retrieved evidence в context window.</td></tr>
-      <tr><td>Procedural memory</td><td>Как выполнять повторяемые действия: skills, playbooks, tool recipes, prompt fragments, coding conventions.</td><td>Skills/procedures: skill registry, tool wrappers, workflow templates, system/developer instructions.</td><td>Снижает вариативность исполнения: агент выбирает известную процедуру вместо повторного изобретения плана.</td></tr>
+      <tr><td>Working memory</td><td>Цель пользователя, текущий план, ограничения, последние tool outputs, промежуточные артефакты.</td><td>Runtime state: graph state, scratchpad, handoff payload, selected messages and artifacts inside the active context.</td><td>Не durable memory сама по себе. Если state должен пережить вызов или session, harness должен явно записать summary/state diff с provenance; untrusted tool output остаётся evidence, а не instruction.</td></tr>
+      <tr><td>Episodic memory</td><td>События прошлых сессий: решения, предпочтения, выполненные задачи, ошибки, важные outcomes.</td><td>Cross-session store: curated summaries, user/project history, reflection records, feedback or lessons tied to time and source.</td><td>Нужны write policy, TTL, freshness checks, provenance и delete/forget rules. Сырой chat/log не становится episodic memory без отбора и суммаризации.</td></tr>
+      <tr><td>Semantic memory</td><td>Факты, документы, политики, доменные знания, справочники, кодовая база или внешняя knowledge base.</td><td>Knowledge layer: document store, search API, vector index, citations, ranking and source-freshness metadata.</td><td>Retrieval — механизм выбора, а не memory policy. Retrieved chunks должны иметь source authority, freshness and citation rules; внешние тексты не должны повышаться до system/developer instructions.</td></tr>
+      <tr><td>Procedural memory</td><td>Как выполнять повторяемые действия: skills, playbooks, tool recipes, prompt fragments, coding conventions.</td><td>Procedure layer: skill registry, tool wrappers, workflow templates, versioned instructions and task playbooks.</td><td>Procedures требуют owner/version, permission boundary и refresh cycle. Tool recipes и prompt fragments устаревают, поэтому агенту нужен способ отличать approved procedure от случайной подсказки из retrieved text.</td></tr>
     </tbody>
   </table>
 
@@ -1043,18 +1046,21 @@
       </marker>
     </defs>
   </svg>
-  <figcaption><b>fig.7</b> · четыре типа memory подключаются к harness по-разному; context window, retrieval и logs — соседние механизмы, а не сама память</figcaption>
+  <figcaption><b>fig.7</b> · <span class="evidence-chip">C42 medium</span>четыре типа memory подключаются к harness по-разному; context window, retrieval и logs — соседние механизмы, а не сама память</figcaption>
   </figure>
 
   <h3>Границы терминов</h3>
-  <table class="stack">
+  <!-- C44 hidden note: MemGPT supports explicit context/external-memory management; Writing Tools supports controlled agent-facing surfaces; OpenTelemetry keeps traces/logs as observability artifacts rather than memory by default. -->
+  <p class="claim" data-claim-id="C44" data-claim-type="definition" data-evidence-strength="medium" data-reviewed-date="2026-06-03"><span class="evidence-chip">C44 · medium</span>Context window, retrieval и logs находятся рядом с memory, но не равны ей. Memory начинается там, где harness задаёт read/write policy, TTL или freshness rule, provenance, delete/forget semantics и authority boundaries для retrieved content, tool output и human-authored instructions.</p>
+
+  <table class="stack memory-table memory-boundary-table">
     <thead>
-      <tr><th>Механизм</th><th>Чем является</th><th>Чем не является</th></tr>
+      <tr><th>Механизм</th><th>Чем является</th><th>Граница memory</th></tr>
     </thead>
     <tbody>
-      <tr><td>Context window</td><td>Оперативный буфер модели на один вызов: инструкции, сообщения, retrieved chunks, tool outputs и часть working memory.</td><td>Не долговременная память: после вызова всё исчезает, если harness явно не записал state.</td></tr>
-      <tr><td>Retrieval</td><td>Механизм выбора релевантных фрагментов из semantic/episodic/procedural stores.</td><td>Не память сама по себе: поиск не решает, что хранить, когда обновлять и чему доверять.</td></tr>
-      <tr><td>Logs</td><td>Сырой trace для observability: model calls, tool calls, errors, timings, state diffs.</td><td>Не agent memory по умолчанию: лог становится episodic memory только после отбора, суммаризации и записи с provenance.</td></tr>
+      <tr><td>Context window</td><td>Оперативный буфер модели на один вызов: инструкции, сообщения, retrieved chunks, tool outputs и часть working memory.</td><td>Не долговременная память: после вызова всё исчезает, если harness явно не записал state или summary с provenance и TTL.</td></tr>
+      <tr><td>Retrieval</td><td>Механизм выбора релевантных фрагментов из semantic/episodic/procedural stores.</td><td>Не memory policy: поиск не решает, что хранить, когда обновлять, чему доверять и какие retrieved instructions имеют authority.</td></tr>
+      <tr><td>Logs</td><td>Сырой trace для observability: model calls, tool calls, errors, timings, state diffs.</td><td>Не agent memory по умолчанию: лог становится episodic memory только после отбора, суммаризации, redaction и записи с provenance/delete rules.</td></tr>
     </tbody>
   </table>
 

@@ -185,6 +185,58 @@
     .stack td:first-child{width:32%;font-size:11px}
     .stack td,.stack th{padding:6px 7px;font-size:13px}
   }
+  @media(max-width:640px){
+    .memory-table{
+      border:0;
+      display:block;
+    }
+    .memory-table thead{
+      display:none;
+    }
+    .memory-table tbody,
+    .memory-table tr,
+    .memory-table td{
+      display:block;
+      width:100%;
+    }
+    .memory-table tr{
+      border:1px solid var(--ink);
+      margin:0 0 10px;
+      background:var(--paper-2);
+    }
+    .memory-table td{
+      border:0;
+      border-top:1px solid rgba(26,31,46,.28);
+      padding:8px 9px;
+    }
+    .memory-table td:first-child{
+      border-top:0;
+      background:var(--ink);
+      color:var(--paper);
+      font-size:11px;
+      width:100%;
+    }
+    .memory-table td::before{
+      content:"";
+      display:block;
+      font-family:"JetBrains Mono",monospace;
+      font-size:10px;
+      letter-spacing:.08em;
+      text-transform:uppercase;
+      color:var(--accent);
+      margin-bottom:3px;
+    }
+    .memory-table td:first-child::before{
+      color:var(--paper-3);
+    }
+    .memory-type-table td:nth-child(1)::before{content:"Тип"}
+    .memory-type-table td:nth-child(2)::before{content:"Что хранит"}
+    .memory-type-table td:nth-child(3)::before{content:"Mapping"}
+    .memory-type-table td:nth-child(4)::before{content:"Caveat / policy"}
+    .memory-boundary-table td:nth-child(1)::before{content:"Механизм"}
+    .memory-boundary-table td:nth-child(2)::before{content:"Чем является"}
+    .memory-boundary-table td:nth-child(3)::before{content:"Граница memory"}
+  }
 
   /* Real systems map */
   .system-map{
