@@ -543,80 +543,114 @@
     "cursor-docs-agent-tools-background-agents": {
       "title": "Cursor Docs: Agent tools; Background Agents",
       "authors_or_org": "Cursor",
-      "date": "footer-only source; needs access date",
-      "url": null,
-      "source_type": "official product docs candidate",
-      "evidence_tier": "TBD",
-      "reliability": "candidate primary",
-      "registry_status": "source-stub",
+      "date": "living docs; accessed 2026-06-03",
+      "url": "https://docs.cursor.com/background-agent",
+      "supporting_urls": [
+        "https://docs.cursor.com/en/agent/overview",
+        "https://docs.cursor.com/en/agent/tools",
+        "https://docs.cursor.com/background-agent"
+      ],
+      "source_type": "official product docs",
+      "evidence_tier": "Tier 2",
+      "reliability": "primary for public product surface",
+      "registry_status": "cataloged",
       "time_sensitive": true,
-      "supports": "Candidate source for Cursor visible feature claims.",
-      "does_not_support": "Cursor internal topology until docs are reviewed and specific pages are cataloged."
+      "accessed": "2026-06-03",
+      "supports": "Cursor Agent public surface for searching/editing/running code, MCP tool access, and Background Agents as asynchronous remote coding agents in isolated Ubuntu-based machines with GitHub branch handoff/follow-up/takeover.",
+      "does_not_support": "Cursor's hidden planner, scheduler, ranking policy, or internal coordination topology."
     },
     "devin-docs-introducing-scheduled-sessions": {
       "title": "Devin Docs: Introducing Devin; Scheduled Sessions",
       "authors_or_org": "Cognition / Devin",
-      "date": "footer-only source; needs access date",
-      "url": null,
-      "source_type": "official product docs candidate",
-      "evidence_tier": "TBD",
-      "reliability": "candidate primary",
-      "registry_status": "source-stub",
+      "date": "living docs; accessed 2026-06-03",
+      "url": "https://docs.devin.ai/",
+      "supporting_urls": [
+        "https://docs.devin.ai/",
+        "https://docs.devin.ai/product-guides/scheduled-sessions"
+      ],
+      "source_type": "official product docs",
+      "evidence_tier": "Tier 2",
+      "reliability": "primary for public product surface",
+      "registry_status": "cataloged",
       "time_sensitive": true,
-      "supports": "Candidate source for Devin visible feature and scheduled-session claims.",
-      "does_not_support": "Hidden Devin architecture or coordination internals until docs are reviewed."
+      "accessed": "2026-06-03",
+      "supports": "Devin's public software-engineering surface: writing/running/testing code, handling tickets/bugs/features/internal tools, and recurring or one-time scheduled sessions.",
+      "does_not_support": "Devin's hidden decomposition, memory model, shared state, or internal coordination graph."
     },
     "anthropic-claude-code-docs": {
       "title": "Anthropic Docs: Claude Code overview; Security; Settings",
       "authors_or_org": "Anthropic",
-      "date": "footer-only source; needs access date",
-      "url": null,
-      "source_type": "official product docs candidate",
-      "evidence_tier": "TBD",
-      "reliability": "candidate primary",
-      "registry_status": "source-stub",
+      "date": "living docs; accessed 2026-06-03",
+      "url": "https://code.claude.com/docs/en/overview",
+      "supporting_urls": [
+        "https://code.claude.com/docs/en/overview",
+        "https://code.claude.com/docs/en/security",
+        "https://code.claude.com/docs/en/settings",
+        "https://code.claude.com/docs/en/sub-agents"
+      ],
+      "source_type": "official product docs",
+      "evidence_tier": "Tier 1",
+      "reliability": "primary for public product surface",
+      "registry_status": "cataloged",
       "time_sensitive": true,
-      "supports": "Candidate source for Claude Code visible tool, terminal, permission, hook, and subagent claims.",
-      "does_not_support": "Claude Code security posture as sufficient without independent safety sources."
+      "accessed": "2026-06-03",
+      "supports": "Claude Code visible surfaces: codebase reading, file edits, command execution, MCP, hooks/settings, subagents, and permission-based controls.",
+      "does_not_support": "Claude Code safety sufficiency, full internal orchestration, ranking, or memory-selection behavior."
     },
     "manus-docs-browser-wide-research": {
       "title": "Manus Docs: Browser Operator; Wide Research; Zapier integration",
       "authors_or_org": "Manus",
-      "date": "footer-only source; needs access date",
-      "url": null,
-      "source_type": "official product docs candidate",
-      "evidence_tier": "TBD",
-      "reliability": "candidate primary",
-      "registry_status": "source-stub",
+      "date": "living docs; accessed 2026-06-03",
+      "url": "https://manus.im/docs/features/browser-operator",
+      "supporting_urls": [
+        "https://manus.im/docs/features/browser-operator",
+        "https://manus.im/docs/features/wide-research",
+        "https://manus.im/docs/integrations/zapier"
+      ],
+      "source_type": "official product docs",
+      "evidence_tier": "Tier 2",
+      "reliability": "primary for public product surface",
+      "registry_status": "cataloged",
       "time_sensitive": true,
-      "supports": "Candidate source for Manus visible browser/operator and wide research feature claims.",
-      "does_not_support": "Manus internal orchestrator or topology unless official docs expose it."
+      "accessed": "2026-06-03",
+      "supports": "Manus public Browser Operator, Wide Research parallel-subtask surface, and Zapier-triggered Manus task automation.",
+      "does_not_support": "Manus internal orchestrator, worker isolation, handoff policy, or peer-to-peer coordination."
     },
     "openai-deep-research-docs": {
       "title": "OpenAI Help/API Docs: Deep research in ChatGPT; Deep research guide",
       "authors_or_org": "OpenAI",
-      "date": "footer-only source; needs access date",
-      "url": null,
-      "source_type": "official product/API docs candidate",
-      "evidence_tier": "TBD",
-      "reliability": "candidate primary",
-      "registry_status": "source-stub",
+      "date": "living docs; accessed 2026-06-03",
+      "url": "https://help.openai.com/en/articles/10500283-search-in-chatgpt",
+      "supporting_urls": [
+        "https://help.openai.com/en/articles/10500283-search-in-chatgpt",
+        "https://platform.openai.com/docs/guides/deep-research"
+      ],
+      "source_type": "official help/API docs",
+      "evidence_tier": "Tier 1",
+      "reliability": "primary for public product/API surface",
+      "registry_status": "cataloged",
       "time_sensitive": true,
-      "supports": "Candidate source for OpenAI deep research feature and supported-tool claims.",
-      "does_not_support": "Absolute read-only boundaries or hidden architecture without exact docs."
+      "accessed": "2026-06-03",
+      "supports": "ChatGPT deep research planning, selectable sources, progress, interruption/refinement, cited reports, and API deep research tool surfaces including web search, file search, remote MCP servers, and code interpreter.",
+      "does_not_support": "A universal read-only boundary or hidden OpenAI search/orchestration strategy."
     },
     "autogpt-readme-docs": {
       "title": "AutoGPT README and docs: Platform blocks; Agent blocks",
       "authors_or_org": "AutoGPT project",
-      "date": "footer-only source; needs access date",
-      "url": null,
-      "source_type": "official project docs candidate",
-      "evidence_tier": "TBD",
-      "reliability": "candidate primary",
-      "registry_status": "source-stub",
+      "date": "living repository/docs; accessed 2026-06-03",
+      "url": "https://github.com/Significant-Gravitas/AutoGPT",
+      "supporting_urls": [
+        "https://github.com/Significant-Gravitas/AutoGPT",
+        "https://docs.agpt.co/platform/blocks/blocks/"
+      ],
+      "source_type": "official open-source repository and project docs",
+      "evidence_tier": "Tier 2",
+      "reliability": "primary for public project positioning",
+      "registry_status": "cataloged",
       "time_sensitive": true,
-      "supports": "Candidate source for current AutoGPT platform/workflow positioning.",
-      "does_not_support": "A general historical conclusion without dated version context."
+      "accessed": "2026-06-03",
+      "supports": "Current AutoGPT public positioning as a platform for building, deploying, and running continuous agents that automate complex workflows; blocks as modular workflow units.",
+      "does_not_support": "Broad claims about all AutoGPT deployments, historical impact, or hidden runtime orchestration."
     },
     "openai-function-calling-2023": {
       "title": "Function calling and other API updates",
@@ -988,62 +1022,72 @@
       "supporting_source_ids": [
         "openai-agents-sdk-docs",
         "openai-computer-using-agent",
-        "anthropic-multi-agent-research-system"
-      ],
-      "context_source_ids": [
-        "negative-product-architecture",
         "cursor-docs-agent-tools-background-agents",
         "devin-docs-introducing-scheduled-sessions",
         "anthropic-claude-code-docs",
         "manus-docs-browser-wide-research",
         "openai-deep-research-docs",
-        "autogpt-readme-docs"
+        "autogpt-readme-docs",
+        "anthropic-multi-agent-research-system"
+      ],
+      "context_source_ids": [
+        "negative-product-architecture"
       ],
       "source_support": {
         "openai-agents-sdk-docs": "Supports OpenAI agent feature vocabulary.",
         "openai-computer-using-agent": "Supports computer-use feature shape.",
+        "cursor-docs-agent-tools-background-agents": "Supports Cursor public coding-agent and Background Agent surface.",
+        "devin-docs-introducing-scheduled-sessions": "Supports Devin public coding-agent and scheduled-session surface.",
+        "anthropic-claude-code-docs": "Supports Claude Code public coding-agent and permission surface.",
+        "manus-docs-browser-wide-research": "Supports Manus public Browser Operator, Wide Research, and Zapier-trigger surface.",
+        "openai-deep-research-docs": "Supports OpenAI deep research product/API surface.",
+        "autogpt-readme-docs": "Supports AutoGPT current platform/block positioning.",
         "anthropic-multi-agent-research-system": "Provides one unusually detailed architecture case.",
         "negative-product-architecture": "Limits product placement to public control surfaces and documented behavior."
       },
-      "caveat": "Every product placement needs access dates and a visible distinction between documented behavior and taxonomy inference.",
+      "caveat": "Every product placement should separate documented behavior from taxonomy inference; dated docs still do not expose hidden internals.",
       "reviewed_date": "2026-06-03"
     },
     "C19": {
       "slug": "cursor-product-placement",
       "claim_type": "product-system-claim",
-      "evidence_strength": "weak",
+      "evidence_strength": "medium",
       "current_claim_summary": "Cursor coordinates and behavior include remote VM, branch, follow-up/takeover, and MCP.",
-      "reasoning_bridge": "The current page cites Cursor docs only as a footer source, so the registry can only treat Cursor claims as candidates until exact docs are cataloged.",
-      "supporting_source_ids": [],
+      "reasoning_bridge": "Cataloged Cursor docs support the public Agent and Background Agent surfaces; A2/A3/A4 placement remains a taxonomy inference from those surfaces.",
+      "supporting_source_ids": [
+        "cursor-docs-agent-tools-background-agents"
+      ],
       "context_source_ids": [
-        "cursor-docs-agent-tools-background-agents",
         "negative-product-architecture",
         "mcp-spec-2025-11-25"
       ],
       "source_support": {
-        "mcp-spec-2025-11-25": "Supports MCP scope only, not Cursor feature claims.",
+        "cursor-docs-agent-tools-background-agents": "Supports Cursor Agent tools, MCP tool surface, asynchronous Background Agents, remote Ubuntu-based environment, GitHub branch handoff, follow-up/takeover, and auto-run terminal behavior in background mode.",
+        "mcp-spec-2025-11-25": "Supports MCP scope only, not Cursor's implementation internals.",
         "negative-product-architecture": "Warns that visible behavior does not prove internal topology."
       },
-      "caveat": "Before publishing, add exact Cursor URLs, access date, and separate documented features from A2/A3/A4 inference.",
+      "caveat": "Do not infer Cursor's hidden planner, scheduler, ranking policy, or internal coordination graph from the public docs.",
       "reviewed_date": "2026-06-03"
     },
     "C20": {
       "slug": "devin-product-placement",
       "claim_type": "product-system-claim",
-      "evidence_strength": "weak",
+      "evidence_strength": "medium",
       "current_claim_summary": "Devin writes, runs, and tests code; works on tickets, bugs, refactors, docs, and recurring sessions.",
-      "reasoning_bridge": "The footer mentions Devin docs, but no cataloged source currently verifies the exact feature list or coordinate inference.",
-      "supporting_source_ids": [],
+      "reasoning_bridge": "Cataloged Devin docs support the visible software-engineering and scheduled-session surfaces; coordinate placement remains a taxonomy inference.",
+      "supporting_source_ids": [
+        "devin-docs-introducing-scheduled-sessions"
+      ],
       "context_source_ids": [
-        "devin-docs-introducing-scheduled-sessions",
         "negative-product-architecture",
         "swe-bench"
       ],
       "source_support": {
+        "devin-docs-introducing-scheduled-sessions": "Supports Devin writing/running/testing code, handling tickets/bugs/features/internal tools, and scheduled sessions.",
         "swe-bench": "Supports coding-agent evaluation task design, not Devin product behavior.",
         "negative-product-architecture": "Limits claims about hidden product architecture."
       },
-      "caveat": "Treat feature claims as time-sensitive and coordinate placement as inference until exact Devin docs are reviewed.",
+      "caveat": "Treat public sessions and scheduling as visible orchestration; do not infer hidden decomposition, memory model, shared state, or internal coordination.",
       "reviewed_date": "2026-06-03"
     },
     "C21": {
@@ -1052,24 +1096,24 @@
       "secondary_claim_types": [
         "safety-claim"
       ],
-      "evidence_strength": "weak",
+      "evidence_strength": "medium",
       "current_claim_summary": "Claude Code is a terminal harness with file tools, Bash, web/MCP, hooks, subagents, and explicit approval.",
-      "reasoning_bridge": "Claude Code docs are only a source stub here, while OWASP and Anthropic tool guidance can support risk framing around tool authority and approval.",
+      "reasoning_bridge": "Cataloged Claude Code docs support the visible coding-agent, tool, permission, hooks/settings, and subagent surfaces; OWASP and Anthropic tool guidance limit safety interpretation.",
       "supporting_source_ids": [
+        "anthropic-claude-code-docs",
         "anthropic-writing-tools-for-agents",
         "owasp-agentic-skills-top-10"
       ],
       "context_source_ids": [
-        "anthropic-claude-code-docs",
         "mcp-spec-2025-11-25",
         "negative-product-architecture"
       ],
       "source_support": {
+        "anthropic-claude-code-docs": "Supports Claude Code codebase reading, file edits, command execution, MCP, hooks/settings, subagents, and permission-based controls.",
         "anthropic-writing-tools-for-agents": "Supports why tool interfaces are part of agent reasoning.",
-        "owasp-agentic-skills-top-10": "Supports agentic skill/tool execution risk framing.",
-        "anthropic-claude-code-docs": "Candidate source for product feature details; not yet cataloged."
+        "owasp-agentic-skills-top-10": "Supports agentic skill/tool execution risk framing."
       },
-      "caveat": "Do not treat approval as sufficient safety; verify living Claude Code docs before marking product feature claims strong.",
+      "caveat": "Do not treat approval or sandbox controls as sufficient safety; docs do not expose all internal orchestration, ranking, or memory-selection behavior.",
       "reviewed_date": "2026-06-03"
     },
     "C22": {
@@ -1077,43 +1121,45 @@
       "claim_type": "product-system-claim",
       "evidence_strength": "weak",
       "current_claim_summary": "Manus Browser Operator and Wide Research placement; internal orchestrator undisclosed.",
-      "reasoning_bridge": "The current caveat is appropriate, but Manus docs are only a source stub and cannot yet support more than a tentative placement.",
-      "supporting_source_ids": [],
+      "reasoning_bridge": "Cataloged Manus docs support Browser Operator, Wide Research, and Zapier-triggered task surfaces, but the row remains tentative because internal orchestration is not public.",
+      "supporting_source_ids": [
+        "manus-docs-browser-wide-research"
+      ],
       "context_source_ids": [
-        "manus-docs-browser-wide-research",
         "negative-product-architecture",
         "webarena",
         "openai-browsecomp"
       ],
       "source_support": {
+        "manus-docs-browser-wide-research": "Supports Browser Operator planning/browser action after permission, Wide Research parallel-subtask surface, and Zapier-triggered Manus tasks.",
         "webarena": "Supports web-agent evaluation dimensions, not Manus product claims.",
         "openai-browsecomp": "Supports browsing/research benchmark dimensions, not Manus product claims.",
         "negative-product-architecture": "Supports keeping the placement tentative."
       },
-      "caveat": "Keep 'tentative' unless exact official Manus docs are cataloged and dated.",
+      "caveat": "Keep 'tentative' because docs do not expose the internal orchestrator, worker isolation details, handoff policy, or peer-to-peer coordination.",
       "reviewed_date": "2026-06-03"
     },
     "C23": {
       "slug": "openai-deep-research-product-placement",
       "claim_type": "product-system-claim",
-      "evidence_strength": "weak",
+      "evidence_strength": "medium",
       "current_claim_summary": "OpenAI deep research is a bounded read-only research agent with MCP search/fetch and code interpreter.",
-      "reasoning_bridge": "OpenAI agent docs and browsing benchmarks support research-agent evaluation context, but the exact deep research tool boundary needs a cataloged product/API doc.",
+      "reasoning_bridge": "Cataloged OpenAI Help/API docs support deep research planning, source selection, progress, citations, and API tool surfaces; the row should avoid absolute read-only or hidden-orchestration claims.",
       "supporting_source_ids": [
+        "openai-deep-research-docs",
         "openai-agents-sdk-docs",
         "openai-browsecomp"
       ],
       "context_source_ids": [
-        "openai-deep-research-docs",
         "mcp-spec-2025-11-25",
         "negative-product-architecture"
       ],
       "source_support": {
+        "openai-deep-research-docs": "Supports ChatGPT deep research planning, selectable sources, progress, interruption/refinement, cited reports, and API tool surfaces including web search, file search, remote MCP servers, and code interpreter.",
         "openai-agents-sdk-docs": "Supports current agent tooling vocabulary.",
-        "openai-browsecomp": "Supports difficult browsing/research evaluation dimensions.",
-        "openai-deep-research-docs": "Candidate source for feature/tool boundaries; not yet cataloged."
+        "openai-browsecomp": "Supports difficult browsing/research evaluation dimensions."
       },
-      "caveat": "Avoid absolute 'read-only' wording until exact current docs are cited with access date.",
+      "caveat": "Avoid absolute read-only wording: product docs describe read actions for connected apps, while API docs include code interpreter and MCP/file/search surfaces; internal search/orchestration strategy is not public.",
       "reviewed_date": "2026-06-03"
     },
     "C24": {
@@ -1122,18 +1168,20 @@
       "secondary_claim_types": [
         "historical-claim"
       ],
-      "evidence_strength": "weak",
+      "evidence_strength": "medium",
       "current_claim_summary": "AutoGPT is now a workflow/hybrid platform contrast.",
-      "reasoning_bridge": "The footer points to AutoGPT README/docs, but the research catalog has not reviewed them, so the historical contrast must stay dated and provisional.",
-      "supporting_source_ids": [],
+      "reasoning_bridge": "Cataloged AutoGPT README/docs support current public project positioning as a platform for building/deploying/running continuous agents and blocks as workflow units.",
+      "supporting_source_ids": [
+        "autogpt-readme-docs"
+      ],
       "context_source_ids": [
-        "autogpt-readme-docs",
         "negative-product-architecture"
       ],
       "source_support": {
+        "autogpt-readme-docs": "Supports current AutoGPT public platform/block positioning.",
         "negative-product-architecture": "Limits platform placement to public docs and visible control surfaces."
       },
-      "caveat": "Add exact repo/doc URLs, version or access date, and avoid broad claims about AutoGPT's evolution without dated evidence.",
+      "caveat": "Keep as dated project-positioning contrast; do not generalize to all AutoGPT deployments, historical impact, or hidden runtime orchestration.",
       "reviewed_date": "2026-06-03"
     },
     "C32": {

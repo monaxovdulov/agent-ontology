@@ -181,6 +181,12 @@
   .stack th,.stack td{border:1px solid var(--ink);padding:8px 10px;text-align:left;vertical-align:top}
   .stack th{background:var(--ink);color:var(--paper);font-family:"JetBrains Mono",monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;font-weight:500}
   .stack td:first-child{background:var(--paper-3);font-family:"JetBrains Mono",monospace;font-size:12px;letter-spacing:.04em;text-transform:uppercase;width:24%}
+  .product-table{font-size:13.5px;line-height:1.42}
+  .product-table td:first-child{width:13%}
+  .product-table td:nth-child(2){width:23%}
+  .product-table td:nth-child(3){width:26%}
+  .product-table td:nth-child(4){width:22%}
+  .product-table td:nth-child(5){width:16%}
   @media(max-width:560px){
     .stack td:first-child{width:32%;font-size:11px}
     .stack td,.stack th{padding:6px 7px;font-size:13px}
@@ -342,6 +348,55 @@
     .benchmark-table td:nth-child(1)::before{content:"Benchmark"}
     .benchmark-table td:nth-child(2)::before{content:"Dimension"}
     .benchmark-table td:nth-child(3)::before{content:"Local eval use"}
+
+    .product-table{
+      border:0;
+      display:block;
+    }
+    .product-table thead{
+      display:none;
+    }
+    .product-table tbody,
+    .product-table tr,
+    .product-table td{
+      display:block;
+      width:100%;
+    }
+    .product-table tr{
+      border:1px solid var(--ink);
+      margin:0 0 10px;
+      background:var(--paper-2);
+    }
+    .product-table td{
+      border:0;
+      border-top:1px solid rgba(26,31,46,.28);
+      padding:8px 9px;
+    }
+    .product-table td:first-child{
+      border-top:0;
+      background:var(--ink);
+      color:var(--paper);
+      font-size:11px;
+      width:100%;
+    }
+    .product-table td::before{
+      content:"";
+      display:block;
+      font-family:"JetBrains Mono",monospace;
+      font-size:10px;
+      letter-spacing:.08em;
+      text-transform:uppercase;
+      color:var(--accent);
+      margin-bottom:3px;
+    }
+    .product-table td:first-child::before{
+      color:var(--paper-3);
+    }
+    .product-table td:nth-child(1)::before{content:"System"}
+    .product-table td:nth-child(2)::before{content:"Documented surface"}
+    .product-table td:nth-child(3)::before{content:"Taxonomy inference"}
+    .product-table td:nth-child(4)::before{content:"Unknown / caveat"}
+    .product-table td:nth-child(5)::before{content:"Source / review"}
   }
 
   /* Real systems map */

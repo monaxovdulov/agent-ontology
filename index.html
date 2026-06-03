@@ -384,7 +384,7 @@
 <section>
   <div class="sec-num">§ 04 — реальные системы</div>
   <h2>Реальные системы как точки на карте</h2>
-  <p>Карта становится навигационным инструментом, когда конкретная система получает координату. Ниже placement по публично проверяемому поведению продукта, а не по внутренней архитектуре: сначала читаем <b>A2</b> (кто управляет потоком), затем <b>A3×A4</b> (какой граф и координация), потом уточняем <b>A1/A5/A6</b>.</p>
+  <p class="claim" data-claim-id="C18" data-claim-type="product-system-claim" data-evidence-strength="medium" data-reviewed-date="2026-06-03"><span class="evidence-chip">C18 · medium</span>Карта становится навигационным инструментом, когда конкретная система получает координату, но product placement здесь читается как <b>dated public-surface inference</b>: официальные docs подтверждают видимое поведение и UX/control surface, а координаты <b>A2/A3/A4</b> остаются выводом этой карты, не утверждением о скрытой внутренней архитектуре.</p>
 
   <div class="system-map" aria-label="Реальные системы на карте A2 и A3/A4">
     <div class="map-row-label top">star / pool · command delegation</div>
@@ -416,48 +416,54 @@
       workflow platform contrast
     </div>
   </div>
-  <div class="system-note">Пунктир = placement осторожный: публичные docs подтверждают capability, но не раскрывают внутреннюю координацию.</div>
+  <div class="system-note">Пунктир = placement особенно осторожный; строки ниже отдельно показывают documented surface, taxonomy inference, unknown/internal caveat и review date.</div>
 
-  <table class="stack">
+  <table class="stack product-table">
     <thead>
-      <tr><th>Система</th><th>Координата A2/A3/A4</th><th>A1/A5/A6</th><th>Почему здесь</th></tr>
+      <tr><th>Система</th><th>Documented public surface</th><th>Taxonomy inference</th><th>Unknown/internal caveat</th><th>Source / review</th></tr>
     </thead>
     <tbody>
-      <tr>
+      <tr class="claim" data-claim-id="C19" data-claim-type="product-system-claim" data-evidence-strength="medium" data-reviewed-date="2026-06-03">
         <td>Cursor</td>
-        <td><b>A2</b>: agent для Background Agents; foreground Agent ближе к hybrid из-за approvals.<br><b>A3</b>: star/pool — пользователь запускает независимые удалённые coding agents.<br><b>A4</b>: иерархическая команда + tool loop; background режим auto-runs terminal commands.</td>
-        <td><b>A1</b>: IDE/remote-VM harness + code tools + MCP.<br><b>A5</b>: coding worker, иногда reviewer/fixer.<br><b>A6</b>: IDE/platform + GitHub app.</td>
-        <td>Официальные docs описывают асинхронных агентов, которые редактируют и запускают код в изолированной Ubuntu VM, работают на отдельной ветке и допускают follow-up или takeover.</td>
+        <td>Agent surface for searching, editing and running code; Background Agents are asynchronous remote coding agents that edit/run code in an isolated Ubuntu-based machine, work from GitHub branches and allow follow-up or takeover.</td>
+        <td><b>A2</b>: agent for Background Agents; foreground Agent is closer to hybrid because approvals/guardrails remain visible.<br><b>A3/A4</b>: star/pool of user-launched coding sessions with command delegation and tool loop.<br><b>A1/A5/A6</b>: IDE plus remote-VM harness; coding worker/reviewer; Cursor platform and GitHub/MCP integrations.</td>
+        <td>Docs support the visible product surface, not Cursor's internal planner, scheduler, ranking policy or true coordination graph. Auto-run terminal behavior is a Background Agent surface, not a universal Cursor mode.</td>
+        <td><span class="evidence-chip">C19 · medium</span>Cursor Agent overview, Tools and Background Agents docs; accessed 2026-06-03.</td>
       </tr>
-      <tr>
+      <tr class="claim" data-claim-id="C20" data-claim-type="product-system-claim" data-evidence-strength="medium" data-reviewed-date="2026-06-03">
         <td>Devin</td>
-        <td><b>A2</b>: agent, с human handoff.<br><b>A3</b>: star/pool — отдельные sessions, параллельные задачи, scheduled runs.<br><b>A4</b>: иерархическая делегация через prompt/ticket/schedule; состояние видно в session.</td>
-        <td><b>A1</b>: software-engineer harness с IDE, terminal, browser, playbooks.<br><b>A5</b>: worker/generalist, reviewer, support engineer.<br><b>A6</b>: SaaS platform + Slack/Jira/Linear/GitHub-style integrations.</td>
-        <td>Docs осторожно, но прямо говорят: Devin пишет, запускает и тестирует код; его можно направлять на tickets, bugs, refactors, docs и recurring sessions.</td>
+        <td>Docs describe Devin as an autonomous AI software engineer that can write, run and test code, handle tickets/bugs/features/internal tools, and run scheduled sessions for recurring or one-time work.</td>
+        <td><b>A2</b>: delegated agent with human handoff and session review.<br><b>A3/A4</b>: star/pool of sessions or schedules coordinated by prompt, ticket or run configuration; session state is visible to the user.<br><b>A1/A5/A6</b>: software-engineering harness; worker/reviewer/support role; SaaS platform with development-workflow integrations.</td>
+        <td>Public docs do not expose Devin's internal decomposition, planner, memory model or whether parallel sessions share state. Scheduled sessions prove recurring orchestration, not peer-to-peer coordination.</td>
+        <td><span class="evidence-chip">C20 · medium</span>Devin Introducing Devin and Scheduled Sessions docs; accessed 2026-06-03.</td>
       </tr>
-      <tr>
+      <tr class="claim" data-claim-id="C21" data-claim-type="product-system-claim" data-evidence-strength="medium" data-reviewed-date="2026-06-03">
         <td>Claude Code</td>
-        <td><b>A2</b>: hybrid → agent — модель выбирает действия, но shell/edit требуют permission policy.<br><b>A3</b>: cyclic single-agent loop; star появляется при subagents.<br><b>A4</b>: command + permission gates + hooks.</td>
-        <td><b>A1</b>: terminal harness с file tools, Bash, web/MCP, hooks, subagents.<br><b>A5</b>: coding worker и локальный orchestrator.<br><b>A6</b>: CLI/SDK platform.</td>
-        <td>Anthropic docs описывают terminal-native agentic coding tool, который может редактировать файлы, запускать команды и создавать commits, но по умолчанию держит опасные действия за explicit approval.</td>
+        <td>Anthropic describes Claude Code as an agentic coding tool across terminal/IDE/web that reads codebases, edits files, runs commands, creates commits/PRs, uses MCP, hooks, memory/instructions and subagents; security docs describe permission-based architecture.</td>
+        <td><b>A2</b>: hybrid-to-agent; the model can select actions, while permission policy gates write/shell authority.<br><b>A3/A4</b>: cyclic single-agent loop; star/pool appears when multiple agents or subagents are used; command delegation plus permissions/hooks.<br><b>A1/A5/A6</b>: terminal/IDE/web harness; coding worker/orchestrator; Claude Code platform/SDK.</td>
+        <td>Approval prompts and sandboxing are product controls, not proof of sufficient safety. Docs do not reveal all internal orchestration, ranking or memory-selection behavior across surfaces.</td>
+        <td><span class="evidence-chip">C21 · medium</span>Claude Code overview, security, settings and subagents docs; accessed 2026-06-03.</td>
       </tr>
-      <tr>
+      <tr class="claim" data-claim-id="C22" data-claim-type="product-system-claim" data-evidence-strength="weak" data-reviewed-date="2026-06-03">
         <td>Manus <em>(tentative)</em></td>
-        <td><b>A2</b>: agent в пределах заявленных task modes.<br><b>A3</b>: star/pool для Wide Research; single browser operator для веб-задач.<br><b>A4</b>: hierarchical decomposition; независимые workers без подтверждённого peer-to-peer.</td>
-        <td><b>A1</b>: web/browser harness + connectors/Zapier.<br><b>A5</b>: generalist researcher/operator.<br><b>A6</b>: hosted platform + browser extension/integrations.</td>
-        <td>Официальные docs подтверждают Browser Operator, который планирует и выполняет действия в браузере после permission, и Wide Research, где главный agent дробит задачу на независимые подзадачи. Внутренний orchestrator не раскрыт, поэтому placement помечен осторожно.</td>
+        <td>Manus docs describe Browser Operator as a browser extension that can plan, navigate, click and execute workflows after permission, plus Wide Research for breaking complex work into parallel subtasks, and Zapier-triggered Manus tasks.</td>
+        <td><b>A2</b>: agent within documented task modes.<br><b>A3/A4</b>: tentative star/pool for Wide Research; single browser-operator loop for web tasks; hierarchical decomposition is inferred from task/subtask language.<br><b>A1/A5/A6</b>: browser/web harness and connectors; generalist researcher/operator; hosted platform plus extension/integrations.</td>
+        <td>Keep this row tentative. Official docs support the public feature claims, but not the internal orchestrator, worker isolation details, handoff policy or whether any peer-to-peer coordination exists.</td>
+        <td><span class="evidence-chip">C22 · weak</span>Manus Browser Operator, Wide Research and Zapier docs; accessed 2026-06-03.</td>
       </tr>
-      <tr>
+      <tr class="claim" data-claim-id="C23" data-claim-type="product-system-claim" data-evidence-strength="medium" data-reviewed-date="2026-06-03">
         <td>deep research</td>
-        <td><b>A2</b>: bounded agent — автономен внутри read-only research boundary.<br><b>A3</b>: cyclic search/read/analyze/synthesize loop.<br><b>A4</b>: blackboard/evidence coordination через план, источники, citations и progress trace.</td>
-        <td><b>A1</b>: research harness с web/file search, MCP search/fetch и code interpreter в API.<br><b>A5</b>: researcher/synthesizer.<br><b>A6</b>: ChatGPT tool + OpenAI Responses API.</td>
-        <td>OpenAI docs описывают план исследования, выбор источников пользователем, прогресс, interrupt/refine и отчёт с citations; API guide ограничивает deep research supported tools в основном search/fetch/data-analysis контуром.</td>
+        <td>OpenAI Help describes ChatGPT deep research as plan/research/synthesis with selectable sources, progress, interruption/refinement and cited reports. API docs describe deep research models in the Responses API with web search, file search, remote MCP servers and code interpreter.</td>
+        <td><b>A2</b>: bounded research agent, not general-purpose execution agent.<br><b>A3/A4</b>: cyclic search/read/analyze/synthesize loop with evidence-board style coordination through plan, sources, citations and trace output.<br><b>A1/A5/A6</b>: research harness; researcher/synthesizer role; ChatGPT tool plus Responses API.</td>
+        <td>Do not overstate a universal read-only boundary: ChatGPT docs say connected apps use read actions for research, while API docs include code interpreter and MCP/file/search surfaces. Internal search strategy and orchestration are not public.</td>
+        <td><span class="evidence-chip">C23 · medium</span>OpenAI Deep research in ChatGPT and API deep research guide; accessed 2026-06-03.</td>
       </tr>
-      <tr>
+      <tr class="claim" data-claim-id="C24" data-claim-type="product-system-claim" data-evidence-strength="medium" data-reviewed-date="2026-06-03">
         <td>AutoGPT <em>(contrast)</em></td>
-        <td><b>A2</b>: workflow → hybrid; classic autonomous loop остаётся историческим контрастом.<br><b>A3</b>: DAG/cyclic block graph.<br><b>A4</b>: encoded workflow control + shared runtime state; не mesh.</td>
-        <td><b>A1</b>: agent builder, blocks, server/runtime.<br><b>A5</b>: automation worker assembled by user.<br><b>A6</b>: open-source/self-host platform.</td>
-        <td>Текущий README и docs смещают AutoGPT к platform для build/deploy/run agents: пользователь собирает workflow из blocks, деплоит и мониторит continuous agents. Это полезный контраст к продуктам, где автономный harness скрыт за UX.</td>
+        <td>The current AutoGPT README frames AutoGPT as a platform for building, deploying and running continuous agents that automate complex workflows; docs describe blocks as modular workflow building units.</td>
+        <td><b>A2</b>: workflow-to-hybrid platform in the current public surface; the older autonomous-loop image is historical context, not the current primary placement.<br><b>A3/A4</b>: DAG/cyclic block graph with encoded workflow control and runtime state.<br><b>A1/A5/A6</b>: agent builder, blocks and server/runtime; user-assembled automation worker; open-source/self-host platform.</td>
+        <td>This is a dated project-positioning contrast. Public README/docs do not justify broad claims about all AutoGPT deployments, historical impact or hidden runtime orchestration.</td>
+        <td><span class="evidence-chip">C24 · medium</span>AutoGPT README and Blocks docs; accessed 2026-06-03.</td>
       </tr>
     </tbody>
   </table>
@@ -1314,12 +1320,12 @@
   · OpenAI Agents SDK docs. Agents, handoffs, tracing, sandbox execution.<br>
   · LangGraph docs. Multi-agent systems, supervisor, handoffs.<br>
   · Microsoft Agent Framework. Orchestration patterns: group chat, handoff, workflows.<br>
-  · Cursor Docs. Agent tools; Background Agents.<br>
-  · Devin Docs. Introducing Devin; Scheduled Sessions.<br>
-  · Anthropic Docs. Claude Code overview; Security; Settings.<br>
-  · Manus Docs. Browser Operator; Wide Research; Zapier integration.<br>
-  · OpenAI Help/API Docs. Deep research in ChatGPT; Deep research guide.<br>
-  · AutoGPT README and docs. Platform blocks; Agent blocks.<br>
+  · Cursor Docs. Agent overview, tools, Background Agents (accessed 2026-06-03).<br>
+  · Devin Docs. Introducing Devin; Scheduled Sessions (accessed 2026-06-03).<br>
+  · Anthropic Claude Code Docs. Overview; Security; Settings; Subagents (accessed 2026-06-03).<br>
+  · Manus Docs. Browser Operator; Wide Research; Zapier integration (accessed 2026-06-03).<br>
+  · OpenAI Help/API Docs. Deep research in ChatGPT; Deep research guide (accessed 2026-06-03).<br>
+  · AutoGPT README and docs. Platform blocks; Agent blocks (accessed 2026-06-03).<br>
   · Anthropic Cookbook · patterns/agents.<br>
   · Model Context Protocol Specification (2025-11-25; accessed 2026-06-03).<br>
   · Google Developers Blog (2025-04). Announcing the Agent2Agent Protocol.<br>

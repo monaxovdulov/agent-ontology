@@ -571,3 +571,93 @@ Selected sources are grouped here as a working catalog for future page edits. `u
 - **Why this source:** It is a primary classic BDI reference from the MAS literature.
 - **Page sections:** "Autonomy"; "Roles"; "Historical MAS"
 - **Note:** use
+
+## 39. Cursor Docs: Agent, Tools, Background Agents
+
+- **Authors / org:** Cursor
+- **Year / date:** living docs; accessed 2026-06-03
+- **URLs:** https://docs.cursor.com/en/agent/overview; https://docs.cursor.com/en/agent/tools; https://docs.cursor.com/background-agent
+- **Type:** official product docs
+- **Evidence tier:** Tier 2
+- **Reliability:** primary for public product surface
+- **Categories:** production agent systems; coding agents; tool use and tool design
+- **Why it matters:** These docs support Cursor's public coding-agent surface: Agent can search, edit and run code; Background Agents are asynchronous remote agents that edit and run code in an isolated Ubuntu-based machine, work through GitHub branches, and allow follow-up or takeover.
+- **Gap closed:** Replaces footer-only Cursor sourcing with exact dated docs for product placement.
+- **Why this source:** Official product docs are the strongest available source for visible Cursor capabilities.
+- **Page sections:** "Real systems"
+- **Note:** use with caution; supports public behavior, not Cursor's hidden planner, scheduler, or internal coordination topology.
+
+## 40. Devin Docs: Introducing Devin and Scheduled Sessions
+
+- **Authors / org:** Cognition / Devin
+- **Year / date:** living docs; accessed 2026-06-03
+- **URLs:** https://docs.devin.ai/; https://docs.devin.ai/product-guides/scheduled-sessions
+- **Type:** official product docs
+- **Evidence tier:** Tier 2
+- **Reliability:** primary for public product surface
+- **Categories:** production agent systems; coding agents; workflow automation
+- **Why it matters:** The docs support Devin's public software-engineering surface: writing, running and testing code, handling tickets/bugs/features/internal tools, and creating recurring or one-time scheduled sessions.
+- **Gap closed:** Replaces footer-only Devin sourcing with exact dated docs for product placement.
+- **Why this source:** Official docs are better than launch coverage for current product claims.
+- **Page sections:** "Real systems"
+- **Note:** use with caution; supports visible sessions and scheduling, not hidden decomposition, shared state, or internal coordination.
+
+## 41. Claude Code Docs
+
+- **Authors / org:** Anthropic
+- **Year / date:** living docs; accessed 2026-06-03
+- **URLs:** https://code.claude.com/docs/en/overview; https://code.claude.com/docs/en/security; https://code.claude.com/docs/en/settings; https://code.claude.com/docs/en/sub-agents
+- **Type:** official product docs
+- **Evidence tier:** Tier 1
+- **Reliability:** primary for public product surface
+- **Categories:** production agent systems; coding agents; tool use and tool design; safety / HITL / security / prompt injection
+- **Why it matters:** These docs support the visible Claude Code surface: codebase reading, file edits, command execution, MCP, hooks/settings, subagents, and permission-based controls.
+- **Gap closed:** Replaces footer-only Claude Code sourcing with exact dated docs for product placement.
+- **Why this source:** Official Anthropic docs are the strongest source for current Claude Code capability and permission-surface claims.
+- **Page sections:** "Real systems"; "Failure modes"; "Decision tree"
+- **Note:** use with caution; product permission docs do not prove sufficient safety and do not reveal all internal orchestration.
+
+## 42. Manus Docs: Browser Operator, Wide Research, Zapier
+
+- **Authors / org:** Manus
+- **Year / date:** living docs; accessed 2026-06-03
+- **URLs:** https://manus.im/docs/features/browser-operator; https://manus.im/docs/features/wide-research; https://manus.im/docs/integrations/zapier
+- **Type:** official product docs
+- **Evidence tier:** Tier 2
+- **Reliability:** primary for public product surface
+- **Categories:** production agent systems; browser/computer use; multi-agent coordination; workflow automation
+- **Why it matters:** The docs support Manus' visible browser/operator and parallel-task surfaces: Browser Operator acts in a browser after permission; Wide Research breaks complex tasks into parallel subtasks; Zapier can trigger Manus tasks.
+- **Gap closed:** Replaces footer-only Manus sourcing with exact dated docs for product placement.
+- **Why this source:** Official Manus docs are better than demos or third-party descriptions for feature claims.
+- **Page sections:** "Real systems"
+- **Note:** use with caution; placement should remain tentative because docs do not expose the internal orchestrator, worker isolation, or peer-to-peer coordination.
+
+## 43. OpenAI Deep Research Docs
+
+- **Authors / org:** OpenAI
+- **Year / date:** living docs; accessed 2026-06-03
+- **URLs:** https://help.openai.com/en/articles/10500283-search-in-chatgpt; https://platform.openai.com/docs/guides/deep-research
+- **Type:** official help/API docs
+- **Evidence tier:** Tier 1
+- **Reliability:** primary for public product/API surface
+- **Categories:** production agent systems; research agents; tool use and retrieval; evaluation and observability
+- **Why it matters:** The Help article supports the ChatGPT product surface for planning, selectable sources, progress, interruption/refinement, and cited reports; the API guide supports deep research models using web search, file search, remote MCP servers, and code interpreter through the Responses API.
+- **Gap closed:** Replaces footer-only deep research sourcing with exact dated product/API docs.
+- **Why this source:** Official OpenAI docs are strongest for current feature and supported-tool boundaries.
+- **Page sections:** "Real systems"; "Evaluation and Observability"; "Timeline"
+- **Note:** use with caution; do not overstate a universal read-only boundary or hidden orchestration details.
+
+## 44. AutoGPT README and Blocks Docs
+
+- **Authors / org:** Significant-Gravitas / AutoGPT project
+- **Year / date:** living repository/docs; accessed 2026-06-03
+- **URLs:** https://github.com/Significant-Gravitas/AutoGPT; https://docs.agpt.co/platform/blocks/blocks/
+- **Type:** official open-source repository and project docs
+- **Evidence tier:** Tier 2
+- **Reliability:** primary for public project positioning
+- **Categories:** production agent systems; workflow automation; agent architecture patterns
+- **Why it matters:** The current README frames AutoGPT as a platform for building, deploying and running continuous agents that automate complex workflows; the docs describe modular blocks as units for constructing workflows.
+- **Gap closed:** Replaces footer-only AutoGPT sourcing with exact dated repo/docs for the platform contrast.
+- **Why this source:** The official repository and docs are stronger than historical media coverage for current project positioning.
+- **Page sections:** "Real systems"; "Timeline"
+- **Note:** use with caution; supports dated public positioning, not broad claims about all AutoGPT deployments or hidden runtime orchestration.
