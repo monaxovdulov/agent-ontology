@@ -13,7 +13,7 @@ Mark exactly one task done when it is completed. Add a one-line note with change
 - [x] 09 - Evaluation, observability and benchmarks
 - [x] 10 - Real systems as dated map points
 - [x] 11 - Timeline 2022-2026
-- [ ] 12 - Decision guide, final synthesis and QA
+- [x] 12 - Decision guide, final synthesis and QA
 
 ## Completion Notes
 
@@ -34,3 +34,4 @@ Add notes here in this format:
 09 done - changed: index.html, assets/styles.css, prompts/progress.md; verified: C39/C40 eval annotations, benchmark dimension map and old overclaim phrase scan clean, section/figure/svg/table balance 15/15 8/8 8/8 12/12, git diff --check, browser desktop/mobile §09 layout check; residual page-level mobile overflow remains in §04 real systems table.
 10 done - changed: index.html, assets/styles.css, research/sources.md, research/page-evidence-registry.json, prompts/progress.md; verified: product docs cataloged/accessed 2026-06-03, C18-C24 product annotations, dated public-surface table split, old product-stub phrase scan clean, section/figure/svg/table balance 15/15 8/8 8/8 12/12, JSON parse, git diff --check; browser visual check blocked by file URL policy.
 11 done - changed: index.html, assets/styles.css, research/sources.md, research/bibliography.json, research/page-evidence-registry.json, prompts/progress.md; verified: C41 timeline annotations, OpenAI function-calling source cataloged, stale 2026 wording and function-source stub scan clean, section/figure/svg/table balance 15/15 8/8 8/8 13/13, JSON parse, git diff --check; browser visual check blocked by file URL policy.
+12 done - changed: index.html, assets/styles.css, research/page-evidence-registry.json, prompts/progress.md; verified: C46 decision guide and public conclusion/update policy, forbidden overclaim phrase scan clean, section/figure/svg/table balance 15/15 8/8 8/8 14/14, JSON parse, git diff --check, Browser desktop/mobile layout QA with mobile docWidth 375/375.

@@ -192,6 +192,26 @@
   .timeline-table td:nth-child(2){width:28%}
   .timeline-table td:nth-child(3){width:31%}
   .timeline-table td:nth-child(4){width:26%}
+  .decision-table,.update-policy-table{font-size:13.5px;line-height:1.43}
+  .decision-table td:first-child{width:16%}
+  .decision-table td:nth-child(2){width:28%}
+  .decision-table td:nth-child(3){width:28%}
+  .decision-table td:nth-child(4){width:28%}
+  .update-policy-table td:first-child{width:20%}
+  .update-policy-table td:nth-child(2){width:32%}
+  .update-policy-table td:nth-child(3){width:23%}
+  .update-policy-table td:nth-child(4){width:25%}
+  .stack-layer-table,.anti-pattern-table,.mas-transfer-table{font-size:13.5px;line-height:1.43}
+  .stack-layer-table td:first-child{width:16%}
+  .stack-layer-table td:nth-child(2){width:34%}
+  .stack-layer-table td:nth-child(3){width:50%}
+  .anti-pattern-table td:first-child{width:18%}
+  .anti-pattern-table td:nth-child(2){width:27%}
+  .anti-pattern-table td:nth-child(3){width:25%}
+  .anti-pattern-table td:nth-child(4){width:30%}
+  .mas-transfer-table td:first-child{width:22%}
+  .mas-transfer-table td:nth-child(2){width:39%}
+  .mas-transfer-table td:nth-child(3){width:39%}
   @media(max-width:560px){
     .stack td:first-child{width:32%;font-size:11px}
     .stack td,.stack th{padding:6px 7px;font-size:13px}
@@ -450,6 +470,142 @@
     .product-table td:nth-child(3)::before{content:"Taxonomy inference"}
     .product-table td:nth-child(4)::before{content:"Unknown / caveat"}
     .product-table td:nth-child(5)::before{content:"Source / review"}
+
+    .decision-table,
+    .update-policy-table{
+      border:0;
+      display:block;
+    }
+    .decision-table thead,
+    .update-policy-table thead{
+      display:none;
+    }
+    .decision-table tbody,
+    .decision-table tr,
+    .decision-table td,
+    .update-policy-table tbody,
+    .update-policy-table tr,
+    .update-policy-table td{
+      display:block;
+      width:100%;
+    }
+    .decision-table tr,
+    .update-policy-table tr{
+      border:1px solid var(--ink);
+      margin:0 0 10px;
+      background:var(--paper-2);
+    }
+    .decision-table td,
+    .update-policy-table td{
+      border:0;
+      border-top:1px solid rgba(26,31,46,.28);
+      padding:8px 9px;
+    }
+    .decision-table td:first-child,
+    .update-policy-table td:first-child{
+      border-top:0;
+      background:var(--ink);
+      color:var(--paper);
+      font-size:11px;
+      width:100%;
+    }
+    .decision-table td::before,
+    .update-policy-table td::before{
+      content:"";
+      display:block;
+      font-family:"JetBrains Mono",monospace;
+      font-size:10px;
+      letter-spacing:.08em;
+      text-transform:uppercase;
+      color:var(--accent);
+      margin-bottom:3px;
+    }
+    .decision-table td:first-child::before,
+    .update-policy-table td:first-child::before{
+      color:var(--paper-3);
+    }
+    .decision-table td:nth-child(1)::before{content:"Step"}
+    .decision-table td:nth-child(2)::before{content:"Когда переходить"}
+    .decision-table td:nth-child(3)::before{content:"Что строить"}
+    .decision-table td:nth-child(4)::before{content:"Контроль"}
+    .update-policy-table td:nth-child(1)::before{content:"New evidence"}
+    .update-policy-table td:nth-child(2)::before{content:"Before page copy"}
+    .update-policy-table td:nth-child(3)::before{content:"Update"}
+    .update-policy-table td:nth-child(4)::before{content:"Claim strength"}
+
+    .stack-layer-table,
+    .anti-pattern-table,
+    .mas-transfer-table{
+      border:0;
+      display:block;
+    }
+    .stack-layer-table thead,
+    .anti-pattern-table thead,
+    .mas-transfer-table thead{
+      display:none;
+    }
+    .stack-layer-table tbody,
+    .stack-layer-table tr,
+    .stack-layer-table td,
+    .anti-pattern-table tbody,
+    .anti-pattern-table tr,
+    .anti-pattern-table td,
+    .mas-transfer-table tbody,
+    .mas-transfer-table tr,
+    .mas-transfer-table td{
+      display:block;
+      width:100%;
+    }
+    .stack-layer-table tr,
+    .anti-pattern-table tr,
+    .mas-transfer-table tr{
+      border:1px solid var(--ink);
+      margin:0 0 10px;
+      background:var(--paper-2);
+    }
+    .stack-layer-table td,
+    .anti-pattern-table td,
+    .mas-transfer-table td{
+      border:0;
+      border-top:1px solid rgba(26,31,46,.28);
+      padding:8px 9px;
+    }
+    .stack-layer-table td:first-child,
+    .anti-pattern-table td:first-child,
+    .mas-transfer-table td:first-child{
+      border-top:0;
+      background:var(--ink);
+      color:var(--paper);
+      font-size:11px;
+      width:100%;
+    }
+    .stack-layer-table td::before,
+    .anti-pattern-table td::before,
+    .mas-transfer-table td::before{
+      content:"";
+      display:block;
+      font-family:"JetBrains Mono",monospace;
+      font-size:10px;
+      letter-spacing:.08em;
+      text-transform:uppercase;
+      color:var(--accent);
+      margin-bottom:3px;
+    }
+    .stack-layer-table td:first-child::before,
+    .anti-pattern-table td:first-child::before,
+    .mas-transfer-table td:first-child::before{
+      color:var(--paper-3);
+    }
+    .stack-layer-table td:nth-child(1)::before{content:"Слой"}
+    .stack-layer-table td:nth-child(2)::before{content:"Что это"}
+    .stack-layer-table td:nth-child(3)::before{content:"Примеры"}
+    .anti-pattern-table td:nth-child(1)::before{content:"Anti-pattern"}
+    .anti-pattern-table td:nth-child(2)::before{content:"Симптом"}
+    .anti-pattern-table td:nth-child(3)::before{content:"Причина"}
+    .anti-pattern-table td:nth-child(4)::before{content:"Коррекция"}
+    .mas-transfer-table td:nth-child(1)::before{content:"Концепт"}
+    .mas-transfer-table td:nth-child(2)::before{content:"Что переносится"}
+    .mas-transfer-table td:nth-child(3)::before{content:"Граница"}
   }
 
   /* Real systems map */

@@ -1491,8 +1491,8 @@
         "safety-claim"
       ],
       "evidence_strength": "medium",
-      "current_claim_summary": "Decision tree maps constraints to minimal sufficient architecture and uses HITL gates for risky errors.",
-      "reasoning_bridge": "Anthropic/OpenAI support simple-first architecture decisions, while safety sources support HITL as one control for high-risk actions but not a complete mitigation.",
+      "current_claim_summary": "Decision guide orders escalation from prompt baseline to workflow, augmented LLM, single-agent loop, multi-agent, memory, and HITL/risk gates.",
+      "reasoning_bridge": "Anthropic/OpenAI support simple-first architecture decisions, while safety sources support memory/HITL as controlled surfaces for high-risk actions rather than standalone mitigations.",
       "supporting_source_ids": [
         "anthropic-building-effective-agents",
         "openai-practical-guide-building-agents",
@@ -1511,7 +1511,7 @@
         "openai-operator-system-card": "Supports confirmations/restricted actions for high-risk browser actions.",
         "negative-hitl-sufficiency": "Limits HITL from sufficient control to one part of a control stack."
       },
-      "caveat": "Pair HITL with scoped permissions, trusted UI/context, audit trails, policy checks, monitoring, and untrusted-content boundaries.",
+      "caveat": "Escalate to multi-agent only when independent branches, specialists, tools, or context windows beat a simpler baseline; pair memory and HITL with policy, provenance, scoped permissions, trusted UI/context, audit trails, monitoring, and untrusted-content boundaries.",
       "reviewed_date": "2026-06-03"
     },
     "C52": {
@@ -1571,11 +1571,11 @@
       "reviewed_date": "2026-06-03"
     },
     "C54": {
-      "slug": "remaining-from-original-changelog",
+      "slug": "final-public-synthesis-replaces-changelog",
       "claim_type": "meta-commentary",
       "evidence_strength": "strong",
-      "current_claim_summary": "The page ends with what remains from the original and a list of what has been added.",
-      "reasoning_bridge": "Internal task files can support process history, but process history is not public evidence for the taxonomy and should move out of the main flow.",
+      "current_claim_summary": "The page now ends with public synthesis and update policy rather than an original-document changelog.",
+      "reasoning_bridge": "Internal task files can support process history, but process history is not public evidence for the taxonomy; the public ending should explain use, uncertainty, and update rules.",
       "supporting_source_ids": [
         "tasks-readme"
       ],
@@ -1584,9 +1584,9 @@
       ],
       "source_support": {
         "tasks-readme": "Supports internal rewrite process history only.",
-        "audit-annotation-ui-spec": "Supports moving process notes away from public claim annotations."
+        "audit-annotation-ui-spec": "Supports moving process notes away from public claim annotations and keeping evidence details accessible without citation clutter."
       },
-      "caveat": "Move to appendix/hidden notes or delete from the main read; do not annotate as taxonomy evidence.",
+      "caveat": "Resolved in the public page; keep future process notes in prompts/audit/progress rather than in the main reader flow.",
       "reviewed_date": "2026-06-03"
     },
     "C55": {
@@ -1598,8 +1598,8 @@
         "product-system-claim"
       ],
       "evidence_strength": "strong",
-      "current_claim_summary": "The footer is a global source list without links, claim mapping, access dates, or evidence strength.",
-      "reasoning_bridge": "The local source catalog and annotation spec directly show that source existence must be separated from claim support and time-sensitive docs need access dates.",
+      "current_claim_summary": "The page combines claim-level annotations and the external evidence registry with a compact global source list and update policy.",
+      "reasoning_bridge": "The local source catalog and annotation spec directly show that source existence must be separated from claim support, and the final update policy requires source records before public wording is strengthened.",
       "supporting_source_ids": [
         "research-sources-catalog",
         "audit-annotation-ui-spec"
@@ -1614,7 +1614,7 @@
         "audit-annotation-ui-spec": "Defines claim-level registry and annotation requirements.",
         "negative-product-architecture": "Shows why footer-only product docs are not enough."
       },
-      "caveat": "Replace footer-only bibliography with claim-level annotations and a source drawer/registry; keep public UI visually light.",
+      "caveat": "Footer remains a compact source overview; exact claim support, caveats, and review dates live in claim markup and research/page-evidence-registry.json.",
       "reviewed_date": "2026-06-03"
     }
   },

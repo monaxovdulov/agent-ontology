@@ -15,7 +15,7 @@
 
 <header class="masthead">
   <div class="stamp">
-    <span>Практическая таксономия · v2.1</span>
+    <span>Практическая таксономия · v2.2</span>
     <span>2026/06</span>
   </div>
   <h1>Ландшафт <em>AI-агентов</em><br>карта архитектурных решений</h1>
@@ -263,7 +263,7 @@
 <section>
   <div class="sec-num">§ 03 — главное наблюдение</div>
   <h2>Топология × координация</h2>
-  <p class="claim" data-claim-id="C15" data-claim-type="taxonomy-claim" data-evidence-strength="weak"><span class="evidence-chip">C15 · weak</span>Самая частая ошибка — думать, что выбор «дерево или blackboard» — это один выбор. Нет: топология описывает форму связей, а coordination rule описывает распределение решений, задач и обязательств. Сетка ниже — design space с примерами разного статуса, а не каталог готовых production-архитектур.</p>
+  <p class="claim" data-claim-id="C15" data-claim-type="taxonomy-claim" data-evidence-strength="weak"><span class="evidence-chip">C15 · weak</span>Типичная ошибка — думать, что выбор «дерево или blackboard» — это один выбор. Нет: топология описывает форму связей, а coordination rule описывает распределение решений, задач и обязательств. Сетка ниже — design space с примерами разного статуса, а не каталог готовых production-архитектур.</p>
 
   <figure>
   <svg viewBox="0 0 800 520" xmlns="http://www.w3.org/2000/svg">
@@ -731,7 +731,7 @@
   <h2>Стек, разнесённый по уровням</h2>
   <p>Каждый уровень отвечает на свой вопрос: что исполняет модель, как компоненты соединяются, где живёт состояние, кто даёт UX и какая инфраструктура несёт нагрузку. Поэтому стек лучше читать слоями, а не общим списком технологий.</p>
 
-  <table class="stack">
+  <table class="stack stack-layer-table">
     <thead>
       <tr><th>Слой</th><th>Что это</th><th>Примеры (2025–26)</th></tr>
     </thead>
@@ -1154,9 +1154,9 @@
 <section>
   <div class="sec-num">§ 12 — anti-patterns</div>
   <h2>Где карта чаще всего ломает решение</h2>
-  <p>Anti-pattern — это не «плохая архитектура вообще», а неверное применение координат карты к задаче. Почти все ошибки ниже выглядят как взрослая агентная система, но на деле увеличивают неопределённость, cost или observability debt быстрее, чем растёт task success.</p>
+  <p>Anti-pattern — это не «плохая архитектура вообще», а неверное применение координат карты к задаче. Ошибки ниже часто выглядят как взрослая агентная система, но на деле увеличивают неопределённость, cost или observability debt быстрее, чем растёт task success.</p>
 
-  <table class="stack">
+  <table class="stack anti-pattern-table">
     <thead>
       <tr><th>Anti-pattern</th><th>Симптом</th><th>Причина</th><th>Практическая коррекция</th></tr>
     </thead>
@@ -1197,16 +1197,18 @@
   <p class="note">Операционное правило: если новый слой нельзя связать с координатой карты и измеримой метрикой, это не архитектурное решение, а complexity debt. Taxonomy полезна только тогда, когда помогает убрать лишнюю степень свободы.</p>
 </section>
 
-<!-- ========== SECTION 13: DECISION TREE ========== -->
+<!-- ========== SECTION 13: DECISION GUIDE ========== -->
 <section>
-  <div class="sec-num">§ 13 — decision tree</div>
-  <h2>У меня задача X: что строить?</h2>
-  <p>Decision tree начинается не с фреймворка, а с constraints задачи: насколько фиксирован процесс, каков risk, какой допустим cost, есть ли eval readiness и где обязателен HITL. Правило выбора: <em>simplest architecture that fits</em>. Сначала prompt/workflow baseline, потом добавление tools, memory, agent loop или multi-agent topology только если eval и trace показывают измеримый выигрыш.</p>
+  <div class="sec-num">§ 13 — decision guide</div>
+  <h2>Как выбрать минимальную архитектуру</h2>
+  <p class="claim" data-claim-id="C46" data-claim-type="architectural-recommendation" data-evidence-strength="medium" data-reviewed-date="2026-06-03"><span class="evidence-chip">C46 · medium</span>Decision guide — это синтез предыдущих разделов, а не отдельная методология. Выбор идёт от <b>prompt baseline</b> к <b>workflow</b>, <b>augmented LLM</b>, <b>single-agent loop</b> и только затем к <b>multi-agent</b>. Каждый шаг повышает свободу системы, поэтому он требует evidence из local evals, trace, cost/latency budget и risk controls.</p>
+  <p>Начинать надо с constraints задачи: fixed или unpredictable flow, цена ошибки, side effects, доступный context, необходимость tools/retrieval, readiness локального eval и требования к HITL. Multi-agent оправдан не названием продукта, а независимыми ветками, разными specialists, разными tools или context windows, которые выигрывают у single-agent baseline на измеримой задаче.</p>
 
   <figure>
   <svg viewBox="0 0 800 360" xmlns="http://www.w3.org/2000/svg">
-    <text x="40" y="34" class="ttl">decision tree: constraints → минимальная достаточная архитектура</text>
-    <text x="40" y="54" class="lbl-sm">A1/A2/A3/A4 задают форму; A7, eval/observability и failure modes ограничивают escalation.</text>
+    <desc>C46: constraints choose the smallest architecture that passes local evals; HITL, memory and multi-agent escalation require additional controls.</desc>
+    <text x="40" y="34" class="ttl">decision guide: constraints → минимальная достаточная архитектура</text>
+    <text x="40" y="54" class="lbl-sm">A1/A2/A3/A4 задают форму; memory, HITL, eval/observability и failure modes ограничивают escalation.</text>
 
     <g transform="translate(40,84)">
       <rect x="0" y="0" width="112" height="54" fill="#f1ead9" stroke="#1a1f2e"/>
@@ -1269,25 +1271,25 @@
       </marker>
     </defs>
   </svg>
-  <figcaption><b>fig.8</b> · decision tree не заменяет eval: он задаёт порядок усложнения от constraints к минимальной достаточной архитектуре</figcaption>
+  <figcaption><b>fig.8</b> · decision guide не заменяет eval: он задаёт порядок усложнения от constraints к минимальной достаточной архитектуре</figcaption>
   </figure>
 
-  <table class="stack">
+  <table class="stack decision-table">
     <thead>
-      <tr><th>Вопрос от constraints</th><th>Если да</th><th>Строить</th><th>Контроль</th></tr>
+      <tr><th>Шаг</th><th>Когда переходить сюда</th><th>Что строить</th><th>Контроль</th></tr>
     </thead>
     <tbody>
-      <tr><td>Можно решить одним вызовом?</td><td>Низкая complexity, низкий risk, нет внешних side effects, пользователь готов проверить ответ.</td><td><b>Prompt</b> baseline.</td><td>Небольшой eval-набор, prompt/model trace, ручная spot-check проверка.</td></tr>
-      <tr><td>Процесс заранее известен?</td><td>Шаги, ветки и проверки можно описать кодом; LLM нужна внутри фиксированных узлов.</td><td><b>Workflow</b>: chaining, routing, parallelization или evaluator-optimizer. Координата: <b>A2</b> workflow, <b>A3</b> pipeline/DAG/cycle.</td><td>Typed outputs, gates, regression suite, cost/latency per successful task.</td></tr>
-      <tr><td>Нужны данные или действия?</td><td>Нужны retrieval, tools, files, APIs или короткая working memory, но control flow ещё держит код.</td><td><b>Augmented LLM</b> внутри workflow: <b>A1</b> модель + tools + retrieval + memory.</td><td>Трассировать model/tool/retrieval/state events, санитайзить tool outputs, проверять failure modes.</td></tr>
-      <tr><td>Следующий шаг нельзя предсказать?</td><td>План, выбор tool и остановка зависят от промежуточных результатов.</td><td><b>Single-agent</b> loop: <b>A2</b> agent, обычно <b>A3</b> cyclic graph, <b>A4</b> command/blackboard.</td><td>Budget, stop condition, loop detector, intervention rate, rollback для рискованных действий.</td></tr>
-      <tr><td>Есть независимые ветки?</td><td>Подзадачи можно выполнять параллельно, нужны разные specialists, tools или context windows.</td><td><b>Multi-agent</b> только если он выигрывает у single-agent на eval: <b>A3</b> star/tree/DAG, <b>A4</b> hierarchy/blackboard/competition.</td><td>Handoff contracts, delayed disclosure, provenance, cost cap; защита от agreement bias и hallucination amplification.</td></tr>
-      <tr><td>Нужно помнить между вызовами?</td><td>Требуются user/project history, доменные факты, procedures или durable state.</td><td><b>Memory</b> как отдельный слой: working, episodic, semantic или procedural store с read/write policy.</td><td>TTL, provenance, freshness, delete rules; logs не считать memory без отбора.</td></tr>
-      <tr class="claim" data-claim-id="C46" data-claim-type="architectural-recommendation" data-evidence-strength="medium" data-reviewed-date="2026-06-03"><td><span class="evidence-chip">C46 · medium</span>Ошибка дорого стоит?</td><td>Есть irreversible action, деньги, безопасность, юридический риск, публичная публикация или низкая eval readiness.</td><td><b>HITL gates</b> как часть control stack: approval before action, review before publish, escalation to operator. Не standalone safety solution.</td><td>Scoped permissions, trusted approval UI/context, policy checks, audit trail, monitoring, rollback, explicit confidence и reason for handoff.</td></tr>
+      <tr><td>Prompt baseline</td><td>Низкая complexity, низкий risk, нет внешних side effects, пользователь может проверить ответ.</td><td>Один model call или короткий prompt template без агентного harness.</td><td>Небольшой eval-набор, prompt/model trace, ручная spot-check проверка.</td></tr>
+      <tr><td>Workflow</td><td>Шаги, ветки и проверки заранее известны; LLM нужна внутри фиксированных узлов.</td><td>Chaining, routing, parallelization или evaluator-optimizer. Координата: <b>A2</b> workflow, <b>A3</b> pipeline/DAG/cycle.</td><td>Typed outputs, deterministic gates, regression suite, cost/latency per successful task.</td></tr>
+      <tr><td>Augmented LLM</td><td>Нужны retrieval, tools, files, APIs или краткая working state, но control flow ещё держит код.</td><td><b>A1</b> модель + tools + retrieval + memory/context surface внутри workflow или harness.</td><td>Tool schemas, authority boundaries, model/tool/retrieval/state traces, sanitization of tool outputs.</td></tr>
+      <tr><td>Single-agent loop</td><td>План, выбор tool и stop condition зависят от промежуточных результатов.</td><td><b>A2</b> agent, обычно <b>A3</b> cyclic graph, <b>A4</b> command или blackboard внутри bounded harness.</td><td>Budgets, stop condition, loop detector, intervention rate, rollback для рискованных действий.</td></tr>
+      <tr><td>Multi-agent</td><td>Есть независимые ветки, разные specialists, несовместимые context windows, разные tools или полезная конкуренция гипотез.</td><td>Только если beats single-agent baseline on eval: <b>A3</b> star/tree/DAG/mesh, <b>A4</b> hierarchy/blackboard/proposal/competition.</td><td>Handoff contracts, delayed disclosure, provenance, cost cap; защита от agreement bias и hallucination amplification.</td></tr>
+      <tr><td>Memory</td><td>Нужно помнить user/project history, доменные facts, procedures или durable state между вызовами.</td><td>Working, episodic, semantic или procedural store как отдельный слой, а не сырой лог.</td><td>Read/write policy, provenance, TTL/freshness, delete rules, namespace and authority boundaries.</td></tr>
+      <tr><td>HITL / risk gate</td><td>Есть irreversible action, деньги, безопасность, юридический риск, публичная публикация или низкая eval readiness.</td><td>Approval before action, review before publish, escalation to operator. Не standalone safety solution.</td><td>Scoped permissions, trusted approval UI/context, policy checks, audit trail, monitoring, rollback, explicit reason for handoff.</td></tr>
     </tbody>
   </table>
 
-  <p class="note">Связь с anti-patterns прямая: если выбранный слой не привязан к A1–A7 и не улучшает eval-метрику при приемлемых cost/risk, это over-engineering. Если HITL или memory появляются без policy, scoped permissions, trusted context и audit, они становятся новой failure surface, а не контролем.</p>
+  <p class="note">Связь с anti-patterns прямая: если выбранный слой не привязан к A1–A7 и не улучшает eval-метрику при приемлемых cost/risk, это over-engineering. Если HITL или memory появляются без policy, provenance, scoped permissions, trusted context and audit, они становятся новой failure surface, а не контролем.</p>
 </section>
 
 <!-- ========== SECTION 14: CLASSIC MAS TRANSFER ========== -->
@@ -1301,7 +1303,7 @@
   <p>Сильная версия: использовать Anthropic-паттерны как стартовый язык для workflow-систем, где control flow в основном предопределён кодом. Слабая версия: объявлять их полным консенсусом по агентным архитектурам. OpenAI Agents SDK, LangGraph, AutoGen и Microsoft Agent Framework показывают другие полезные разрезы: handoffs, group chat, graph nodes, supervisor routing, durable runs и tracing. Эти разрезы лучше ложатся на A2/A3/A4/A6, чем на один закрытый список паттернов.</p>
 
   <h3>Classic MAS: что переносится, а что нет</h3>
-  <table class="stack">
+  <table class="stack mas-transfer-table">
     <thead>
       <tr><th>Концепт до LLM</th><th>Что переносится</th><th>Где ломается перенос</th></tr>
     </thead>
@@ -1332,8 +1334,8 @@
 <!-- ========== SECTION 15: SUMMARY ========== -->
 <section>
   <div class="sec-num">§ 15 — итог</div>
-  <h2>Как пользоваться картой</h2>
-  <p>Итоговая рамка намеренно практическая: это taxonomy / карта измерений с проверкой согласованности, а не formal ontology с аксиомами, типами отношений и правилами вывода. Она нужна для инженерного выбора минимальной достаточной архитектуры.</p>
+  <h2>Как пользоваться и обновлять карту</h2>
+  <p>Итоговая рамка намеренно практическая: это taxonomy / карта измерений с проверкой согласованности, а не formal ontology с аксиомами, типами отношений и правилами вывода. Её назначение — провести читателя от evidence к reasoning и затем к taxonomy decision: какая минимальная архитектура достаточна для конкретной задачи.</p>
 
   <ol class="summary-list">
     <li>Начинать с constraints задачи: fixed flow или unpredictable loop, цена ошибки, cost budget, eval readiness, требования к memory, HITL и trace.</li>
@@ -1343,8 +1345,25 @@
     <li>Для спорных или living claims держать caveat рядом с тезисом: особенно для протоколов, adoption, safety, memory typology, benchmark relevance и product behavior.</li>
   </ol>
 
-  <p>Стабильная часть карты — не список модных фреймворков, а разделение вопросов: кто управляет потоком, как узлы связаны, как они координируются, где живёт память, какие протоколы соединяют компоненты и как eval/observability ограничивают автономию.</p>
-  <p>Такую карту можно расширять без категориальной путаницы: новый фреймворк, паттерн, протокол или продукт занимает конкретную координату и получает собственную evidence strength, вместо того чтобы становиться ещё одной общей «парадигмой агентности».</p>
+  <h3>Что считать устойчивым</h3>
+  <p>Наиболее сильная часть карты — не список фреймворков, а разделение вопросов: кто управляет потоком, как узлы связаны, как они координируются, где живёт память, какие протоколы соединяют компоненты и как eval/observability ограничивают автономию. Stronger claims здесь обычно опираются на primary sources: specs, product docs, system cards, benchmark papers или practitioner guides, а спорные места явно помечены как weak/contested.</p>
+
+  <h3>Что остаётся неопределённым</h3>
+  <p>Карта сознательно не утверждает field-wide consensus по agent taxonomy, не ранжирует MCP/A2A как победителя, не выводит скрытую архитектуру продуктов из UX и не использует leaderboard results как долговечный архитектурный факт. Memory typology, product placement, protocol adoption и emergence-language остаются областями, где формулировка должна быть датированной, ограниченной и готовой к пересмотру.</p>
+
+  <h3>Политика обновления</h3>
+  <table class="stack update-policy-table">
+    <thead>
+      <tr><th>Когда появляется новое evidence</th><th>Перед правкой страницы</th><th>Что обновить</th><th>Как менять силу claim</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Paper, spec, system card или official docs</td><td>Добавить источник в <code>research/</code> с датой access/review и записать, какой claim он supports, limits, contests или contextualizes.</td><td><code>research/sources.md</code>, при необходимости <code>research/bibliography.json</code> и <code>research/page-evidence-registry.json</code>.</td><td>Усиливать публичный текст только после обновления registry; иначе оставить wording medium/weak/contested.</td></tr>
+      <tr><td>Протокол, продукт, benchmark или safety guidance изменились</td><td>Проверить living claim: дата, scope, documented behavior, adoption wording и caveat.</td><td>Claim annotation, source support notes, review date рядом с публичной формулировкой.</td><td>Если evidence меняет вывод, явно сдвинуть strength: strong ↔ medium ↔ weak ↔ contested, а не просто заменить фразу.</td></tr>
+      <tr><td>Новый фреймворк, паттерн или продукт кажется «новой парадигмой»</td><td>Сначала разместить его на A1–A7 и проверить, действительно ли он добавляет новую ось, а не новую комбинацию существующих решений.</td><td>Public copy только после evidence registry; product claims держать как dated public-surface inference.</td><td>Если источник показывает только feature surface, не повышать claim до hidden-architecture or market-status statement.</td></tr>
+    </tbody>
+  </table>
+
+  <p>Такую карту можно расширять без категориальной путаницы: новый фреймворк, паттерн, протокол или продукт занимает конкретную координату и получает собственную evidence strength, вместо того чтобы становиться ещё одной общей «парадигмой агентности». Последняя ревизия этой версии: 2026-06-03; все living claims должны сохранять собственные review/access dates.</p>
 </section>
 
 <footer class="foot">
@@ -1381,7 +1400,7 @@
   · Wooldridge &amp; Jennings (1995). Intelligent agents: theory and practice.<br>
   · FIPA (2001). ACL Message Structure Specification.<br>
   · Минский М. (1986). Society of Mind.<br><br>
-  <b>Версия:</b> 2.1 · июнь 2026 · подлежит дальнейшему уточнению.
+  <b>Версия:</b> 2.2 · reviewed 2026-06-03 · living claims подлежат пересмотру при изменении sources/specs/docs.
 </footer>
 
 </main>
