@@ -7,7 +7,7 @@ Mark exactly one task done when it is completed. Add a one-line note with change
 - [x] 03 - Hero, scope and evidence rules
 - [x] 04 - Core taxonomy: autonomy, topology, coordination
 - [x] 05 - Composition, workflows and tools
-- [ ] 06 - Protocol stack, MCP and A2A
+- [x] 06 - Protocol stack, MCP and A2A
 - [ ] 07 - Memory typology and boundaries
 - [ ] 08 - Failure modes, safety and HITL
 - [ ] 09 - Evaluation, observability and benchmarks
@@ -28,3 +28,4 @@ Add notes here in this format:
 03 done - changed: index.html, assets/styles.css, prompts/progress.md; verified: opening meta/changelog phrase scan clean, evidence-note marker search, section balance 15/15, git diff --check; browser visual check blocked by file URL policy.
 04 done - changed: index.html, assets/styles.css, prompts/progress.md; verified: unsupported prevalence phrase scan clean, evidence marker/tag search, section/figure/svg balance 15/15 8/8 8/8, git diff --check, browser DOM/layout check.
 05 done - changed: index.html, prompts/progress.md; verified: overclaim phrase scan clean, C09/C10 and tool-source anchor search, section/figure/svg balance 15/15 8/8 8/8, git diff --check; browser visual check blocked by file URL policy.
+06 done - changed: index.html, prompts/progress.md; verified: MCP/A2A overclaim phrase scan clean, C11/C33/C53 and dated A2A source search, section/figure/svg/table balance 15/15 8/8 8/8 10/10, git diff --check; browser visual check blocked by file URL policy.

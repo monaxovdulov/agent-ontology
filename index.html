@@ -731,7 +731,7 @@
     </thead>
     <tbody>
       <tr><td>Модели</td><td>Базовые LLM, поверх которых всё строится</td><td>Claude Opus/Sonnet/Haiku, GPT, Gemini, Llama, DeepSeek</td></tr>
-      <tr><td>Протоколы</td><td>Стандартные интерфейсы между компонентами. Сквозной слой, частично независимый от фреймворков.</td><td><b>MCP</b> (model↔tools, де-факто стандарт), <b>A2A</b> (agent↔agent, Linux Foundation; enterprise-нишевый), LangChain Agent Protocol, AGNTCY</td></tr>
+      <tr class="claim" data-claim-id="C11" data-claim-type="protocol-status-claim" data-evidence-strength="medium" data-reviewed-date="2026-06-03"><td>Протоколы</td><td>Стандартные интерфейсы между компонентами. Сквозной слой, частично независимый от фреймворков; сравнивать их надо по standardization target, а не как одну шкалу зрелости.</td><td><span class="evidence-chip">C11 · medium</span><b>MCP</b> — tool/context access; <b>A2A</b> — agent-to-agent tasks/messages/artifacts; <b>LangChain Agent Protocol</b> — runtime client/server execution API; <b>AGNTCY</b> — identity/discovery/interoperability ecosystem; <b>OpenTelemetry GenAI</b> — observability semantics.</td></tr>
       <tr><td>Паттерны</td><td>Архитектурные шаблоны, не привязанные к фреймворку</td><td>RAG, ReAct, CoT, Reflexion, Plan-and-Execute, Tree-of-Thoughts, workflow-паттерны Anthropic</td></tr>
       <tr><td>Фреймворки</td><td>Библиотеки для сборки агентов</td><td>LangChain, LangGraph, CrewAI, AutoGen, OpenAI Agents SDK, Pydantic AI, Spring AI</td></tr>
       <tr><td>Платформы</td><td>Готовые харнессы / IDE / облако</td><td>Claude Code, Cursor, Codex, Vertex AI, Bedrock</td></tr>
@@ -740,11 +740,11 @@
   </table>
 
   <h3>Протокольный слой — отдельная история</h3>
-  <p>В апреле 2025 Google выпустил <b>A2A</b> и передал его в Linux Foundation. По задумке — комплементарен MCP: MCP стандартизует «модель ↔ инструменты», A2A — «агент ↔ агент». К апрелю 2026 A2A имеет живую спецификацию с задачами, сообщениями, артефактами, JSON-RPC/HTTP и SSE-streaming, но его adoption выглядит более enterprise-нишевым, тогда как MCP заметнее в developer tooling. Урок: <em>для широкого протокольного adoption developer experience и комьюнити-тяга важнее одной только корпоративной архитектуры</em>.</p>
+  <p class="claim" data-claim-id="C33" data-claim-type="protocol-status-claim" data-evidence-strength="contested" data-reviewed-date="2026-06-03"><span class="evidence-chip">C33 · contested</span>Google launched <b>A2A</b> in April 2025 as an agent-to-agent interoperability protocol, and the project/spec remains active under Linux Foundation context: v1.0.0 was released on 2026-04-09, with agent cards, tasks, messages, artifacts, JSON-RPC/HTTP and streaming/push semantics. The safer comparison is scope-specific: <b>MCP</b> is prominent in developer tool/context integrations, while <b>A2A</b> is active and enterprise/interoperability-oriented. Public comparative adoption evidence is mixed and date-sensitive, so this map does not infer a single protocol winner.</p>
 
   <figure>
   <svg viewBox="0 0 800 240" xmlns="http://www.w3.org/2000/svg">
-    <text x="40" y="32" class="ttl">MCP vs A2A — что они стандартизуют</text>
+    <text x="40" y="32" class="ttl">MCP and A2A — разные protocol surfaces</text>
 
     <!-- left: MCP -->
     <g transform="translate(80,70)">
@@ -768,9 +768,9 @@
     </g>
 
     <!-- bottom legend -->
-    <text x="80" y="180" class="lbl-sm">MCP: «USB-C для AI» — единый разъём модели в инструменты.</text>
-    <text x="80" y="196" class="lbl-sm">A2A: «сетевой слой» — агенты разных вендоров общаются между собой.</text>
-    <text x="80" y="212" class="lbl-acc">2026: MCP сильнее у разработчиков. A2A жив, enterprise-нишевый.</text>
+    <text x="80" y="180" class="lbl-sm">MCP: tool/context access — tools, prompts, resources, transports.</text>
+    <text x="80" y="196" class="lbl-sm">A2A: agent-to-agent tasks, messages and artifacts across systems.</text>
+    <text x="80" y="212" class="lbl-acc">Reviewed 2026-06-03: no apples-to-apples public adoption ranking.</text>
 
     <defs>
       <marker id="a2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
@@ -781,7 +781,7 @@
       </marker>
     </defs>
   </svg>
-  <figcaption><b>fig.5</b> · два протокола занимают разные ниши: MCP сильнее в developer adoption, A2A остаётся enterprise-нишевым</figcaption>
+  <figcaption><b>fig.5</b> · MCP and A2A standardize different surfaces; adoption comparison is intentionally not shown as a settled ranking</figcaption>
   </figure>
 </section>
 
@@ -963,7 +963,7 @@
   <figcaption><b>fig.6</b> · timeline отделяет устойчивые архитектурные сдвиги от продуктового шума; 2026 — проверенный snapshot на апрель, а не итог года</figcaption>
   </figure>
 
-  <p class="note">2026 пока не закрытый год. Проверенный сигнал на апрель — не «новый тип агента», а усиление harness: sandbox, файловая среда, configurable memory, state и durable execution. A2A также уточняет agent-to-agent task/message/artifact контракт, но это укрепляет технологический слой A6, а не добавляет новую базовую ось.</p>
+  <p class="note">2026 пока не закрытый год. Проверенный сигнал на 2026-06-03 — не «новый тип агента», а усиление harness: sandbox, файловая среда, configurable memory, state и durable execution. A2A v1.0.0 (2026-04-09) также уточняет agent-to-agent task/message/artifact контракт, но это укрепляет технологический слой A6, а не добавляет новую базовую ось.</p>
 </section>
 
 <!-- ========== SECTION 11: MEMORY TYPOLOGY ========== -->
@@ -1235,7 +1235,7 @@
   <p>Для инженерной карты emergence-язык полезен только после механизма и трассировки. Слабая эмерджентность реальна: поведение системы из нескольких агентов может быть сложнее поведения каждого по отдельности. Сильную эмерджентность не стоит использовать как замену observability: если поведение нельзя воспроизвести, объяснить через связи и проверить eval-метрикой, это риск, а не архитектурное преимущество.</p>
 
   <h3>2026 refresh: substrate, not new axis</h3>
-  <p>Свежие 2026-сигналы меняют не taxonomy, а требования к execution substrate. OpenAI Agents SDK усиливает модель-native harness: files/tools на компьютере, sandbox execution, configurable memory, snapshot/rehydration и durable long-running tasks. A2A уточняет agent-to-agent протокольный контракт. Это всё усиливает A6 и failure/eval разделы, но не требует восьмой оси: архитектурный вопрос по-прежнему решается через autonomy, topology, coordination, memory policy и eval readiness.</p>
+  <p class="claim" data-claim-id="C53" data-claim-type="taxonomy-claim" data-evidence-strength="medium" data-reviewed-date="2026-06-03"><span class="evidence-chip">C53 · medium</span>Свежие 2026-сигналы меняют не taxonomy, а требования к execution substrate. OpenAI Agents SDK усиливает модель-native harness: files/tools на компьютере, sandbox execution, configurable memory, snapshot/rehydration и durable long-running tasks. A2A v1.0.0 (2026-04-09) уточняет agent-to-agent протокольный контракт. Это всё усиливает A6 и failure/eval разделы, но не требует восьмой оси: архитектурный вопрос по-прежнему решается через autonomy, topology, coordination, memory policy и eval readiness.</p>
 
   <p class="note">Итог: classic MAS-концепты полезны как инженерные шаблоны, но LLM-агенты добавляют новую поверхность риска — недетерминированный выбор tool, prompt/context poisoning, cost explosion и необходимость трассировать каждый handoff.</p>
 </section>
@@ -1277,9 +1277,13 @@
   · OpenAI Help/API Docs. Deep research in ChatGPT; Deep research guide.<br>
   · AutoGPT README and docs. Platform blocks; Agent blocks.<br>
   · Anthropic Cookbook · patterns/agents.<br>
+  · Model Context Protocol Specification (2025-11-25; accessed 2026-06-03).<br>
   · Google Developers Blog (2025-04). Announcing the Agent2Agent Protocol.<br>
-  · A2A Project Specification. Agent2Agent protocol, tasks, messages, artifacts, JSON-RPC/SSE.<br>
-  · Linux Foundation (2025-06). A2A Project announcement.<br>
+  · A2A Project Specification (v1.0.0 released 2026-04-09; accessed 2026-06-03). Agent2Agent protocol, tasks, messages, artifacts, JSON-RPC/SSE.<br>
+  · Linux Foundation (2026-04-09). A2A v1.0.0 governance and adoption update.<br>
+  · LangChain Agent Protocol. Runtime client/server protocol for running agents.<br>
+  · AGNTCY Docs. Identity, discovery and interoperability ecosystem.<br>
+  · OpenTelemetry GenAI Semantic Conventions. Observability semantics for LLM/agent traces.<br>
   · Spring AI Reference. Building Effective Agents (импл. паттернов).<br>
   · Erman, Hayes-Roth, Lesser, Reddy (1980). The HEARSAY-II Speech Understanding System.<br>
   · Smith (1980). The Contract Net Protocol.<br>
