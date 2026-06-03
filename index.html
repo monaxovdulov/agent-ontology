@@ -75,12 +75,13 @@
 <!-- ========== SECTION 2: AXES ========== -->
 <section>
   <div class="sec-num">§ 02 — структура</div>
-  <h2>Семь частично независимых измерений</h2>
-  <p>Любая агентная система описывается набором координат, но это не семь строго ортогональных осей. Самое независимое ядро карты — <b>A2 × A3 × A4</b>: степень автономии, топология связей и механизм координации. <b>A1</b> пересекается с технологическим слоем <b>A6</b>, <b>A5</b> часто выводится из композиции и топологии, а <b>A7</b> — производный набор свойств и trade-offs.</p>
+  <h2>Три core decisions и четыре вспомогательных линзы</h2>
+  <p class="claim" data-claim-id="C12" data-claim-type="taxonomy-claim" data-evidence-strength="medium"><span class="evidence-chip">C12 · medium</span>Эта карта не утверждает, что любую агентную систему можно полностью описать семью ортогональными осями. Для практического выбора самые полезные core decisions — <b>A2 × A3 × A4</b>: <b>autonomy</b> спрашивает, кто контролирует следующий шаг; <b>topology</b> — как акторы или компоненты соединены; <b>coordination</b> — как распределяются решения, задачи и обязательства. <b>A1</b>, <b>A5</b>, <b>A6</b> и <b>A7</b> остаются важными, но читаются как пересекающиеся, вторичные или производные линзы.</p>
 
   <div class="axes">
-    <div class="axis" data-num="A1">
+    <div class="axis axis--support" data-num="A1">
       <h4>Композиция</h4>
+      <span class="axis-role">secondary lens</span>
       <span class="axis-q">из чего сделан агент</span>
       <ul>
         <li>LLM (модель)</li>
@@ -90,8 +91,9 @@
         <li><em>Пересекается с A6: стек часто задаёт доступные компоненты</em></li>
       </ul>
     </div>
-    <div class="axis" data-num="A2">
+    <div class="axis axis--core" data-num="A2">
       <h4>Степень автономии</h4>
+      <span class="axis-role">core decision</span>
       <span class="axis-q">кто управляет потоком</span>
       <ul>
         <li>Workflow — код управляет, LLM в фиксированных точках</li>
@@ -100,8 +102,9 @@
         <li><em>Ядро независимости: A2 × A3 × A4</em></li>
       </ul>
     </div>
-    <div class="axis" data-num="A3">
+    <div class="axis axis--core" data-num="A3">
       <h4>Топология связей</h4>
+      <span class="axis-role">core decision</span>
       <span class="axis-q">граф взаимодействий</span>
       <ul>
         <li>Pipeline (линия)</li>
@@ -113,8 +116,9 @@
         <li><em>Ядро независимости: A2 × A3 × A4</em></li>
       </ul>
     </div>
-    <div class="axis" data-num="A4">
+    <div class="axis axis--core" data-num="A4">
       <h4>Механизм координации</h4>
+      <span class="axis-role">core decision</span>
       <span class="axis-q">как принимаются решения</span>
       <ul>
         <li>Иерархическая команда (сверху вниз)</li>
@@ -126,8 +130,9 @@
         <li><em>Ядро независимости: A2 × A3 × A4</em></li>
       </ul>
     </div>
-    <div class="axis" data-num="A5">
+    <div class="axis axis--support" data-num="A5">
       <h4>Роли</h4>
+      <span class="axis-role">derived from graph and coordination</span>
       <span class="axis-q">функция агента в системе</span>
       <ul>
         <li>Worker — исполнитель</li>
@@ -138,8 +143,9 @@
         <li><em>Частично выводится из A1, A3 и A4</em></li>
       </ul>
     </div>
-    <div class="axis" data-num="A6">
+    <div class="axis axis--support" data-num="A6">
       <h4>Технологический слой</h4>
+      <span class="axis-role">overlapping substrate</span>
       <span class="axis-q">на чём построено</span>
       <ul>
         <li>Модели (LLM)</li>
@@ -151,13 +157,14 @@
         <li><em>Пересекается с A1: стек ограничивает композицию</em></li>
       </ul>
     </div>
-    <div class="axis" data-num="A7">
+    <div class="axis axis--support" data-num="A7">
       <h4>Свойства / trade-offs</h4>
-      <span class="axis-q">что эмерджентно возникает</span>
+      <span class="axis-role">derived trade-offs</span>
+      <span class="axis-q">что возникает из решений</span>
       <ul>
         <li>Эмерджентность (слабая / сильная)</li>
         <li>Latency vs точность</li>
-        <li>Стоимость токенов (mult.-agent ×10–15)</li>
+        <li>Стоимость токенов и trace volume</li>
         <li>Observability vs автономия</li>
         <li>Предсказуемость vs гибкость</li>
         <li><em>Производно от A1–A6, не базовая ось</em></li>
@@ -256,12 +263,13 @@
 <section>
   <div class="sec-num">§ 03 — главное наблюдение</div>
   <h2>Топология × координация</h2>
-  <p>Самая частая ошибка — думать, что выбор «дерево или blackboard» — это один выбор. Нет. Это два наиболее независимых выбора внутри карты, хотя некоторые комбинации практически бессмысленны.</p>
+  <p class="claim" data-claim-id="C15" data-claim-type="taxonomy-claim" data-evidence-strength="weak"><span class="evidence-chip">C15 · weak</span>Самая частая ошибка — думать, что выбор «дерево или blackboard» — это один выбор. Нет: топология описывает форму связей, а coordination rule описывает распределение решений, задач и обязательств. Сетка ниже — design space с примерами разного статуса, а не каталог готовых production-архитектур.</p>
 
   <figure>
   <svg viewBox="0 0 800 520" xmlns="http://www.w3.org/2000/svg">
+    <desc>C15: topology x coordination is a practical design space, not proof that every cell is a real architecture. C16: unsupported production-prevalence claim removed.</desc>
     <text x="40" y="36" class="ttl">сетка топология × координация</text>
-    <text x="40" y="55" class="lbl-sm">любая клетка — реальная архитектура. примеры внутри.</text>
+    <text x="40" y="55" class="lbl-sm">design space: примеры помечены по типу evidence; часть клеток редкая или метафорическая.</text>
 
     <!-- Grid -->
     <g transform="translate(180,90)">
@@ -275,13 +283,13 @@
 
       <!-- rows: topology -->
       <g font-family="JetBrains Mono" font-size="11" fill="#1a1f2e">
-        <text x="-12" y="20" text-anchor="end">tree</text>
-        <text x="-12" y="80" text-anchor="end">DAG</text>
-        <text x="-12" y="140" text-anchor="end">cyclic</text>
-        <text x="-12" y="200" text-anchor="end">mesh</text>
-        <text x="-12" y="260" text-anchor="end">pool</text>
+        <text x="-68" y="20" text-anchor="end">tree</text>
+        <text x="-68" y="80" text-anchor="end">DAG</text>
+        <text x="-68" y="140" text-anchor="end">cyclic</text>
+        <text x="-68" y="200" text-anchor="end">mesh</text>
+        <text x="-68" y="260" text-anchor="end">pool</text>
       </g>
-      <text x="-90" y="20" class="lbl-sm" transform="rotate(-90 -90 140)" text-anchor="middle">↑ топология</text>
+      <text x="-120" y="20" class="lbl-sm" transform="rotate(-90 -120 140)" text-anchor="middle">↑ топология</text>
 
       <!-- cells 5 cols × 5 rows -->
       <g stroke="#1a1f2e" stroke-width="1" fill="none">
@@ -305,47 +313,57 @@
       <g font-family="JetBrains Mono" font-size="9" fill="#3a4256">
         <!-- row tree -->
         <text x="0" y="32" text-anchor="middle">CrewAI</text>
-        <text x="0" y="44" text-anchor="middle">org chart</text>
+        <text x="0" y="44" text-anchor="middle">framework</text>
         <text x="115" y="32" text-anchor="middle">редко</text>
         <text x="230" y="32" text-anchor="middle">редко</text>
         <text x="345" y="32" text-anchor="middle">×</text>
         <text x="460" y="32" text-anchor="middle">tournament</text>
+        <text x="460" y="44" text-anchor="middle">heuristic</text>
 
         <!-- row DAG -->
         <text x="0" y="90" text-anchor="middle">LangGraph</text>
-        <text x="0" y="102" text-anchor="middle">orch-workers</text>
+        <text x="0" y="102" text-anchor="middle">framework</text>
         <text x="115" y="90" text-anchor="middle">HEARSAY-II</text>
-        <text x="115" y="102" text-anchor="middle">expert sys.</text>
+        <text x="115" y="102" text-anchor="middle">paper/history</text>
         <text x="230" y="90" text-anchor="middle">contract net</text>
+        <text x="230" y="102" text-anchor="middle">paper</text>
         <text x="345" y="90" text-anchor="middle">×</text>
         <text x="460" y="90" text-anchor="middle">best-of-N</text>
+        <text x="460" y="102" text-anchor="middle">pattern</text>
 
         <!-- row cyclic -->
         <text x="0" y="148" text-anchor="middle">eval-optim.</text>
-        <text x="0" y="160" text-anchor="middle">reflexion</text>
+        <text x="0" y="160" text-anchor="middle">paper/pattern</text>
         <text x="115" y="148" text-anchor="middle">scratchpad</text>
-        <text x="115" y="160" text-anchor="middle">shared mem</text>
+        <text x="115" y="160" text-anchor="middle">pattern</text>
         <text x="230" y="148" text-anchor="middle">re-bidding</text>
+        <text x="230" y="160" text-anchor="middle">extension</text>
         <text x="345" y="148" text-anchor="middle">feedback</text>
+        <text x="345" y="160" text-anchor="middle">metaphor</text>
         <text x="460" y="148" text-anchor="middle">debate</text>
+        <text x="460" y="160" text-anchor="middle">method</text>
 
         <!-- row mesh -->
         <text x="0" y="206" text-anchor="middle">×</text>
-        <text x="115" y="206" text-anchor="middle">A2A network</text>
-        <text x="115" y="218" text-anchor="middle">multi-agent</text>
+        <text x="115" y="206" text-anchor="middle">A2A scope</text>
+        <text x="115" y="218" text-anchor="middle">spec</text>
         <text x="230" y="206" text-anchor="middle">market sim</text>
+        <text x="230" y="218" text-anchor="middle">simulation</text>
         <text x="345" y="206" text-anchor="middle">stigmergy</text>
-        <text x="345" y="218" text-anchor="middle">ant-colony</text>
+        <text x="345" y="218" text-anchor="middle">classic/met.</text>
         <text x="460" y="206" text-anchor="middle">SoM</text>
+        <text x="460" y="218" text-anchor="middle">metaphor</text>
 
         <!-- row pool -->
         <text x="0" y="264" text-anchor="middle">parallel</text>
-        <text x="0" y="276" text-anchor="middle">section.</text>
+        <text x="0" y="276" text-anchor="middle">pattern</text>
         <text x="115" y="264" text-anchor="middle">задача-доска</text>
+        <text x="115" y="276" text-anchor="middle">pattern</text>
         <text x="230" y="264" text-anchor="middle">аукцион</text>
-        <text x="230" y="276" text-anchor="middle">воркеров</text>
+        <text x="230" y="276" text-anchor="middle">paper/pattern</text>
         <text x="345" y="264" text-anchor="middle">×</text>
         <text x="460" y="264" text-anchor="middle">voting</text>
+        <text x="460" y="276" text-anchor="middle">method</text>
       </g>
 
       <!-- highlight cell: workflow most common -->
@@ -353,12 +371,12 @@
       <rect x="-58" y="58" width="115" height="58" fill="none" stroke="#b8410c" stroke-width="1.5"/>
     </g>
 
-    <text x="40" y="430" class="lbl-acc">⬛ оранжевая клетка — где живёт 80% production-систем сегодня</text>
-    <text x="40" y="448" class="lbl-sm">DAG + командная иерархия = orchestrator-workers (Anthropic паттерн).</text>
-    <text x="40" y="466" class="lbl-sm">«×» — комбинация бессмысленна (например, дерево + swarm: рой требует p2p).</text>
-    <text x="40" y="484" class="lbl-sm">SoM = Society of Mind как теоретическая модель, а не инженерный механизм.</text>
+    <text x="40" y="430" class="lbl-acc">оранжевая клетка — пример-backed workflow/orchestrator family, не prevalence claim</text>
+    <text x="40" y="448" class="lbl-sm">DAG + command = orchestrator-workers / graph workflow examples; распространённость здесь не оценивается.</text>
+    <text x="40" y="466" class="lbl-sm">«×» — клетка без ясного механизма в этой практической карте, а не математический запрет.</text>
+    <text x="40" y="484" class="lbl-sm">Теги: framework/product/spec/paper/pattern/metaphor показывают тип evidence, а не равный вес.</text>
   </svg>
-  <figcaption><b>fig.2</b> · 5×5 сетка показывает частичную независимость A3×A4 — валидных клеток больше, чем готовых «парадигм»</figcaption>
+  <figcaption><b>fig.2</b> · <span class="evidence-chip">C15 weak</span>5×5 сетка показывает частичную независимость A3×A4 как design space; C16 production percentage удалён из-за missing evidence</figcaption>
   </figure>
 </section>
 

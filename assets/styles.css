@@ -112,6 +112,14 @@
     padding:18px 18px 16px;
     position:relative;
   }
+  .axis--core{
+    background:var(--paper);
+    border:2px solid var(--accent);
+  }
+  .axis--support{
+    border-style:dashed;
+    color:var(--ink-2);
+  }
   .axis::before{
     content:attr(data-num);
     position:absolute;top:-1px;right:-1px;
@@ -124,8 +132,31 @@
     font-size:18px;margin:0 0 4px;letter-spacing:-.01em;
   }
   .axis .axis-q{font-family:"JetBrains Mono",monospace;font-size:11px;color:var(--accent);text-transform:uppercase;letter-spacing:.05em;margin-bottom:10px;display:block}
+  .axis-role{
+    display:inline-block;
+    font-family:"JetBrains Mono",monospace;
+    font-size:10px;
+    letter-spacing:.12em;
+    text-transform:uppercase;
+    color:var(--muted);
+    margin-bottom:7px;
+  }
+  .axis--core .axis-role{color:var(--accent);font-weight:700}
   .axis ul{margin:0;padding:0 0 0 18px;font-size:14.5px;line-height:1.5}
   .axis ul li{margin:2px 0}
+  .evidence-chip{
+    display:inline-block;
+    font-family:"JetBrains Mono",monospace;
+    font-size:10px;
+    line-height:1;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+    color:var(--accent);
+    border:1px solid var(--accent);
+    padding:3px 5px 2px;
+    margin-right:6px;
+    vertical-align:middle;
+  }
 
   /* Diagram blocks */
   figure{margin:28px 0;padding:0}
