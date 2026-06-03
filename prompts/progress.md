@@ -3,7 +3,7 @@
 Mark exactly one task done when it is completed. Add a one-line note with changed files and verification.
 
 - [x] 01 - Source registry and annotation scaffold
-- [ ] 02 - Remove meta/changelog main flow
+- [x] 02 - Remove meta/changelog main flow
 - [ ] 03 - Hero, scope and evidence rules
 - [ ] 04 - Core taxonomy: autonomy, topology, coordination
 - [ ] 05 - Composition, workflows and tools
@@ -24,3 +24,4 @@ Add notes here in this format:
 ```
 
 01 done - changed: research/page-evidence-registry.json, prompts/progress.md; verified: JSON parse, priority claim count, source references, git status review.
+02 done - changed: index.html, prompts/progress.md; verified: targeted meta/changelog phrase search clean, section balance 15/15, git diff --check.
