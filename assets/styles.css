@@ -288,6 +288,60 @@
     .memory-boundary-table td:nth-child(1)::before{content:"Механизм"}
     .memory-boundary-table td:nth-child(2)::before{content:"Чем является"}
     .memory-boundary-table td:nth-child(3)::before{content:"Граница memory"}
+
+    .eval-table{
+      border:0;
+      display:block;
+    }
+    .eval-table thead{
+      display:none;
+    }
+    .eval-table tbody,
+    .eval-table tr,
+    .eval-table td{
+      display:block;
+      width:100%;
+    }
+    .eval-table tr{
+      border:1px solid var(--ink);
+      margin:0 0 10px;
+      background:var(--paper-2);
+    }
+    .eval-table td{
+      border:0;
+      border-top:1px solid rgba(26,31,46,.28);
+      padding:8px 9px;
+    }
+    .eval-table td:first-child{
+      border-top:0;
+      background:var(--ink);
+      color:var(--paper);
+      font-size:11px;
+      width:100%;
+    }
+    .eval-table td::before{
+      content:"";
+      display:block;
+      font-family:"JetBrains Mono",monospace;
+      font-size:10px;
+      letter-spacing:.08em;
+      text-transform:uppercase;
+      color:var(--accent);
+      margin-bottom:3px;
+    }
+    .eval-table td:first-child::before{
+      color:var(--paper-3);
+    }
+    .eval-trace-table td:nth-child(1)::before{content:"Trace event"}
+    .eval-trace-table td:nth-child(2)::before{content:"Span / event"}
+    .eval-trace-table td:nth-child(3)::before{content:"Что писать"}
+    .eval-trace-table td:nth-child(4)::before{content:"Зачем"}
+    .eval-metric-table td:nth-child(1)::before{content:"Метрика"}
+    .eval-metric-table td:nth-child(2)::before{content:"Как читать"}
+    .eval-metric-table td:nth-child(3)::before{content:"Сигнал"}
+    .benchmark-table td:nth-child(1)::before{content:"Benchmark"}
+    .benchmark-table td:nth-child(2)::before{content:"Dimension"}
+    .benchmark-table td:nth-child(3)::before{content:"Local eval use"}
   }
 
   /* Real systems map */

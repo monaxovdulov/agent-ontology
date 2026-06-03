@@ -828,9 +828,11 @@
 <section>
   <div class="sec-num">§ 09 — проверка</div>
   <h2>Evaluation &amp; Observability</h2>
-  <p>Evaluation в агентной системе — не постскрипт после дизайна, а рабочий цикл разработки. Сначала фиксируется простой baseline: prompt, workflow или augmented LLM с минимальным числом moving parts. Затем запускаются evals на реальных сценариях, читаются traces, меняется архитектура, и тот же набор прогоняется снова как regression suite.</p>
+  <!-- C39 hidden note: Anthropic Building Effective Agents and OpenAI Practical Guide support simple-first, eval-oriented iteration; OpenAI Agents SDK tracing supports traces as part of the development loop. -->
+  <p class="claim" data-claim-id="C39" data-claim-type="evaluation-claim" data-evidence-strength="strong" data-reviewed-date="2026-06-03"><span class="evidence-chip">C39 · strong</span>Evaluation в агентной системе — не постскрипт после дизайна, а рабочий цикл разработки. Сначала фиксируется простой baseline: prompt, workflow или augmented LLM с минимальным числом moving parts. Затем запускаются local evals на реальных сценариях, читаются traces, меняется архитектура, и тот же набор прогоняется снова как regression suite.</p>
 
   <p>Практический принцип: <em>start simple, optimize through evals</em>. Больше автономии, больше агентов, сложнее retrieval или handoffs добавляются не потому, что карта позволяет, а потому что eval показывает измеримый выигрыш относительно стоимости, latency и риска регрессий.</p>
+  <p class="note">Публичные benchmarks полезны как каталог task shapes и failure dimensions, но не как вечный ответ на production architecture. Для архитектурного решения нужен локальный набор задач, traces, cost/latency budget, intervention rate и regression risk.</p>
 
   <h3>Eval-driven loop</h3>
   <div class="patterns">
@@ -842,31 +844,32 @@
     <div class="pat">
       <div class="ptag">02 · inspect</div>
       <h4>Trace объясняет провал</h4>
-      <p>Смотреть только финальный ответ мало. Нужен путь: model calls, tool calls, retrieval, state changes и handoffs, иначе ошибка превращается в «модель странно решила».</p>
+      <p>Смотреть только финальный ответ мало. Нужны spans/events для model calls, tool calls, retrieval, state changes и handoffs, иначе ошибка превращается в «модель странно решила».</p>
     </div>
     <div class="pat">
       <div class="ptag">03 · choose</div>
-      <h4>Архитектура выбирается эмпирически</h4>
-      <p>Если eval падает из-за поиска — чинится retrieval. Если из-за планирования — меняется control loop. Если из-за координации — добавляется явный handoff или supervisor.</p>
+      <h4>Архитектура меняется по сигналу</h4>
+      <p>Если local eval падает из-за поиска — чинится retrieval. Если из-за планирования — меняется control loop. Если из-за координации — добавляется явный handoff или supervisor.</p>
     </div>
   </div>
 
   <h3>Что трассировать</h3>
-  <table class="stack">
+  <!-- C40 hidden note: OpenAI Agents SDK tracing supports agent/model/tool/handoff trace spans; OpenTelemetry GenAI supports vendor-neutral spans/events for GenAI operations. Retrieval and state changes may need harness-specific custom spans/events when they are outside standardized GenAI conventions. -->
+  <table class="stack claim eval-table eval-trace-table" data-claim-id="C40" data-claim-type="evaluation-claim" data-evidence-strength="medium" data-reviewed-date="2026-06-03">
     <thead>
-      <tr><th>Trace event</th><th>Что писать</th><th>Зачем это нужно</th></tr>
+      <tr><th>Trace event</th><th>Span / event vocabulary</th><th>Что писать</th><th>Зачем это нужно</th></tr>
     </thead>
     <tbody>
-      <tr><td>Model calls</td><td>model/version, prompt template, input context, tokens, structured output, retries</td><td>Отделить ошибку рассуждения от ошибки промпта, контекста или версии модели.</td></tr>
-      <tr><td>Tool calls</td><td>tool name, arguments, result shape, error, timeout, retry policy</td><td>Понять, провалился ли агент из-за выбора tool, плохих аргументов или внешнего API.</td></tr>
-      <tr><td>Retrieval</td><td>query, collection, filters, retrieved chunks, scores, citations</td><td>Видеть, была ли у модели нужная информация и не победил ли случайный похожий фрагмент.</td></tr>
-      <tr><td>State changes</td><td>diff рабочего состояния, memory writes, artifact updates, decision checkpoints</td><td>Ловить drift состояния и ошибки, которые появляются не в одном шаге, а накапливаются по цепочке.</td></tr>
-      <tr><td>Handoffs</td><td>source agent, target agent, reason, payload, expected contract</td><td>Проверять, что делегирование улучшает результат, а не добавляет скрытую потерю контекста.</td></tr>
+      <tr><td><span class="evidence-chip">C40 · medium</span>Model calls</td><td>Generation/model span; request/response events where enabled.</td><td>model/provider/version, prompt template, input context reference, tokens, structured output, latency, retries</td><td>Отделить ошибку рассуждения от ошибки промпта, контекста или версии модели.</td></tr>
+      <tr><td>Tool calls</td><td>Function/tool span; error and retry events.</td><td>tool name, schema version, arguments or redacted arguments, result shape, error, timeout, retry policy</td><td>Понять, провалился ли агент из-за выбора tool, плохих аргументов или внешнего API.</td></tr>
+      <tr><td>Retrieval</td><td>Retrieval/search span or harness event; citations as linked artifacts.</td><td>query, collection, filters, retrieved chunks, scores, citations, source freshness</td><td>Видеть, была ли у модели нужная информация и не победил ли случайный похожий фрагмент.</td></tr>
+      <tr><td>State changes</td><td>Custom span/event or artifact diff when state is outside GenAI semantic conventions.</td><td>diff рабочего состояния, memory writes, artifact updates, decision checkpoints, policy result</td><td>Ловить drift состояния и ошибки, которые появляются не в одном шаге, а накапливаются по цепочке.</td></tr>
+      <tr><td>Handoffs</td><td>Handoff span/event in agent traces; cross-runtime contract event when needed.</td><td>source agent, target agent, reason, payload, expected contract, acceptance/failure status</td><td>Проверять, что делегирование улучшает результат, а не добавляет скрытую потерю контекста.</td></tr>
     </tbody>
   </table>
 
   <h3>Метрики, которые двигают дизайн</h3>
-  <table class="stack">
+  <table class="stack eval-table eval-metric-table">
     <thead>
       <tr><th>Метрика</th><th>Как читать</th><th>Архитектурный сигнал</th></tr>
     </thead>
@@ -879,7 +882,25 @@
     </tbody>
   </table>
 
-  <p>Итоговая связь простая: evaluation выбирает архитектуру. Агентная система не «становится production» за счёт красивой схемы; она становится управляемой, когда каждый новый слой — retrieval, memory, supervisor, multi-agent topology, protocol handoff — имеет наблюдаемый trace и улучшает конкретную метрику на устойчивом eval-наборе.</p>
+  <h3>Benchmark dimensions, not production answers</h3>
+  <!-- C40 hidden note: AgentBench, WebArena, SWE-bench, GAIA, tau-bench, OSWorld, PaperBench and BrowseComp support benchmark/task design dimensions. Negative finding #8 warns against durable leaderboard-score claims. -->
+  <p class="claim" data-claim-id="C40" data-claim-type="evaluation-claim" data-evidence-strength="medium" data-reviewed-date="2026-06-03"><span class="evidence-chip">C40 · medium</span>Benchmark papers help choose what a local eval should exercise: interaction, web state, code changes, tool-user-policy loops, GUI control or long-horizon research. They do not decide whether a production system should be a workflow, single-agent loop or multi-agent topology without local traces, constraints and regression data.</p>
+  <table class="stack eval-table benchmark-table">
+    <thead>
+      <tr><th>Benchmark</th><th>Dimension</th><th>Как использовать в локальном eval</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>AgentBench</td><td>Interactive environments</td><td>Проверять не только ответ, но и action loop: выбор действия, наблюдение среды, завершение задачи.</td></tr>
+      <tr><td>WebArena</td><td>Realistic web tasks</td><td>Давать задачи с web state, navigation, forms, side effects and verifiable success criteria.</td></tr>
+      <tr><td>SWE-bench</td><td>Coding issue resolution</td><td>Оценивать patch как артефакт: тесты, regressions, repository context и real issue constraints.</td></tr>
+      <tr><td>GAIA</td><td>Mixed tool/reasoning assistant tasks</td><td>Смешивать reasoning, browsing, multimodal/tool use и проверяемый финальный ответ.</td></tr>
+      <tr><td>tau-bench</td><td>Tool-user-policy interactions</td><td>Проверять, соблюдает ли агент business rules, state transitions и пользовательский диалог при tool use.</td></tr>
+      <tr><td>OSWorld</td><td>Desktop/computer-use</td><td>Тестировать GUI-level state, screenshots/actions, recovery from UI errors и безопасность side effects.</td></tr>
+      <tr><td>PaperBench / BrowseComp</td><td>Long-horizon research and browsing</td><td>Покрывать search strategy, source selection, synthesis, artifact quality и многошаговую устойчивость.</td></tr>
+    </tbody>
+  </table>
+
+  <p>Итоговая связь стала точнее: local evals and traces justify architecture changes. Агентная система не «становится production» за счёт красивой схемы; она становится управляемой, когда каждый новый слой — retrieval, memory, supervisor, multi-agent topology, protocol handoff — имеет наблюдаемый trace и улучшает конкретную метрику на устойчивом локальном eval-наборе.</p>
 </section>
 
 <!-- ========== SECTION 10: 2022-2026 TIMELINE ========== -->
@@ -1307,6 +1328,7 @@
   · LangChain Agent Protocol. Runtime client/server protocol for running agents.<br>
   · AGNTCY Docs. Identity, discovery and interoperability ecosystem.<br>
   · OpenTelemetry GenAI Semantic Conventions. Observability semantics for LLM/agent traces.<br>
+  · AgentBench; WebArena; SWE-bench; GAIA; tau-bench; OSWorld; PaperBench; BrowseComp. Benchmark design dimensions for agent evals, not durable leaderboard claims.<br>
   · Spring AI Reference. Building Effective Agents (импл. паттернов).<br>
   · Erman, Hayes-Roth, Lesser, Reddy (1980). The HEARSAY-II Speech Understanding System.<br>
   · Smith (1980). The Contract Net Protocol.<br>
