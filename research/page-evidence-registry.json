@@ -655,14 +655,15 @@
     "openai-function-calling-2023": {
       "title": "Function calling and other API updates",
       "authors_or_org": "OpenAI",
-      "date": "2023-06; footer-only source",
-      "url": null,
-      "source_type": "official announcement candidate",
-      "evidence_tier": "TBD",
-      "reliability": "candidate primary",
-      "registry_status": "source-stub",
+      "date": "2023-06-13; accessed 2026-06-03",
+      "url": "https://openai.com/index/function-calling-and-other-api-updates/",
+      "source_type": "official product announcement",
+      "evidence_tier": "Tier 2",
+      "reliability": "primary for the 2023 API milestone",
+      "registry_status": "cataloged",
       "time_sensitive": false,
-      "supports": "Candidate source for the 2023 function/tool calling timeline milestone.",
+      "accessed": "2026-06-03",
+      "supports": "The 2023 function/tool calling timeline milestone: developers could describe functions to the model with JSON Schema and receive structured arguments for application-side execution.",
       "does_not_support": "Current function/tool calling API behavior without living docs."
     },
     "negative-anthropic-pattern-consensus": {
@@ -1397,8 +1398,8 @@
       "slug": "timeline-2022-2026",
       "claim_type": "historical-claim",
       "evidence_strength": "medium",
-      "current_claim_summary": "Timeline 2022-2026 covers ReAct, function calls, workflow/agent framing, multi-agent plus CUA, and harness hardening.",
-      "reasoning_bridge": "The milestone sequence is plausible with available sources, but each year needs its own source and the 2026 wording must be reviewed through 2026-06-03.",
+      "current_claim_summary": "Timeline 2022-2026 maps ReAct, function calling, workflow/agent framing, multi-agent and computer-use surfaces, and 2026 harness/protocol maturation as dated architectural shifts reviewed through 2026-06-03.",
+      "reasoning_bridge": "Each milestone is supported by a local paper, official docs, system card, spec, or guidance source; product names are treated as dated markers while the architectural claim is limited to changed control loops, typed contracts, coordination/action surfaces, execution substrate, or protocol contracts.",
       "supporting_source_ids": [
         "react",
         "openai-function-calling-2023",
@@ -1416,12 +1417,17 @@
       ],
       "source_support": {
         "react": "Supports the 2022/2023 reasoning-plus-acting milestone.",
-        "openai-function-calling-2023": "Candidate source for the 2023 function-calling milestone; needs catalog entry.",
+        "openai-function-calling-2023": "Supports the 2023 function-calling milestone as typed JSON-schema tool/function contracts.",
         "anthropic-building-effective-agents": "Supports 2024 workflow/agent practitioner framing.",
+        "anthropic-multi-agent-research-system": "Supports the 2025 coordination milestone for supervisor-worker research systems and parallel subagents in one task-specific production case.",
         "openai-computer-using-agent": "Supports computer-use tooling milestone.",
-        "a2a-protocol-spec": "Supports 2026 A2A spec status."
+        "openai-operator-system-card": "Supports 2025 browser-agent safety and action-boundary evidence.",
+        "openai-agents-sdk-docs": "Supports 2026 execution-substrate vocabulary for tools, handoffs, guardrails, and agent harnesses.",
+        "a2a-protocol-spec": "Supports 2026 A2A task/message/artifact contract.",
+        "linux-foundation-a2a-v1": "Supports A2A v1.0.0 and Linux Foundation project activity as of 2026-04-09.",
+        "five-eyes-agentic-ai-guidance": "Supports fresh 2026 governance, permissions, monitoring, and controls as deployment obligations around agentic services."
       },
-      "caveat": "Use milestone-level annotations and replace stale 'April snapshot' language with 'reviewed through 2026-06-03.'",
+      "caveat": "Do not claim that any year creates a new paradigm by itself; keep 2026 wording as reviewed through 2026-06-03, not a closed-year verdict.",
       "reviewed_date": "2026-06-03"
     },
     "C42": {

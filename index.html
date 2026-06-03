@@ -913,7 +913,8 @@
 <section>
   <div class="sec-num">§ 10 — timeline</div>
   <h2>Timeline 2022–2026</h2>
-  <p>Эта ось не про очередность релизов. В карту попадают только сдвиги, которые меняют архитектуру: как модель планирует, вызывает внешние действия, распределяет работу и получает исполняемую среду. Продуктовые названия — только маркеры, не доказательство новой парадигмы.</p>
+  <!-- C41 hidden note: ReAct supports the reasoning/action loop; OpenAI function calling supports typed JSON-schema tool contracts; Anthropic Building Effective Agents supports workflow-vs-agent framing; Anthropic multi-agent research and OpenAI CUA/Operator support coordination and GUI action surfaces; OpenAI Agents SDK, A2A spec/LF update and Five Eyes guidance support the dated 2026 substrate/protocol/governance signal. -->
+  <p class="claim" data-claim-id="C41" data-claim-type="historical-claim" data-evidence-strength="medium" data-reviewed-date="2026-06-03"><span class="evidence-chip">C41 · medium</span>Эта ось не про очередность релизов. В карту попадают только сдвиги, которые меняют архитектуру: как модель планирует, вызывает внешние действия, распределяет работу и получает исполняемую среду. Продуктовые названия здесь читаются как dated markers; доказательством сдвига остаются paper, spec, docs или system card, reviewed through 2026-06-03.</p>
 
   <figure>
   <svg viewBox="0 0 800 430" xmlns="http://www.w3.org/2000/svg">
@@ -993,21 +994,59 @@
       <text x="0" y="228" class="lbl-acc" text-anchor="middle">2026</text>
       <line x1="0" y1="117" x2="0" y2="201" stroke="#b8410c" stroke-width="1.2"/>
       <rect x="-58" y="104" width="116" height="84" fill="#dcd0b3" stroke="#1a1f2e"/>
-      <text x="0" y="128" class="lbl-acc" text-anchor="middle">harness hardening</text>
+      <text x="0" y="128" class="lbl-acc" text-anchor="middle">harness + protocol</text>
       <text x="0" y="148" class="lbl-sm" text-anchor="middle">sandbox, files,</text>
-      <text x="0" y="163" class="lbl-sm" text-anchor="middle">memory and</text>
+      <text x="0" y="163" class="lbl-sm" text-anchor="middle">state, memory,</text>
       <text x="0" y="178" class="lbl-sm" text-anchor="middle">durable runs</text>
       <rect x="-58" y="289" width="116" height="62" fill="#e8dfca" stroke="#1a1f2e" stroke-dasharray="4 3"/>
-      <text x="0" y="315" class="lbl-sm" text-anchor="middle">snapshot:</text>
-      <text x="0" y="331" class="lbl-sm" text-anchor="middle">not consensus yet</text>
+      <text x="0" y="315" class="lbl-sm" text-anchor="middle">reviewed:</text>
+      <text x="0" y="331" class="lbl-sm" text-anchor="middle">2026-06-03</text>
     </g>
 
     <text x="40" y="390" class="lbl-sm">правило чтения: год важен только если меняется contract, control loop, topology или execution substrate</text>
   </svg>
-  <figcaption><b>fig.6</b> · timeline отделяет устойчивые архитектурные сдвиги от продуктового шума; 2026 — проверенный snapshot на апрель, а не итог года</figcaption>
+  <figcaption><b>fig.6</b> · timeline отделяет устойчивые архитектурные сдвиги от продуктового шума; 2026 reviewed through 2026-06-03, not a closed-year verdict</figcaption>
   </figure>
 
-  <p class="note">2026 пока не закрытый год. Проверенный сигнал на 2026-06-03 — не «новый тип агента», а усиление harness: sandbox, файловая среда, configurable memory, state и durable execution. A2A v1.0.0 (2026-04-09) также уточняет agent-to-agent task/message/artifact контракт, но это укрепляет технологический слой A6, а не добавляет новую базовую ось.</p>
+  <table class="stack claim timeline-table" data-claim-id="C41" data-claim-type="historical-claim" data-evidence-strength="medium" data-reviewed-date="2026-06-03">
+    <thead>
+      <tr><th>Milestone</th><th>Source evidence</th><th>Architectural reason it matters</th><th>Limit / non-claim</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="evidence-chip">C41 · medium</span>2022 ReAct</td>
+        <td>Yao et al., ReAct; arXiv 2022-10 / ICLR 2023.</td>
+        <td>Interleaves reasoning traces and external actions, making the reasoning/action loop a control-flow pattern rather than post-processing around a model call.</td>
+        <td>Does not prove open-ended autonomy; it marks a loop pattern that still needs tools, stop rules and evaluation.</td>
+      </tr>
+      <tr>
+        <td>2023 function calling</td>
+        <td>OpenAI, Function calling and other API updates; 2023-06-13.</td>
+        <td>Turns tool use into a typed contract: developers describe callable functions with JSON Schema, and the model can emit structured arguments for code or API execution.</td>
+        <td>Not a plugin race or a universal agent architecture; current tool behavior still depends on the living API surface and harness policy.</td>
+      </tr>
+      <tr>
+        <td>2024 workflow / agent</td>
+        <td>Anthropic, Building Effective Agents; 2024-12-19.</td>
+        <td>Makes autonomy a design gradient: workflows encode control flow in code, while agents let the model choose steps inside constraints.</td>
+        <td>Practitioner vocabulary, not field-wide consensus; it supports this page's reading but not a closed taxonomy.</td>
+      </tr>
+      <tr>
+        <td>2025 multi-agent + computer use</td>
+        <td>Anthropic multi-agent research system; 2025-06-13. OpenAI Operator System Card; 2025-01-23. OpenAI Computer Use docs; accessed 2026-06-03.</td>
+        <td>Moves the architecture question from a single loop to coordination and action surfaces: supervisor/worker research, parallel context windows, browser or GUI actions, confirmations and restricted actions.</td>
+        <td>Does not show that multi-agent is usually better; the cited production case is task-specific and carries cost/eval gates.</td>
+      </tr>
+      <tr>
+        <td>2026 harness + protocol maturation</td>
+        <td>OpenAI Agents SDK docs; accessed 2026-06-03. A2A v1.0.0 spec and Linux Foundation update; 2026-04-09. Five Eyes agentic AI guidance; 2026-05-01.</td>
+        <td>Strengthens the execution substrate: sandbox/files/computer tools, configurable memory, state/snapshot or durable execution concerns, plus A2A's task/message/artifact contract for agent-to-agent work.</td>
+        <td>2026 is not closed and not a new paradigm claim; these sources strengthen A6 plus safety/eval obligations rather than adding an eighth axis.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p class="note">2026 пока не закрытый год. Проверенный сигнал на 2026-06-03 — не «новый тип агента», а усиление harness and protocol substrate: sandbox, files, computer-use surfaces, configurable memory, state/snapshot or durable execution, and A2A task/message/artifact contracts. Это укрепляет технологический слой A6 и требования к failure/eval sections, но не меняет базовые вопросы карты: autonomy, topology, coordination, memory policy и eval readiness.</p>
 </section>
 
 <!-- ========== SECTION 11: MEMORY TYPOLOGY ========== -->

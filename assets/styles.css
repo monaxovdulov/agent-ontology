@@ -187,6 +187,11 @@
   .product-table td:nth-child(3){width:26%}
   .product-table td:nth-child(4){width:22%}
   .product-table td:nth-child(5){width:16%}
+  .timeline-table{font-size:13.5px;line-height:1.43}
+  .timeline-table td:first-child{width:15%}
+  .timeline-table td:nth-child(2){width:28%}
+  .timeline-table td:nth-child(3){width:31%}
+  .timeline-table td:nth-child(4){width:26%}
   @media(max-width:560px){
     .stack td:first-child{width:32%;font-size:11px}
     .stack td,.stack th{padding:6px 7px;font-size:13px}
@@ -348,6 +353,54 @@
     .benchmark-table td:nth-child(1)::before{content:"Benchmark"}
     .benchmark-table td:nth-child(2)::before{content:"Dimension"}
     .benchmark-table td:nth-child(3)::before{content:"Local eval use"}
+
+    .timeline-table{
+      border:0;
+      display:block;
+    }
+    .timeline-table thead{
+      display:none;
+    }
+    .timeline-table tbody,
+    .timeline-table tr,
+    .timeline-table td{
+      display:block;
+      width:100%;
+    }
+    .timeline-table tr{
+      border:1px solid var(--ink);
+      margin:0 0 10px;
+      background:var(--paper-2);
+    }
+    .timeline-table td{
+      border:0;
+      border-top:1px solid rgba(26,31,46,.28);
+      padding:8px 9px;
+    }
+    .timeline-table td:first-child{
+      border-top:0;
+      background:var(--ink);
+      color:var(--paper);
+      font-size:11px;
+      width:100%;
+    }
+    .timeline-table td::before{
+      content:"";
+      display:block;
+      font-family:"JetBrains Mono",monospace;
+      font-size:10px;
+      letter-spacing:.08em;
+      text-transform:uppercase;
+      color:var(--accent);
+      margin-bottom:3px;
+    }
+    .timeline-table td:first-child::before{
+      color:var(--paper-3);
+    }
+    .timeline-table td:nth-child(1)::before{content:"Milestone"}
+    .timeline-table td:nth-child(2)::before{content:"Source evidence"}
+    .timeline-table td:nth-child(3)::before{content:"Architectural reason"}
+    .timeline-table td:nth-child(4)::before{content:"Limit / non-claim"}
 
     .product-table{
       border:0;

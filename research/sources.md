@@ -661,3 +661,18 @@ Selected sources are grouped here as a working catalog for future page edits. `u
 - **Why this source:** The official repository and docs are stronger than historical media coverage for current project positioning.
 - **Page sections:** "Real systems"; "Timeline"
 - **Note:** use with caution; supports dated public positioning, not broad claims about all AutoGPT deployments or hidden runtime orchestration.
+
+## 45. OpenAI: Function calling and other API updates
+
+- **Authors / org:** OpenAI
+- **Year / date:** 2023-06-13; accessed 2026-06-03
+- **URL:** https://openai.com/index/function-calling-and-other-api-updates/
+- **Type:** official product announcement
+- **Evidence tier:** Tier 2
+- **Reliability:** primary for the 2023 API milestone
+- **Categories:** tool use and tool design; production agent systems; workflow vs agent autonomy
+- **Why it matters:** The announcement introduced function calling as an API pattern where developers describe functions to the model with JSON Schema and receive structured arguments for application-side execution. It supports the timeline's 2023 milestone that tool use became a typed model-to-code contract.
+- **Gap closed:** Converts the timeline's footer-only 2023 function-calling source into a cataloged source.
+- **Why this source:** Official OpenAI announcement is stronger than third-party summaries for the original API milestone.
+- **Page sections:** "Timeline 2022-2026"; "Tools"; "Стек"
+- **Note:** use for the historical milestone only; use living OpenAI docs for current API behavior.

@@ -75,6 +75,24 @@
       "actuality": "2025 guide; exact date should be verified before citation."
     },
     {
+      "id": "openai-function-calling-2023",
+      "title": "Function calling and other API updates",
+      "authors_or_org": "OpenAI",
+      "year": 2023,
+      "date": "2023-06-13; accessed 2026-06-03",
+      "url": "https://openai.com/index/function-calling-and-other-api-updates/",
+      "type": "official product announcement",
+      "evidence_tier": "Tier 2",
+      "reliability": "primary for the 2023 API milestone",
+      "categories": ["tool use and tool design", "production agent systems", "workflow vs agent autonomy"],
+      "note": "use",
+      "role_for_taxonomy": "Historical source for function calling as a typed model-to-code/tool contract.",
+      "closes_gap": "Catalogs the 2023 function-calling timeline milestone instead of leaving it as a footer-only source.",
+      "why_prefer": "Official OpenAI announcement is stronger than third-party summaries for the original API milestone.",
+      "current_page_sections": ["Timeline", "Tools", "Stack"],
+      "actuality": "Historical milestone; use living OpenAI docs for current API behavior."
+    },
+    {
       "id": "openai-agents-sdk-docs",
       "title": "OpenAI Agents SDK Documentation",
       "authors_or_org": "OpenAI",
