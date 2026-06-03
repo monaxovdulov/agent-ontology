@@ -4,7 +4,7 @@ Mark exactly one task done when it is completed. Add a one-line note with change
 
 - [x] 01 - Source registry and annotation scaffold
 - [x] 02 - Remove meta/changelog main flow
-- [ ] 03 - Hero, scope and evidence rules
+- [x] 03 - Hero, scope and evidence rules
 - [ ] 04 - Core taxonomy: autonomy, topology, coordination
 - [ ] 05 - Composition, workflows and tools
 - [ ] 06 - Protocol stack, MCP and A2A
@@ -25,3 +25,4 @@ Add notes here in this format:
 
 01 done - changed: research/page-evidence-registry.json, prompts/progress.md; verified: JSON parse, priority claim count, source references, git status review.
 02 done - changed: index.html, prompts/progress.md; verified: targeted meta/changelog phrase search clean, section balance 15/15, git diff --check.
+03 done - changed: index.html, assets/styles.css, prompts/progress.md; verified: opening meta/changelog phrase scan clean, evidence-note marker search, section balance 15/15, git diff --check; browser visual check blocked by file URL policy.

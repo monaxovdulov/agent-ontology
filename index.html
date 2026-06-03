@@ -18,17 +18,29 @@
     <span>Практическая таксономия · v2.1</span>
     <span>2026/06</span>
   </div>
-  <h1>Ландшафт <em>AI-агентов</em><br>практическая таксономия</h1>
-  <div class="subtitle">карта измерений · evidence-aware reasoning · минимальная достаточная автономия</div>
+  <h1>Ландшафт <em>AI-агентов</em><br>карта архитектурных решений</h1>
+  <div class="subtitle">smallest architecture that works · evidence-aware reasoning · минимальная достаточная автономия</div>
 </header>
 
-<p class="lead">Это не formal ontology в строгом смысле: здесь нет is-a / part-of / depends-on аксиом и inference rules. Документ работает как практическая таксономия и карта измерений для инженерного выбора: какую степень автономии дать системе, какую топологию и координацию выбрать, где нужны evals, memory, HITL и протоколы, а где всё это только добавляет cost и неопределённость.</p>
+<p class="lead">Эта страница — практическая карта для выбора smallest agent architecture that works: не больше автономии, memory, протоколов или multi-agent coordination, чем оправдывают задача, evals и риск. Autonomy, topology, coordination, composition, memory, protocols, safety и evals здесь читаются как отдельные инженерные решения, а не как одна maturity ladder.</p>
+
+<p class="scope">Это не formal ontology в строгом смысле: здесь нет is-a / part-of / depends-on аксиом и inference rules. Под <em>AI agent</em> здесь понимается LLM-based система, где модель может влиять на следующий шаг через tools, memory, context, handoffs или собственный control loop. Fixed workflow остаётся частью карты как часто более простая граница, а не как «низшая стадия» агентности.</p>
+
+<aside class="evidence-brief claim" data-claim-id="C55" data-claim-type="meta-commentary" data-evidence-strength="strong" data-reviewed-date="2026-06-03" aria-label="How to read evidence on this page">
+  <div class="evidence-kicker">Как читать evidence</div>
+  <ul>
+    <li><b>Definitions</b> объясняют термин; <b>taxonomy decisions</b> показывают, как эта страница режет design space для инженерного выбора.</li>
+    <li><b>Source evidence</b> поддерживает конкретные определения, specs, docs или observed product surfaces; <b>page inference</b> — это осторожное размещение этих фактов на карте.</li>
+    <li><b>Strong / medium / weak / contested</b> означает, насколько прямо источник поддерживает claim. Weak и contested формулировки должны читаться с caveat, а не как consensus.</li>
+    <li><b>Living claims</b> про протоколы, продукты и adoption требуют review date; они не являются вечными утверждениями о рынке или скрытой архитектуре.</li>
+  </ul>
+</aside>
 
 <!-- ========== SECTION 1: CATEGORY BOUNDARIES ========== -->
 <section>
-  <div class="sec-num">§ 01 — границы категорий</div>
-  <h2>Сначала разделить измерения</h2>
-  <p>Таксономия полезна только тогда, когда не ставит в один ряд топологию, координацию, роли, протоколы, фреймворки и метафоры. Эта карта начинается с девяти категориальных границ, которые дальше превращаются в оси A1–A7.</p>
+  <div class="sec-num">§ 01 — границы карты</div>
+  <h2>Сначала разделить вопросы</h2>
+  <p>Таксономия полезна только тогда, когда не ставит в один ряд топологию, координацию, роли, протоколы, фреймворки и метафоры. Девять границ ниже показывают, какие вопросы нужно удерживать отдельно перед выбором архитектуры; дальше они превращаются в оси A1–A7.</p>
 
   <ol class="drift">
     <li><b>Топология и механизм координации — разные вопросы.</b> <code>Топология связей</code> отвечает за форму графа, а <code>механизм координации</code> — за то, как принимаются решения и передаются обязательства. Дерево с blackboard-координацией — валидная комбинация, потому что A3 и A4 пересекаются, но не заменяют друг друга.
