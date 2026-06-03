@@ -789,22 +789,39 @@
 <section>
   <div class="sec-num">§ 08 — failure modes</div>
   <h2>Как ломаются агентные системы</h2>
-  <p>Failure modes — это не отдельная базовая ось карты, а производные от <b>A2 × A3 × A4</b>: автономии, топологии и механизма координации. Один и тот же дефект ведёт себя по-разному в workflow, star-схеме, mesh-сети или цикле с критиком.</p>
+  <!-- C36 hidden note: OWASP, AgentDojo, Five Eyes and OpenAI Operator evidence support a broader safety surface than A2/A3/A4 alone: autonomy, tools, memory, permissions, delegated actions, protocol boundaries and runtime substrate all shape failure propagation. -->
+  <p class="claim" data-claim-id="C36" data-claim-type="taxonomy-claim" data-evidence-strength="medium" data-reviewed-date="2026-06-03"><span class="evidence-chip">C36 · medium</span>Failure modes — это не отдельная базовая ось карты, но они выводятся не только из <b>A2 × A3 × A4</b>. Autonomy, topology и coordination задают форму распространения ошибки; tools, memory, permissions, protocol handoffs, sandbox/runtime и approval surface задают то, какая ошибка получает право действовать. Один и тот же дефект ведёт себя по-разному в fixed workflow, star-схеме, mesh-сети, shared-memory loop или browser/computer-use агенте.</p>
 
-  <table class="stack">
+  <!-- C37 hidden note: AgentDojo supports indirect prompt-injection/tool-use attack framing; OWASP LLM and Agentic Skills support prompt injection, excessive agency and tool/skill execution risks; agreement bias remains a page-defined review heuristic, not a standardized security category. -->
+  <table class="stack claim safety-table failure-mode-table" data-claim-id="C37" data-claim-type="safety-claim" data-evidence-strength="medium" data-reviewed-date="2026-06-03">
     <thead>
-      <tr><th>Mode</th><th>Как выглядит</th><th>Архитектурный усилитель</th><th>Сдерживание</th></tr>
+      <tr><th>Mode</th><th>Как выглядит</th><th>Архитектурный усилитель</th><th>Сдерживание</th><th>Evidence / caveat</th></tr>
     </thead>
     <tbody>
-      <tr><td>Cascading errors</td><td>Ранняя ошибка становится входом для следующих агентов и превращается в «доказанный» факт.</td><td>Длинные цепочки, tree/DAG без независимой проверки, shared state без provenance.</td><td>Контрольные ворота, typed outputs, локальные evals, сохранение источника и confidence для каждого шага.</td></tr>
-      <tr><td>Context poisoning</td><td>В рабочий контекст попадает ложная инструкция, вредный пример или устаревший артефакт; агент начинает следовать шуму как системному факту.</td><td>Общий blackboard, долговременная memory без TTL, RAG без ранжирования доверия, tool outputs без очистки.</td><td>Разделять evidence / instruction / draft, санитайзить tool output, вводить TTL, namespace memory и правила записи.</td></tr>
-      <tr><td>Hallucination amplification</td><td>Один агент создаёт галлюцинацию, второй переформулирует увереннее, третий цитирует это как консенсус.</td><td>Mesh и voting, где агенты видят ответы друг друга; critic, оценивающий стиль вместо проверяемых фактов.</td><td>Независимые прогоны до агрегации, fact-check через retrieval/tools, запрет ссылаться на peer output как на источник.</td></tr>
-      <tr><td>Infinite loops</td><td>Система бесконечно планирует, критикует, переписывает или вызывает tools без нового прогресса.</td><td>Cyclic graph, autonomous agent без stop condition, evaluator-optimizer без budget и критерия сходимости.</td><td>Жёсткие budgets, progress delta, loop detector, idempotency keys, явные terminal states.</td></tr>
-      <tr><td>Agreement bias</td><td>Агенты быстро соглашаются с первым сильным ответом, и multi-agent схема имитирует проверку вместо реальной дивергенции.</td><td>Иерархия с авторитетным orchestrator, group chat, consensus prompt, общая память до независимого решения.</td><td>Blind review, adversarial critic, delayed disclosure, разные prompts/models, агрегация по доказательствам, а не по числу голосов.</td></tr>
+      <tr><td><span class="evidence-chip">C37 · medium</span>Cascading errors</td><td>Ранняя ошибка становится входом для следующих агентов, tools или memory writes и превращается в «доказанный» факт.</td><td>Длинные цепочки, tree/DAG без независимой проверки, shared state без provenance.</td><td>Контрольные ворота, typed outputs, локальные evals, сохранение источника и confidence для каждого шага.</td><td>Поддержано как архитектурная failure pattern; не отдельная стандартизированная OWASP-категория.</td></tr>
+      <tr><td>Context poisoning</td><td>В рабочий контекст попадает ложная инструкция, вредный пример или устаревший артефакт; агент начинает читать untrusted text как authority.</td><td>Общий blackboard, долговременная memory без TTL, RAG без ранжирования доверия, tool/peer outputs без authority boundary.</td><td>Разделять evidence / instruction / draft, санитайзить tool output, вводить TTL, namespace memory и правила записи.</td><td>Сильнее всего опирается на AgentDojo и OWASP prompt-injection framing: это проблема authority boundary, а не только «плохого prompt».</td></tr>
+      <tr><td>Hallucination amplification</td><td>Один агент создаёт галлюцинацию, второй переформулирует увереннее, третий цитирует это как консенсус.</td><td>Mesh и voting, где агенты видят ответы друг друга; critic, оценивающий стиль вместо проверяемых фактов.</td><td>Независимые прогоны до агрегации, fact-check через retrieval/tools, запрет ссылаться на peer output как на источник.</td><td>Page-defined label для shared-context propagation; evidence приходит из tool/context safety и provenance guidance.</td></tr>
+      <tr><td>Infinite loops</td><td>Система бесконечно планирует, критикует, переписывает или вызывает tools без нового прогресса.</td><td>Cyclic graph, autonomous agent без stop condition, evaluator-optimizer без budget и критерия сходимости.</td><td>Жёсткие budgets, progress delta, loop detector, idempotency keys, явные terminal states.</td><td>Связано с excessive agency и autonomous workflow behavior; нужны budget, monitoring и policy checks.</td></tr>
+      <tr><td>Agreement bias</td><td>Агенты быстро соглашаются с первым сильным ответом, и multi-agent схема имитирует проверку вместо реальной дивергенции.</td><td>Иерархия с авторитетным orchestrator, group chat, consensus prompt, общая память до независимого решения.</td><td>Blind review, adversarial critic, delayed disclosure, разные prompts/models, агрегация по доказательствам, а не по числу голосов.</td><td>Локальная review heuristic, не security-standard term; держать как caveat для multi-agent design, а не как доказанную категорию риска.</td></tr>
     </tbody>
   </table>
 
-  <p class="note">Практическое правило: добавляя автономию, shared memory или agent↔agent коммуникацию, надо одновременно добавлять <b>границы доверия</b>. Иначе архитектурная сила multi-agent системы — распространение контекста между узлами — становится каналом распространения ошибок.</p>
+  <h3>Safety boundary model</h3>
+  <!-- C38 hidden note: Five Eyes supports permissions, monitoring, governance and controls; OpenAI Operator supports confirmations and restricted actions; OWASP and AgentDojo support untrusted-content/tool-output boundaries; Anthropic Writing Tools supports tool output/schema as reasoning surface. -->
+  <p class="claim" data-claim-id="C38" data-claim-type="safety-claim" data-evidence-strength="strong" data-reviewed-date="2026-06-03"><span class="evidence-chip">C38 · strong</span>Практическое правило: retrieved content, tool output, peer-agent output и memory record остаются <b>data/evidence</b>, пока trusted harness явно не повысил их статус через policy. Untrusted text не получает instruction authority, не может переписать system/developer/user intent и не должен становиться основанием для irreversible action без отдельного контроля.</p>
+
+  <table class="stack safety-table safety-boundary-table">
+    <thead>
+      <tr><th>Boundary</th><th>Правило</th><th>Controls</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Authority</td><td>Внешний текст, tool response, web page, peer message и retrieved chunk не становятся инструкцией только потому, что попали в context.</td><td>Раздельные namespaces для instruction/evidence/draft, provenance, source authority, sanitization, policy-based promotion.</td></tr>
+      <tr><td>Permissions</td><td>Agent получает только те capabilities, которые нужны текущей задаче, и не наследует лишние права от tool, skill или peer handoff.</td><td>Scoped credentials, allowlists, per-action grants, reversible defaults, запрет скрытых side effects.</td></tr>
+      <tr><td>Execution</td><td>Code, browser, file and API actions исполняются в среде, где ошибка или prompt injection не расширяют доступ.</td><td>Sandboxing, network/file scopes, idempotency keys, dry run для опасных операций, rollback или kill switch.</td></tr>
+      <tr><td>Approval</td><td>HITL approval работает только если человек видит trusted context: raw action target, diff, source, risk и последствия, а не только agent summary.</td><td>Trusted UI, explicit confirmation для irreversible/high-risk actions, reason for handoff, confidence, policy result рядом с кнопкой.</td></tr>
+      <tr><td>Monitoring</td><td>Контроль должен видеть путь ошибки, а не только финальный ответ.</td><td>Audit trail, traces для model/tool/retrieval/handoff/state changes, policy checks, anomaly monitoring, incident review.</td></tr>
+    </tbody>
+  </table>
 </section>
 
 <!-- ========== SECTION 9: EVALUATION ========== -->
@@ -1172,7 +1189,7 @@
 
       <rect x="556" y="0" width="176" height="54" fill="#f1ead9" stroke="#1a1f2e" stroke-dasharray="4 3"/>
       <text x="644" y="19" class="lbl-acc" text-anchor="middle">HITL gate</text>
-      <text x="644" y="36" class="lbl-sm" text-anchor="middle">high risk, high cost, low eval</text>
+      <text x="644" y="36" class="lbl-sm" text-anchor="middle">scope/policy/audit</text>
     </g>
 
     <g transform="translate(70,276)">
@@ -1200,11 +1217,11 @@
       <tr><td>Следующий шаг нельзя предсказать?</td><td>План, выбор tool и остановка зависят от промежуточных результатов.</td><td><b>Single-agent</b> loop: <b>A2</b> agent, обычно <b>A3</b> cyclic graph, <b>A4</b> command/blackboard.</td><td>Budget, stop condition, loop detector, intervention rate, rollback для рискованных действий.</td></tr>
       <tr><td>Есть независимые ветки?</td><td>Подзадачи можно выполнять параллельно, нужны разные specialists, tools или context windows.</td><td><b>Multi-agent</b> только если он выигрывает у single-agent на eval: <b>A3</b> star/tree/DAG, <b>A4</b> hierarchy/blackboard/competition.</td><td>Handoff contracts, delayed disclosure, provenance, cost cap; защита от agreement bias и hallucination amplification.</td></tr>
       <tr><td>Нужно помнить между вызовами?</td><td>Требуются user/project history, доменные факты, procedures или durable state.</td><td><b>Memory</b> как отдельный слой: working, episodic, semantic или procedural store с read/write policy.</td><td>TTL, provenance, freshness, delete rules; logs не считать memory без отбора.</td></tr>
-      <tr><td>Ошибка дорого стоит?</td><td>Есть irreversible action, деньги, безопасность, юридический риск, публичная публикация или низкая eval readiness.</td><td><b>HITL gates</b>: approval before action, review before publish, escalation to operator.</td><td>Decision checkpoints, audit trail, canary runs, explicit confidence и reason for handoff.</td></tr>
+      <tr class="claim" data-claim-id="C46" data-claim-type="architectural-recommendation" data-evidence-strength="medium" data-reviewed-date="2026-06-03"><td><span class="evidence-chip">C46 · medium</span>Ошибка дорого стоит?</td><td>Есть irreversible action, деньги, безопасность, юридический риск, публичная публикация или низкая eval readiness.</td><td><b>HITL gates</b> как часть control stack: approval before action, review before publish, escalation to operator. Не standalone safety solution.</td><td>Scoped permissions, trusted approval UI/context, policy checks, audit trail, monitoring, rollback, explicit confidence и reason for handoff.</td></tr>
     </tbody>
   </table>
 
-  <p class="note">Связь с anti-patterns прямая: если выбранный слой не привязан к A1–A7 и не улучшает eval-метрику при приемлемых cost/risk, это over-engineering. Если HITL или memory появляются без политики, они становятся новой failure surface, а не контролем.</p>
+  <p class="note">Связь с anti-patterns прямая: если выбранный слой не привязан к A1–A7 и не улучшает eval-метрику при приемлемых cost/risk, это over-engineering. Если HITL или memory появляются без policy, scoped permissions, trusted context и audit, они становятся новой failure surface, а не контролем.</p>
 </section>
 
 <!-- ========== SECTION 14: CLASSIC MAS TRANSFER ========== -->
