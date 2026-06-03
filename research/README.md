@@ -38,9 +38,12 @@ Do not include a source only because it is famous or recent. When two sources ma
 ## Freshness Rules
 
 - For 2025-2026 protocols and product docs, treat the source as time-sensitive and record the access date or release date.
+- Treat the taxonomy as a living evidence map, not a frozen literature review. When new papers, specs, product docs, benchmark updates, or safety guidance appear, add them to this backlog first and state whether they strengthen, weaken, contest, or merely contextualize an existing claim.
+- Do not update `index.html` from a new source until the source has a catalog entry, a concrete claim mapping, an evidence tier/strength judgment, and a review/access date where relevant.
 - For benchmark papers, cite benchmark design and task coverage, not transient leaderboard scores.
 - For production products, cite official docs only for feature existence and system shape; do not infer adoption or effectiveness unless the source gives evidence.
 - For disputed claims, either require two independent sources or mark the evidence as weak, mixed, or contested.
+- If new evidence changes the taxonomy, update the affected claim annotation and leave a short note explaining the old wording, the new evidence, and the reason the evidence strength changed.
 
 ## Files
 
