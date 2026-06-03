@@ -64,7 +64,7 @@
     <li><b>Workflow vs Agent — практический градиент автономии.</b> Anthropic в «Building Effective Agents» проводит полезную границу: <em>workflow</em> = LLM работает в предопределённых код-путях, <em>agent</em> = LLM сама управляет потоком и выбором инструментов. Для этой карты это ось A2: кто управляет следующим шагом.
     <span class="fix">использовать как рабочую ось автономии, а не как полную онтологию</span></li>
 
-    <li><b>Augmented LLM — полезный базовый блок практической карты.</b> Между raw model и полноценным harness часто есть промежуточная конструкция: <em>модель + tools + retrieval + memory</em>. Это не универсальный закон, но удобный примитив для разговора о современных агентных системах.
+    <li><b>Augmented LLM — полезный базовый блок практической карты.</b> В рамке Anthropic между raw model и полноценным harness часто есть промежуточная конструкция: <em>модель + tools + retrieval + memory</em>. Это не универсальный закон, но удобный примитив для разговора о современных агентных системах.
     <span class="fix">держать augmented LLM между моделью и harness</span></li>
 
     <li><b>Протоколы — отдельный срез технологического слоя.</b> MCP, A2A, LangChain Agent Protocol и AGNTCY описывают interoperability contracts разных масштабов. Они пересекаются с фреймворками и инфраструктурой, но не сводятся к ним.
@@ -469,6 +469,8 @@
   <h2>Рекурсия через вызовы, а не лестница</h2>
   <p>Агентная композиция лучше читается как рекурсия, а не как лестница от «малого» к «большому». Одна и та же конструкция может вызывать другую такую конструкцию: meta-orchestrator координирует domain agents, а они вызывают tools или делегируют peer agents. Рекурсия появляется как цепочка calls и contracts, а не как физическая иерархия.</p>
 
+  <p class="claim" data-claim-id="C10" data-claim-type="definition" data-evidence-strength="weak" data-reviewed-date="2026-06-03"><span class="evidence-chip">C10 · weak</span>В Anthropic framing полезный базовый примитив для этой карты — <b>augmented LLM</b>: модель плюс tools, retrieval и memory. Он описывает состав узла, а не закон сборки всех систем: тот же узел может быть шагом workflow, single-agent loop или worker внутри более крупного harness.</p>
+
   <figure>
   <svg viewBox="0 0 800 480" xmlns="http://www.w3.org/2000/svg">
     <defs>
@@ -560,21 +562,23 @@
   </svg>
   <figcaption><b>fig.3</b> · composition as calls/coordinates, not contains: meta-orchestrator, domain agents, tools, and peers are sibling nodes</figcaption>
   </figure>
+
+  <p class="note">Tools в таком call graph — не просто обычные API в конце цепочки. Anthropic <em>Writing Tools for Agents</em> поддерживает более точную формулировку: имя tool, schema, описание, ошибки и shape output становятся частью reasoning surface агента. MCP дополняет это протокольной стороной: tool/context access должен быть явно описан, чтобы агент мог выбирать действие внутри понятного contract.</p>
 </section>
 
 <!-- ========== SECTION 6: WORKFLOW PATTERNS ========== -->
 <section>
   <div class="sec-num">§ 06 — workflow-паттерны</div>
   <h2>Пять workflow-паттернов и два края карты</h2>
-  <p>Anthropic в «Building Effective Agents» (Schluntz &amp; Zhang) дали полезный словарь, но его нельзя читать как полную теорию всех agent architectures. Строго внутри этой рамки есть <b>пять workflow-паттернов</b>: prompt chaining, routing, parallelization, orchestrator-workers и evaluator-optimizer. <b>Augmented LLM</b> — базовый строительный блок, а <b>autonomous agent</b> — другой край оси A2, где LLM сама ведёт цикл.</p>
+  <p class="claim" data-claim-id="C09" data-claim-type="taxonomy-claim" data-evidence-strength="contested" data-reviewed-date="2026-06-03"><span class="evidence-chip">C09 · contested</span>Anthropic в «Building Effective Agents» (Schluntz &amp; Zhang) дали влиятельный practitioner vocabulary для LLM workflow, но его нельзя читать как исчерпывающий список всех agent architectures. Строго внутри этой рамки есть <b>пять workflow/control-flow patterns</b>: prompt chaining, routing, parallelization, orchestrator-workers и evaluator-optimizer. <b>Augmented LLM</b> — полезный базовый примитив этой карты, а <b>autonomous agent</b> — другой край оси A2, где LLM выбирает следующий шаг внутри ограничений.</p>
 
-  <p>Другие фреймворки режут пространство иначе: OpenAI Agents SDK подчёркивает agents / handoffs / tracing, LangGraph описывает агентов как узлы графа и supervisor/handoff-переходы, Microsoft Agent Framework отдельно называет group chat, handoff и другие orchestration patterns. Это не противоречие, а напоминание: пять паттернов Anthropic — хороший начальный словарь для workflow, но не консенсусная онтология.</p>
+  <p>Другие фреймворки режут пространство иначе: OpenAI Agents SDK подчёркивает agents / handoffs / tracing, LangGraph описывает агентов как узлы графа и supervisor/handoff-переходы, Microsoft Agent Framework отдельно называет group chat, handoff и другие orchestration patterns. Это не противоречие, а напоминание: пять паттернов Anthropic — хороший начальный словарь для workflow, но не закрытая field-wide taxonomy.</p>
 
   <div class="patterns">
     <div class="pat">
       <span class="ptag">P0 · базовый блок</span>
       <h4>Augmented LLM</h4>
-      <p>Модель + инструменты + retrieval + память. Практический строительный блок для карты, но не универсальная теория всех конструкций.</p>
+      <p>В Anthropic framing: модель + инструменты + retrieval + memory. Практический примитив этой карты, но не универсальная теория всех конструкций.</p>
     </div>
     <div class="pat">
       <span class="ptag">P1 · последовательно</span>
@@ -602,9 +606,9 @@
       <p>Генератор ↔ критик. Критик даёт фидбэк, генератор переписывает. Итерация до сходимости. Полезно, когда критерии чёткие.</p>
     </div>
     <div class="pat pat--highlight">
-      <span class="ptag">A · полная автономия</span>
+      <span class="ptag">A · автономный край</span>
       <h4>Autonomous Agent</h4>
-      <p>LLM сама управляет циклом, инструментами, остановкой. Никакого предопределённого графа. Дороже, менее предсказуемо. Правильно — только когда задача того требует.</p>
+      <p>LLM выбирает next action, tool и stop condition внутри budgets, policies и guardrails. Graph может ограничивать цикл, не расписывая каждый переход.</p>
     </div>
   </div>
 
@@ -1221,11 +1225,8 @@
     </tbody>
   </table>
 
-  <h3>Фундаментальная граница: tools ≠ classical software</h3>
-  <p>Anthropic в 2025 (Writing Tools for Agents) формализовали важное: классический софт — это контракт между двумя <em>детерминированными</em> системами (<code>getWeather("NYC")</code> всегда работает одинаково). Tools для агентов — это <em>контракт между детерминированной системой и недетерминированным агентом</em>. Это меняет требования: tool должен быть «скиллом», а не сырой обёрткой над API. Не <code>list_contacts</code>, а <code>search_contacts</code>.</p>
-
-  <h3>Оси автономии и предсказуемости — антикоррелированы</h3>
-  <p>Чем больше автономии у агента, тем менее предсказуема система. Это не баг, а фундаментальный trade-off. Production-системы обычно начинают с workflow и поднимают автономию <em>только</em> там, где это measurably улучшает результат.</p>
+  <h3>Оси автономии и предсказуемости — инженерный trade-off</h3>
+  <p>Чем больше решений агент выбирает сам, тем больше нужны budgets, policies, tracing и rollback. Практическое правило из Anthropic/OpenAI guidance: начинать с workflow baseline и поднимать автономию там, где eval показывает измеримый выигрыш при приемлемых cost/risk.</p>
 
   <h3>Альтернативные парадигмы координации — больше конкретики, меньше мистики</h3>
   <p>В практической карте координационные паттерны должны иметь видимый механизм: <b>hierarchy</b> задаёт команды и escalation, <b>blackboard</b> работает через shared scratchpad / shared state, <b>auction</b> или proposal-based allocation помогает распределять задачи между реально различающимися specialists. Stigmergy и swarm стоит использовать осторожно: без общей среды, правила записи и eval-сигнала они остаются метафорами, а не архитектурным решением. Society of Mind — теоретическая рамка, не production pattern сама по себе.</p>
